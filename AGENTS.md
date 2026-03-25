@@ -6,6 +6,8 @@
 - Documentation map and canonical docs: [docs/README.md](docs/README.md)
 - Product frame: [docs/design/git-mind.md](docs/design/git-mind.md)
 - Planning governance: [docs/adr/ADR-0005.md](docs/adr/ADR-0005.md)
+- Delivery governance: [docs/adr/ADR-0006.md](docs/adr/ADR-0006.md)
+- Repo fixture strategy: [docs/design/repo-fixture-strategy.md](docs/design/repo-fixture-strategy.md)
 - CLI/user reference: [GUIDE.md](GUIDE.md)
 
 ## FORBIDDEN ACTIONS
@@ -28,6 +30,8 @@
 - **YOU MUST** use IBM Design Thinking when framing substantial product work
 - **YOU MUST** identify the sponsor user, job to be done, and relevant Hill(s) when planning
 - **YOU MUST** use Playbacks to judge whether work actually moved a Hill
+- **YOU MUST** treat tests as the executable form of design acceptance criteria for substantial work
+- **YOU MUST** prefer canonical repo fixtures over ad hoc temp-repo setup when testing repository-shaped behavior
 - **YOU MUST** tag all memories saved to your memory banks with at least `#git-mind`
 - **YOU MUST** include the POSIX timestamp (via `$(date +%s)`) in memory file names
 - **YOU MUST** document significant decisions or events
@@ -63,19 +67,23 @@
 ### 2.2. DO THE JOB
 
 1. Green the builds, green the tests
-2. Drop micro-commits as you complete steps — always use conventional commit format
-3. Drop a SITREP if you hit a snag or need input
-4. Drop a DEVLOG for ideas, observations, or anything you want to remember
-5. Use your memory banks freely
+2. Translate design acceptance criteria into failing tests before implementation when behavior is changing substantially
+3. Prefer shared repo fixtures (base repos + overlays) where repository history or artifact shape matters
+4. Drop micro-commits as you complete steps — always use conventional commit format
+5. Drop a SITREP if you hit a snag or need input
+6. Drop a DEVLOG for ideas, observations, or anything you want to remember
+7. Use your memory banks freely
 
 > **ALWAYS** overwrite files, **NEVER** create secondary copies — that creates confusion and tech debt.
 
 ### 2.3. FINISH THE JOB
 
 1. Green the builds, green the tests
-2. Git commit (do NOT use `git add -A`)
-3. Ask the user if they want you to push and open a PR
-4. Drop a SITREP as you finish
+2. Run a playback / retrospective and capture backlog items or COOL IDEAS explicitly
+3. Update `README.md` if shipped reality changed
+4. Git commit (do NOT use `git add -A`)
+5. Ask the user if they want you to push and open a PR
+6. Drop a SITREP as you finish
 
 ---
 

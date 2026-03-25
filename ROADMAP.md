@@ -50,6 +50,7 @@ Git Mind now uses:
 - IBM Hills to define the strategic outcomes
 - Playbacks to assess whether recent work actually moved a Hill
 - GitHub issues to track concrete implementation work
+- the design-to-test delivery cycle in [ADR-0006](docs/adr/ADR-0006.md) to move work from design acceptance criteria into implementation
 
 This is not an informal preference.
 It is the repository's official planning model per [ADR-0005](docs/adr/ADR-0005.md).
@@ -89,6 +90,20 @@ Before significant work is accepted into an active Hill or supporting lane, we s
 
 If those answers are fuzzy, the work is not ready for planning commitment yet.
 
+## Execution Cycle
+
+Substantial delivery work should follow the repository's canonical cycle from [ADR-0006](docs/adr/ADR-0006.md):
+
+1. write or revise the design artifact
+2. turn acceptance criteria into failing tests
+3. use canonical repo fixtures where repository-shaped behavior is under test
+4. implement until the tests are green
+5. run a playback / retrospective
+6. update `README.md` if shipped reality changed
+7. land the PR and capture review learnings back into the backlog
+
+The first Hill 1 implementation cycles should explicitly invest in the testing substrate needed to make bootstrap behavior executable and trustworthy.
+
 ## Current Focus: Hill 1 Semantic Bootstrap
 
 Status:
@@ -110,12 +125,14 @@ Goal:
 Deliverables:
 
 - bootstrap command contract with default write behavior and `--dry-run`
+- canonical repo fixture substrate for repository-shaped bootstrap scenarios (issue [#311](https://github.com/flyingrobots/git-mind/issues/311))
 - repo-local artifact inventory and scan boundaries
 - first-pass entity extraction for files, docs, ADRs, modules, commits, and repo-local issue/PR references
 - first-pass relationship inference for `documents`, `references`, `touches`, `groups`, and conservative `implements`
 - provenance and confidence surfacing for inferred assertions
 - a reviewable follow-up path for weak-confidence bootstrap output
-- implementation issues `#304` through `#307` moved into merged runnable behavior
+- acceptance criteria translated into failing executable tests (issue [#310](https://github.com/flyingrobots/git-mind/issues/310))
+- implementation issues `#304` through `#307`, plus enabling test issues [#310](https://github.com/flyingrobots/git-mind/issues/310) and [#311](https://github.com/flyingrobots/git-mind/issues/311), moved into merged runnable behavior
 
 Exit criteria:
 
@@ -129,8 +146,9 @@ Primary references:
 
 - [docs/design/git-mind.md](docs/design/git-mind.md)
 - [docs/design/h1-semantic-bootstrap.md](docs/design/h1-semantic-bootstrap.md)
+- [docs/design/repo-fixture-strategy.md](docs/design/repo-fixture-strategy.md)
 - issue [#303](https://github.com/flyingrobots/git-mind/issues/303)
-- issues [#304](https://github.com/flyingrobots/git-mind/issues/304), [#305](https://github.com/flyingrobots/git-mind/issues/305), [#306](https://github.com/flyingrobots/git-mind/issues/306), [#307](https://github.com/flyingrobots/git-mind/issues/307)
+- issues [#304](https://github.com/flyingrobots/git-mind/issues/304), [#305](https://github.com/flyingrobots/git-mind/issues/305), [#306](https://github.com/flyingrobots/git-mind/issues/306), [#307](https://github.com/flyingrobots/git-mind/issues/307), [#310](https://github.com/flyingrobots/git-mind/issues/310), and [#311](https://github.com/flyingrobots/git-mind/issues/311)
 
 ---
 
