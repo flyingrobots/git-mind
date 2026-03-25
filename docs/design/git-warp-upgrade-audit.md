@@ -1,6 +1,6 @@
 # git-warp Upgrade Audit
 
-Status: draft for execution
+Status: active execution on `feat/git-warp-upgrade-audit`
 
 Related:
 
@@ -29,7 +29,7 @@ It is a boundary audit plus upgrade cycle.
 
 ## Context
 
-Current local dependency state:
+Cycle starting state:
 
 - declared in `package.json` as `^11.5.0`
 - locked and installed at `11.5.0`
@@ -38,7 +38,11 @@ Live npm registry state checked on 2026-03-25:
 
 - latest published `@git-stunts/git-warp` version: `14.16.2`
 
-That means Git Mind is currently three major versions behind the latest published package.
+Chosen upgrade target for this cycle:
+
+- `14.16.2`
+
+That means this cycle upgrades Git Mind across three major versions of the substrate.
 
 This does not automatically mean "upgrade immediately no matter what."
 It does mean Git Mind should not keep expanding Hill 1 behavior without auditing the real upgrade surface first.
@@ -106,9 +110,13 @@ The upgrade should pay special attention to:
 
 ## Known Mismatches Already Exposed
 
-At least one contributor-facing document still says Git Mind depends on git-warp via a local path.
+This cycle exposed one concrete runtime compatibility change:
 
-That no longer matches the actual package metadata and should be corrected as part of this cycle.
+- `graph.getNodeProps()` now returns plain objects rather than `Map` instances
+
+Git Mind must treat node property bags as a compatibility boundary rather than assuming a single container shape.
+
+This cycle also started with contributor-facing docs that still claimed git-warp was installed via local path. Those docs should be corrected as part of the upgrade.
 
 ## Acceptance Criteria
 

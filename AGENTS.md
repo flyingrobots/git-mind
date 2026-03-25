@@ -108,8 +108,8 @@ Your space. Write about whatever you want:
 
 ## 5. TECH STACK REFERENCE
 
-- **Runtime**: Node.js >= 20, ES modules
-- **Core dependency**: `@git-stunts/git-warp` (local path, CRDT graph on Git)
+- **Runtime**: Node.js >= 22, ES modules
+- **Core dependency**: `@git-stunts/git-warp` (published package, CRDT graph on Git)
 - **Plumbing**: `@git-stunts/plumbing` (must be installed as direct dependency)
 - **Tests**: vitest
 - **Style**: Plain JS with JSDoc, no TypeScript

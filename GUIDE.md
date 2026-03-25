@@ -64,7 +64,7 @@ cd git-mind
 npm install
 ```
 
-git-mind depends on `@git-stunts/git-warp`, which is currently installed from a local path. See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup details.
+git-mind depends on the published `@git-stunts/git-warp` package. See [CONTRIBUTING.md](CONTRIBUTING.md) for current development setup details.
 
 ### Verify the installation
 
