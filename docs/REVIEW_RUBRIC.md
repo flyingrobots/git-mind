@@ -1,7 +1,9 @@
 # Git Mind Review Rubric
 _Last updated: 2026-02-15_
 
-Use this rubric for PR reviews, design reviews, and milestone gate checks.
+Use this rubric for PR reviews and design reviews when changes touch core graph, determinism, provenance, contracts, or materialization concerns.
+
+This is an engineering guardrail document, not the product roadmap or playback control plane.
 
 ---
 

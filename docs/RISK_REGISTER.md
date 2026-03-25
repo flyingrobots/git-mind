@@ -1,8 +1,13 @@
 # Git Mind Risk Register
 **Version:** 1.0
 **Date:** 2026-02-15  
-**Status:** Active  
+**Status:** Historical / dormant pending future workflow-adoption work  
 **Applies to:** M10–M18 roadmap execution
+
+> Historical note:
+>
+> This register was written for the earlier bridge/platform roadmap.
+> It remains useful as a reference for future workflow-adoption layers, but it is not the active planning control plane for the current Hills.
 
 ---
 

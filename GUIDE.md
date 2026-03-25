@@ -1,6 +1,11 @@
 # git-mind Guide
 
-Everything you need to know — from zero to power user.
+> Status: transitional document.
+>
+> The CLI reference in this guide is still useful, but parts of the framing and examples reflect Git Mind's earlier manual graph-authoring story.
+> For the current product direction, start with [README.md](README.md), [ROADMAP.md](ROADMAP.md), [docs/VISION_NORTH_STAR.md](docs/VISION_NORTH_STAR.md), and [docs/design/git-mind.md](docs/design/git-mind.md).
+
+CLI reference and usage guide.
 
 ---
 
@@ -25,6 +30,9 @@ Everything you need to know — from zero to power user.
 ## What is git-mind?
 
 git-mind adds a **semantic knowledge graph** to any Git repository. You create **nodes** (files, concepts, tasks, modules — anything) and connect them with **typed edges** (implements, depends-on, documents, etc.). The graph lives inside Git — no external databases, no servers.
+
+Manual graph authoring is still supported, but it is no longer the primary product story.
+The current direction is inference-first semantic repository intelligence: Git Mind should increasingly extract and surface repository meaning before it asks users to model the graph by hand.
 
 **Why?**
 

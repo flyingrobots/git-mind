@@ -3,6 +3,11 @@
 **Cadence:** Weekly (mandatory)  
 **Goal:** Detect existential drift early and force corrective action
 
+> Historical note:
+>
+> This checklist belongs to the earlier bridge/platform roadmap and its risk regime.
+> Keep it as reference material, not as the active operating cadence for the current product hills.
+
 ---
 
 ## 0) Pre-Read (5 min max, async)

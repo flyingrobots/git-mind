@@ -3,6 +3,10 @@
 > **Date**: 2026-02-11
 > **Seed**: `test/fixtures/echo-seed.yaml` — Echo ecosystem (55 nodes, 70 edges)
 > **Runtime**: Node.js 20, vitest 3.2.4
+>
+> Historical note:
+> This transcript captures an earlier dogfood pass against a roadmap-oriented graph model.
+> It is useful as historical evidence, but it is not the active product plan or canonical workflow description.
 
 ## Setup
 

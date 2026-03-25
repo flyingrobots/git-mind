@@ -3,6 +3,9 @@ _Last updated: 2026-02-15_
 
 This document defines non-negotiable engineering laws for Git Mind.
 
+These laws are canonical engineering guardrails.
+They are not the product roadmap, and some of the terms here come from broader platform work that predates the current product narrowing.
+
 ---
 
 ## Law 1: Graph Truth Is Canonical

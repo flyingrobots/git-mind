@@ -2,6 +2,19 @@
 
 Thanks for your interest in contributing. This document covers the essentials.
 
+Before changing product-facing behavior or docs, read these first:
+
+- [README.md](README.md)
+- [docs/README.md](docs/README.md)
+- [docs/design/git-mind.md](docs/design/git-mind.md)
+- [ROADMAP.md](ROADMAP.md)
+
+Current product frame:
+
+- `git-mind` is a Git-native semantic intelligence layer for software repositories
+- current work should be judged against low-input semantic bootstrap, provenance-backed query, and living-map upkeep
+- personal cognition tooling belongs in `think`, not here
+
 ## Prerequisites
 
 - Node.js >= 20.0.0
