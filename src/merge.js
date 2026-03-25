@@ -105,7 +105,7 @@ export async function mergeFromRepo(localGraph, remoteRepoPath, opts = {}) {
 
     // Copy selected edge properties
     if (edge.props) {
-      for (const [key, value] of Object.entries(edge.props)) {
+      for (const [key, value] of getPropEntries(edge.props)) {
         if (MERGE_EDGE_PROPS.has(key) && value !== undefined && value !== null) {
           patch.setEdgeProperty(qualifiedSource, qualifiedTarget, edge.label, key, value);
         }

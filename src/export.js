@@ -86,7 +86,7 @@ export async function exportGraph(graph, opts = {}) {
 
     // Include non-excluded edge properties
     if (edge.props) {
-      for (const [key, value] of Object.entries(edge.props)) {
+      for (const [key, value] of getPropEntries(edge.props)) {
         if (EXCLUDED_EDGE_PROPS.has(key)) continue;
         if (value !== undefined && value !== null) {
           entry[key] = value;

@@ -57,6 +57,16 @@ describe('epoch', () => {
     expect(epoch).toBeNull();
   });
 
+  it('returns null for a malformed epoch node', async () => {
+    const patch = await graph.createPatch();
+    patch.addNode('epoch:abc123def456');
+    patch.setProperty('epoch:abc123def456', 'tick', 42);
+    await patch.commit();
+
+    const epoch = await lookupEpoch(graph, 'abc123def456');
+    expect(epoch).toBeNull();
+  });
+
   it('uses first 12 chars of SHA as node ID', async () => {
     await recordEpoch(graph, 'abc123def456789', 10);
     const nodes = await graph.getNodes();

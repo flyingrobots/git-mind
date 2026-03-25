@@ -170,6 +170,39 @@ describe('review', () => {
     expect(rejects[0].action).toBe('reject');
   });
 
+  it('skips malformed decision nodes in review history', async () => {
+    const patch = await graph.createPatch();
+    patch.addNode('decision:missing-source');
+    patch.setProperty('decision:missing-source', 'action', 'accept');
+    patch.setProperty('decision:missing-source', 'target', 'spec:b');
+    patch.setProperty('decision:missing-source', 'edgeType', 'implements');
+    patch.setProperty('decision:missing-source', 'confidence', 0.8);
+    patch.setProperty('decision:missing-source', 'timestamp', 100);
+
+    patch.addNode('decision:bad-action');
+    patch.setProperty('decision:bad-action', 'action', 'maybe');
+    patch.setProperty('decision:bad-action', 'source', 'task:a');
+    patch.setProperty('decision:bad-action', 'target', 'spec:b');
+    patch.setProperty('decision:bad-action', 'edgeType', 'implements');
+    patch.setProperty('decision:bad-action', 'confidence', 0.8);
+    patch.setProperty('decision:bad-action', 'timestamp', 200);
+
+    patch.addNode('decision:valid');
+    patch.setProperty('decision:valid', 'action', 'reject');
+    patch.setProperty('decision:valid', 'source', 'task:c');
+    patch.setProperty('decision:valid', 'target', 'spec:d');
+    patch.setProperty('decision:valid', 'edgeType', 'documents');
+    patch.setProperty('decision:valid', 'confidence', 0.2);
+    patch.setProperty('decision:valid', 'timestamp', 300);
+
+    await patch.commit();
+
+    const history = await getReviewHistory(graph);
+    expect(history).toHaveLength(1);
+    expect(history[0].id).toBe('decision:valid');
+    expect(history[0].action).toBe('reject');
+  });
+
   // ── adjustSuggestion: preserve original confidence ─────────
 
   it('preserves original confidence when adjustment omits confidence', async () => {

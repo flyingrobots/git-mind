@@ -92,6 +92,12 @@ export async function resolveContext(cwd, envelope) {
       );
     }
     const config = { match: getProp(propsMap, 'match') };
+    if (typeof config.match !== 'string' || config.match.trim() === '') {
+      throw new Error(
+        `Observer '${observer}' is missing required 'match' property. ` +
+        `Set it with: git mind set observer:${observer} match 'prefix:*'`,
+      );
+    }
     const expose = getProp(propsMap, 'expose');
     const redact = getProp(propsMap, 'redact');
     if (expose !== undefined) config.expose = expose;

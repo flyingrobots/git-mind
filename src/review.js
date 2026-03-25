@@ -9,6 +9,8 @@ import { isLowConfidence } from './validators.js';
 import { removeEdge, createEdge } from './edges.js';
 import { getProp } from './prop-bag.js';
 
+const VALID_REVIEW_ACTIONS = new Set(['accept', 'reject', 'adjust', 'skip']);
+
 /**
  * @typedef {object} PendingSuggestion
  * @property {string} source - Source node ID
@@ -271,17 +273,37 @@ export async function getReviewHistory(graph, filter = {}) {
     if (!propsMap) continue;
 
     const action = getProp(propsMap, 'action');
+    const source = getProp(propsMap, 'source');
+    const target = getProp(propsMap, 'target');
+    const edgeType = getProp(propsMap, 'edgeType');
+    const confidence = getProp(propsMap, 'confidence');
+    const timestamp = getProp(propsMap, 'timestamp');
+
+    if (
+      !VALID_REVIEW_ACTIONS.has(action) ||
+      typeof source !== 'string' ||
+      source.length === 0 ||
+      typeof target !== 'string' ||
+      target.length === 0 ||
+      typeof edgeType !== 'string' ||
+      edgeType.length === 0 ||
+      typeof confidence !== 'number' ||
+      typeof timestamp !== 'number'
+    ) {
+      continue;
+    }
+
     if (filter.action && action !== filter.action) continue;
 
     decisions.push({
       id,
       action,
-      source: getProp(propsMap, 'source'),
-      target: getProp(propsMap, 'target'),
-      edgeType: getProp(propsMap, 'edgeType'),
-      confidence: getProp(propsMap, 'confidence'),
+      source,
+      target,
+      edgeType,
+      confidence,
       rationale: getProp(propsMap, 'rationale'),
-      timestamp: getProp(propsMap, 'timestamp'),
+      timestamp,
       reviewer: getProp(propsMap, 'reviewer'),
     });
   }

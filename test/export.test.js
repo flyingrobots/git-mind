@@ -71,6 +71,32 @@ describe('export', () => {
     expect(edge.importedAt).toBeUndefined();
   });
 
+  it('exports edge properties when edge props are Map-like', async () => {
+    const fakeGraph = {
+      getNodes: async () => ['task:a', 'spec:b'],
+      getNodeProps: async () => null,
+      getEdges: async () => [{
+        from: 'task:a',
+        to: 'spec:b',
+        label: 'implements',
+        props: new Map([
+          ['confidence', 0.8],
+          ['rationale', 'Map-like props'],
+          ['createdAt', 'skip-me'],
+        ]),
+      }],
+    };
+
+    const data = await exportGraph(fakeGraph);
+    expect(data.edges).toEqual([{
+      source: 'task:a',
+      target: 'spec:b',
+      type: 'implements',
+      confidence: 0.8,
+      rationale: 'Map-like props',
+    }]);
+  });
+
   // ── System node exclusion ────────────────────────────────────
 
   it('excludes decision: nodes', async () => {

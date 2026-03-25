@@ -70,10 +70,24 @@ export async function lookupEpoch(graph, commitSha) {
   const propsMap = await graph.getNodeProps(nodeId);
   if (!propsMap) return null;
 
+  const tick = getProp(propsMap, 'tick');
+  const fullSha = getProp(propsMap, 'fullSha');
+  const recordedAt = getProp(propsMap, 'recordedAt');
+
+  if (
+    typeof tick !== 'number' ||
+    typeof fullSha !== 'string' ||
+    fullSha.length === 0 ||
+    typeof recordedAt !== 'string' ||
+    recordedAt.length === 0
+  ) {
+    return null;
+  }
+
   return {
-    tick: getProp(propsMap, 'tick'),
-    fullSha: getProp(propsMap, 'fullSha'),
-    recordedAt: getProp(propsMap, 'recordedAt'),
+    tick,
+    fullSha,
+    recordedAt,
   };
 }
 

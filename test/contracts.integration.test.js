@@ -15,7 +15,8 @@ import Ajv from 'ajv/dist/2020.js';
 const BIN = join(import.meta.dirname, '..', 'bin', 'git-mind.js');
 const SCHEMA_DIR = join(import.meta.dirname, '..', 'docs', 'contracts', 'cli');
 const FIXTURE = join(import.meta.dirname, 'fixtures', 'echo-seed.yaml');
-const SLOW_CLI_TIMEOUT = 15_000;
+const CLI_EXEC_TIMEOUT = 30_000;
+const SLOW_CLI_TIMEOUT = 35_000;
 
 /** Load a schema by filename. */
 async function loadSchema(name) {
@@ -27,7 +28,7 @@ function runCli(args, cwd) {
   const stdout = execFileSync(process.execPath, [BIN, ...args], {
     cwd,
     encoding: 'utf-8',
-    timeout: 30_000,
+    timeout: CLI_EXEC_TIMEOUT,
     env: { ...process.env, NO_COLOR: '1' },
   });
   try {
@@ -36,6 +37,8 @@ function runCli(args, cwd) {
     throw new Error(`Failed to parse CLI output for [${args.join(' ')}]:\n${stdout}`, { cause: err });
   }
 }
+
+const cliIt = (name, fn) => it(name, fn, SLOW_CLI_TIMEOUT);
 
 /** Create a git commit in a repo and return the commit SHA. */
 function gitCommit(cwd, filename, message) {
@@ -94,7 +97,7 @@ describe('CLI schema contract canaries', () => {
     if (mergeDir) await rm(mergeDir, { recursive: true, force: true });
   });
 
-  it('status --json validates against status.schema.json', async () => {
+  cliIt('status --json validates against status.schema.json', async () => {
     const schema = await loadSchema('status.schema.json');
     const output = runCli(['status', '--json'], tempDir);
 
@@ -105,7 +108,7 @@ describe('CLI schema contract canaries', () => {
     expect(validate(output), JSON.stringify(validate.errors)).toBe(true);
   });
 
-  it('nodes --json validates against node-list.schema.json', async () => {
+  cliIt('nodes --json validates against node-list.schema.json', async () => {
     const schema = await loadSchema('node-list.schema.json');
     const output = runCli(['nodes', '--json'], tempDir);
 
@@ -117,7 +120,7 @@ describe('CLI schema contract canaries', () => {
     expect(validate(output), JSON.stringify(validate.errors)).toBe(true);
   });
 
-  it('nodes --id <known> --json validates against node-detail.schema.json', async () => {
+  cliIt('nodes --id <known> --json validates against node-detail.schema.json', async () => {
     // Get a known node from the list first
     const listOutput = runCli(['nodes', '--json'], tempDir);
     expect(listOutput.nodes.length, 'seed fixture should produce at least one node — check echo-seed.yaml import').toBeGreaterThan(0);
@@ -132,9 +135,9 @@ describe('CLI schema contract canaries', () => {
 
     const validate = ajv.compile(schema);
     expect(validate(output), JSON.stringify(validate.errors)).toBe(true);
-  }, SLOW_CLI_TIMEOUT);
+  });
 
-  it('doctor --json validates against doctor.schema.json', async () => {
+  cliIt('doctor --json validates against doctor.schema.json', async () => {
     const schema = await loadSchema('doctor.schema.json');
     const output = runCli(['doctor', '--json'], tempDir);
 
@@ -145,7 +148,7 @@ describe('CLI schema contract canaries', () => {
     expect(validate(output), JSON.stringify(validate.errors)).toBe(true);
   });
 
-  it('export --json validates against export-data.schema.json', async () => {
+  cliIt('export --json validates against export-data.schema.json', async () => {
     const schema = await loadSchema('export-data.schema.json');
     const output = runCli(['export', '--json'], tempDir);
 
@@ -157,7 +160,7 @@ describe('CLI schema contract canaries', () => {
     expect(validate(output), JSON.stringify(validate.errors)).toBe(true);
   });
 
-  it('export --file <path> --json validates against export-file.schema.json', async () => {
+  cliIt('export --file <path> --json validates against export-file.schema.json', async () => {
     const schema = await loadSchema('export-file.schema.json');
     const outPath = join(tempDir, 'export-test.yaml');
     const output = runCli(['export', '--file', outPath, '--json'], tempDir);
@@ -170,7 +173,7 @@ describe('CLI schema contract canaries', () => {
     expect(validate(output), JSON.stringify(validate.errors)).toBe(true);
   });
 
-  it('import --dry-run --json validates against import.schema.json', async () => {
+  cliIt('import --dry-run --json validates against import.schema.json', async () => {
     const schema = await loadSchema('import.schema.json');
     const output = runCli(['import', '--dry-run', FIXTURE, '--json'], tempDir);
 
@@ -182,7 +185,7 @@ describe('CLI schema contract canaries', () => {
     expect(validate(output), JSON.stringify(validate.errors)).toBe(true);
   });
 
-  it('review --json validates against review-list.schema.json', async () => {
+  cliIt('review --json validates against review-list.schema.json', async () => {
     const schema = await loadSchema('review-list.schema.json');
     const output = runCli(['review', '--json'], tempDir);
 
@@ -194,7 +197,7 @@ describe('CLI schema contract canaries', () => {
     expect(validate(output), JSON.stringify(validate.errors)).toBe(true);
   });
 
-  it('at HEAD --json validates against at.schema.json', async () => {
+  cliIt('at HEAD --json validates against at.schema.json', async () => {
     const schema = await loadSchema('at.schema.json');
     const output = runCli(['at', 'HEAD', '--json'], tempDir);
 
@@ -206,7 +209,7 @@ describe('CLI schema contract canaries', () => {
     expect(validate(output), JSON.stringify(validate.errors)).toBe(true);
   });
 
-  it('diff HEAD~1..HEAD --json validates against diff.schema.json', async () => {
+  cliIt('diff HEAD~1..HEAD --json validates against diff.schema.json', async () => {
     const schema = await loadSchema('diff.schema.json');
     const output = runCli(['diff', 'HEAD~1..HEAD', '--json'], tempDir);
 
@@ -217,10 +220,10 @@ describe('CLI schema contract canaries', () => {
 
     const validate = ajv.compile(schema);
     expect(validate(output), JSON.stringify(validate.errors)).toBe(true);
-  }, SLOW_CLI_TIMEOUT);
+  });
 
   // NOTE: mutates review state (accepts all pending) — keep after review --json test
-  it('review --batch accept --json validates against review-batch.schema.json', async () => {
+  cliIt('review --batch accept --json validates against review-batch.schema.json', async () => {
     const schema = await loadSchema('review-batch.schema.json');
     const output = runCli(['review', '--batch', 'accept', '--json'], tempDir);
 
@@ -233,7 +236,7 @@ describe('CLI schema contract canaries', () => {
     expect(validate(output), JSON.stringify(validate.errors)).toBe(true);
   });
 
-  it('merge --dry-run --json validates against merge.schema.json', async () => {
+  cliIt('merge --dry-run --json validates against merge.schema.json', async () => {
     const schema = await loadSchema('merge.schema.json');
     const output = runCli(['merge', '--from', mergeDir, '--repo-name', 'test/merge-repo', '--dry-run', '--json'], tempDir);
 
@@ -246,7 +249,7 @@ describe('CLI schema contract canaries', () => {
     expect(validate(output), JSON.stringify(validate.errors)).toBe(true);
   });
 
-  it('set --json validates against set.schema.json', async () => {
+  cliIt('set --json validates against set.schema.json', async () => {
     // First, find a known node to set a property on
     const listOutput = runCli(['nodes', '--json'], tempDir);
     expect(listOutput.nodes.length).toBeGreaterThan(0);
@@ -266,7 +269,7 @@ describe('CLI schema contract canaries', () => {
     expect(validate(output), JSON.stringify(validate.errors)).toBe(true);
   });
 
-  it('set --json returns changed: false on idempotent re-set', async () => {
+  cliIt('set --json returns changed: false on idempotent re-set', async () => {
     const listOutput = runCli(['nodes', '--json'], tempDir);
     const knownId = listOutput.nodes[0];
 
@@ -277,9 +280,9 @@ describe('CLI schema contract canaries', () => {
 
     expect(output.changed).toBe(false);
     expect(output.previous).toBe('done');
-  }, SLOW_CLI_TIMEOUT);
+  });
 
-  it('unset --json validates against unset.schema.json', async () => {
+  cliIt('unset --json validates against unset.schema.json', async () => {
     const listOutput = runCli(['nodes', '--json'], tempDir);
     const knownId = listOutput.nodes[0];
 
@@ -298,9 +301,9 @@ describe('CLI schema contract canaries', () => {
 
     const validate = ajv.compile(schema);
     expect(validate(output), JSON.stringify(validate.errors)).toBe(true);
-  }, SLOW_CLI_TIMEOUT);
+  });
 
-  it('view progress --json validates against view-progress.schema.json', async () => {
+  cliIt('view progress --json validates against view-progress.schema.json', async () => {
     // Set a status on a known node so progress has data
     const listOutput = runCli(['nodes', '--json'], tempDir);
     const taskNode = listOutput.nodes.find(n => n.startsWith('task:'));
@@ -318,9 +321,9 @@ describe('CLI schema contract canaries', () => {
 
     const validate = ajv.compile(schema);
     expect(validate(output), JSON.stringify(validate.errors)).toBe(true);
-  }, SLOW_CLI_TIMEOUT);
+  });
 
-  it('view backlog:blocked --json validates against view-lens.schema.json', async () => {
+  cliIt('view backlog:blocked --json validates against view-lens.schema.json', async () => {
     const schema = await loadSchema('view-lens.schema.json');
     const output = runCli(['view', 'backlog:blocked', '--json'], tempDir);
 

@@ -26,6 +26,7 @@ const SIZE_KEY = '_content.size';
  */
 function decodeContent(content) {
   if (typeof content === 'string') return content;
+  if (Buffer.isBuffer(content)) return content.toString('utf-8');
   return Buffer.from(content).toString('utf-8');
 }
 

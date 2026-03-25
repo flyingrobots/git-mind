@@ -19,7 +19,7 @@
  */
 export function getProp(props, key) {
   if (!props) return undefined;
-  if (typeof props.get === 'function') {
+  if (props instanceof Map) {
     return props.get(key);
   }
   return Object.prototype.hasOwnProperty.call(props, key) ? props[key] : undefined;
@@ -33,7 +33,7 @@ export function getProp(props, key) {
  */
 export function getPropEntries(props) {
   if (!props) return [];
-  if (typeof props.entries === 'function') {
+  if (props instanceof Map) {
     return [...props.entries()];
   }
   return Object.entries(props);
@@ -47,7 +47,7 @@ export function getPropEntries(props) {
  */
 export function getPropSize(props) {
   if (!props) return 0;
-  if (typeof props.size === 'number') {
+  if (props instanceof Map) {
     return props.size;
   }
   return Object.keys(props).length;
