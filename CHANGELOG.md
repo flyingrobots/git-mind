@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- **git-warp v14 compatibility hardening** — Explicit `Map` detection in property-bag helpers, observer `match` validation, epoch/review malformed-record filtering, and edge-property normalization for export/merge (#312)
+- **CLI contract canary timeout consistency** — Unified the CLI integration harness around a shared timeout budget and added edge-case coverage for the git-warp compatibility boundary (#312)
+
 ## [5.0.0] - 2026-02-25
 
 ### Breaking
