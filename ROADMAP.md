@@ -89,32 +89,48 @@ Before significant work is accepted into an active Hill or supporting lane, we s
 
 If those answers are fuzzy, the work is not ready for planning commitment yet.
 
-## Current Focus: Stabilize And Clarify
+## Current Focus: Hill 1 Semantic Bootstrap
 
 Status:
 
 - in progress
 
+Sponsor user:
+
+- technical lead / staff engineer / architect, or autonomous coding agent, entering an unfamiliar repository
+
+Job to be done:
+
+- quickly produce a trustworthy first-pass semantic map of repository artifacts with minimal manual input
+
 Goal:
 
-- align the product story, sponsor user, backlog shape, and planning model around inference-first semantic repository intelligence
+- deliver the first runnable `git mind bootstrap` flow for unfamiliar repositories
 
 Deliverables:
 
-- rewritten README
-- rewritten north star
-- new design frame
-- roadmap reset around hills
-- explicit boundary with `think`
-- retirement of stale GitHub milestone machinery
-- clear distinction between live control-plane docs and historical references
+- bootstrap command contract with default write behavior and `--dry-run`
+- repo-local artifact inventory and scan boundaries
+- first-pass entity extraction for files, docs, ADRs, modules, commits, and repo-local issue/PR references
+- first-pass relationship inference for `documents`, `references`, `touches`, `groups`, and conservative `implements`
+- provenance and confidence surfacing for inferred assertions
+- a reviewable follow-up path for weak-confidence bootstrap output
+- implementation issues `#304` through `#307` moved into merged runnable behavior
 
 Exit criteria:
 
-- top-level docs tell one coherent story
-- the repo has a single primary sponsor user
-- the backlog is no longer pretending to be release milestones
-- the next hill is stated clearly enough to judge future work against it
+- `git mind bootstrap` runs end-to-end on a representative unfamiliar repository
+- the command emits useful human-readable and JSON summary output
+- inferred assertions carry provenance and confidence
+- weak-confidence inferences are visible and reviewable
+- day-one value appears before the user has to hand-author the graph
+
+Primary references:
+
+- [docs/design/git-mind.md](docs/design/git-mind.md)
+- [docs/design/h1-semantic-bootstrap.md](docs/design/h1-semantic-bootstrap.md)
+- issue [#303](https://github.com/flyingrobots/git-mind/issues/303)
+- issues [#304](https://github.com/flyingrobots/git-mind/issues/304), [#305](https://github.com/flyingrobots/git-mind/issues/305), [#306](https://github.com/flyingrobots/git-mind/issues/306), [#307](https://github.com/flyingrobots/git-mind/issues/307)
 
 ---
 
@@ -122,7 +138,7 @@ Exit criteria:
 
 ```mermaid
 flowchart LR
-    C["Current Focus: Stabilize And Clarify"] --> H1["Hill 1: Semantic Bootstrap"]
+    C["Current Focus: Hill 1 Semantic Bootstrap"] --> H1["Hill 1: Semantic Bootstrap"]
     H1 --> H2["Hill 2: Query And Receipts"]
     H2 --> H3["Hill 3: Living Map Review Loop"]
     H3 --> L["Supporting Lanes: adoption, content, extensions, workflow layers"]
@@ -155,7 +171,7 @@ Suggested first artifact set:
 - markdown docs
 - ADRs
 - commit history
-- issue and review references discoverable from repo artifacts
+- issue, PR, and commit references discoverable from repo artifacts
 
 Playback:
 

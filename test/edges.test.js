@@ -24,8 +24,11 @@ describe('edges', () => {
     expect(EDGE_TYPES).toContain('implements');
     expect(EDGE_TYPES).toContain('augments');
     expect(EDGE_TYPES).toContain('relates-to');
+    expect(EDGE_TYPES).toContain('references');
+    expect(EDGE_TYPES).toContain('touches');
+    expect(EDGE_TYPES).toContain('groups');
     expect(EDGE_TYPES).toContain('depends-on');
-    expect(EDGE_TYPES.length).toBe(8);
+    expect(EDGE_TYPES.length).toBe(11);
   });
 
   it('createEdge creates an edge and both nodes', async () => {
