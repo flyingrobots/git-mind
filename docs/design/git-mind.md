@@ -1,6 +1,9 @@
 # Git Mind Product Frame
 
-Status: draft for review
+Status: canonical product frame
+
+This document is the canonical IBM Design Thinking product frame for Git Mind.
+Planning governance is defined in [ADR-0005](../adr/ADR-0005.md).
 
 ## Purpose
 
@@ -258,6 +261,7 @@ Repository hygiene work on 2026-03-24 exposed four important facts:
 ## Recommended Operating Model
 
 `git-mind` should no longer use GitHub milestones as its primary planning system.
+That is now an accepted repository rule under [ADR-0005](../adr/ADR-0005.md), not just a temporary recommendation.
 
 Recommended split:
 

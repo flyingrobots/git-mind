@@ -12,6 +12,7 @@ These describe what Git Mind is now and how work should be judged:
 - [ROADMAP.md](../ROADMAP.md) — active Hills, supporting lanes, and playback cadence
 - [Git Mind Product Frame](./design/git-mind.md) — IBM Design Thinking style product frame
 - [Git Mind North Star](./VISION_NORTH_STAR.md) — longer-form strategic articulation
+- [ADR-0005](./adr/ADR-0005.md) — official planning and governance model
 
 ## Canonical Engineering Guardrails
 
@@ -58,5 +59,17 @@ Hills and Playbacks live in:
 
 - [ROADMAP.md](../ROADMAP.md)
 - [Git Mind Product Frame](./design/git-mind.md)
+- [ADR-0005](./adr/ADR-0005.md)
 
 GitHub milestones are not the primary planning system for this repository.
+
+## Contributor Rule
+
+When planning work, start with:
+
+1. sponsor user
+2. jobs to be done
+3. Hills
+4. playback evidence
+
+Do not start with architecture breadth, an old milestone, or a flat pile of backlog items.

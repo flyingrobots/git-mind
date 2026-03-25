@@ -4,6 +4,8 @@
 
 - Code standards and contribution workflow: [CONTRIBUTING.md](CONTRIBUTING.md)
 - Documentation map and canonical docs: [docs/README.md](docs/README.md)
+- Product frame: [docs/design/git-mind.md](docs/design/git-mind.md)
+- Planning governance: [docs/adr/ADR-0005.md](docs/adr/ADR-0005.md)
 - CLI/user reference: [GUIDE.md](GUIDE.md)
 
 ## FORBIDDEN ACTIONS
@@ -23,6 +25,9 @@
 
 ## REQUIRED BEHAVIOR
 
+- **YOU MUST** use IBM Design Thinking when framing substantial product work
+- **YOU MUST** identify the sponsor user, job to be done, and relevant Hill(s) when planning
+- **YOU MUST** use Playbacks to judge whether work actually moved a Hill
 - **YOU MUST** tag all memories saved to your memory banks with at least `#git-mind`
 - **YOU MUST** include the POSIX timestamp (via `$(date +%s)`) in memory file names
 - **YOU MUST** document significant decisions or events
@@ -46,9 +51,14 @@
 ### 2.1. PLAN THE JOB
 
 1. Before starting, use sequential thinking to make a plan
-2. Explain your plan to the user and await approval
-3. Commit your approved plan to your memory banks
-4. **Create a feature branch** — `git checkout -b feat/<topic>` — before writing any code
+2. Frame the plan in IBM Design Thinking terms:
+   - sponsor user
+   - job to be done
+   - relevant Hill(s) or supporting lane
+   - playback evidence
+3. Explain your plan to the user and await approval
+4. Commit your approved plan to your memory banks
+5. **Create a feature branch** — `git checkout -b feat/<topic>` — before writing any code
 
 ### 2.2. DO THE JOB
 
@@ -75,6 +85,7 @@ A briefing covering:
 - Current tasks and situation understanding
 - Relevant stats, files, issues, PRs
 - Intel the user can use to make decisions
+- Sponsor user / Hill / playback framing when relevant
 - Options and recommendations, then await orders
 
 ## 4. DEVLOGs

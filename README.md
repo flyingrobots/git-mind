@@ -19,6 +19,23 @@ It keeps that knowledge in Git/WARP so it can be replayed, diffed, reviewed, and
 `git-mind` is not a personal thought-capture tool.
 That thesis now lives in `think`.
 
+## Planning Framework
+
+Git Mind officially uses **IBM Design Thinking** to guide product work.
+
+That means:
+
+- sponsor user and jobs come before architecture expansion
+- Hills define the product outcomes we are trying to achieve
+- Playbacks are how we decide whether recent work actually moved a Hill
+- GitHub issues are the execution backlog, not the product strategy
+
+Canonical planning sources:
+
+- [docs/design/git-mind.md](docs/design/git-mind.md)
+- [ROADMAP.md](ROADMAP.md)
+- [docs/adr/ADR-0005.md](docs/adr/ADR-0005.md)
+
 ## What Git Mind Is For
 
 `git-mind` is for the moment when you need to answer questions like:
@@ -136,6 +153,7 @@ Canonical docs:
 - [GUIDE.md](GUIDE.md)
 - [GRAPH_SCHEMA.md](GRAPH_SCHEMA.md)
 - [ROADMAP.md](ROADMAP.md)
+- [docs/adr/ADR-0005.md](docs/adr/ADR-0005.md)
 - [docs/VISION_NORTH_STAR.md](docs/VISION_NORTH_STAR.md)
 - [docs/design/git-mind.md](docs/design/git-mind.md)
 - [docs/adr/](docs/adr/)
