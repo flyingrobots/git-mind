@@ -7,6 +7,7 @@ Related:
 - [Git Mind Product Frame](./git-mind.md)
 - [ROADMAP.md](../../ROADMAP.md)
 - [ADR-0005](../adr/ADR-0005.md)
+- [ADR-0006](../adr/ADR-0006.md)
 - issue [#303](https://github.com/flyingrobots/git-mind/issues/303)
 
 ## Purpose
@@ -33,6 +34,12 @@ The first slice succeeds if, on a representative unfamiliar repository:
 2. At least a small set of inferred relationships are surfaced with visible provenance and confidence.
 3. The user can answer a few repository-understanding questions faster than they could with filenames, grep, and commit browsing alone.
 4. The system is obviously incomplete, but already worth using.
+
+## Execution Note
+
+Per [ADR-0006](../adr/ADR-0006.md), the acceptance criteria in this spec should be translated into failing tests before Hill 1 implementation is considered complete.
+
+Those tests should cover not only the happy path, but also edge cases, failure cases, and repository-shaped scenarios that need canonical fixture repos to exercise meaningfully.
 
 ## First-Slice Scope
 

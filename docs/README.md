@@ -14,6 +14,7 @@ These describe what Git Mind is now and how work should be judged:
 - [Hill 1 Semantic Bootstrap Spec](./design/h1-semantic-bootstrap.md) — first executable Hill 1 slice
 - [Git Mind North Star](./VISION_NORTH_STAR.md) — longer-form strategic articulation
 - [ADR-0005](./adr/ADR-0005.md) — official planning and governance model
+- [ADR-0006](./adr/ADR-0006.md) — official delivery cycle and tests-as-spec model
 
 ## Canonical Engineering Guardrails
 
@@ -22,6 +23,7 @@ These define constraints and contracts that remain in force:
 - [GRAPH_SCHEMA.md](../GRAPH_SCHEMA.md) — graph contract
 - [Architecture Laws](./ARCHITECTURE.md) — non-negotiable engineering laws
 - [Review Rubric](./REVIEW_RUBRIC.md) — architectural review gates
+- [Repo Fixture Strategy](./design/repo-fixture-strategy.md) — canonical repository-shaped test substrate strategy
 - [ADRs](./adr/README.md) — durable architecture decisions
 - [Contracts](./contracts/CLI_CONTRACTS.md) and related schemas — machine-facing contracts
 
@@ -62,6 +64,11 @@ Hills and Playbacks live in:
 - [Git Mind Product Frame](./design/git-mind.md)
 - [ADR-0005](./adr/ADR-0005.md)
 
+The execution cycle and tests-as-spec rules live in:
+
+- [ADR-0006](./adr/ADR-0006.md)
+- [Repo Fixture Strategy](./design/repo-fixture-strategy.md)
+
 GitHub milestones are not the primary planning system for this repository.
 
 ## Contributor Rule
@@ -74,3 +81,10 @@ When planning work, start with:
 4. playback evidence
 
 Do not start with architecture breadth, an old milestone, or a flat pile of backlog items.
+
+When implementing substantial work, continue with:
+
+1. explicit acceptance criteria
+2. failing tests
+3. shared repo fixtures where repository behavior matters
+4. playback evidence and README reality updates before cycle close

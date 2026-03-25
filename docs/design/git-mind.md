@@ -4,6 +4,7 @@ Status: canonical product frame
 
 This document is the canonical IBM Design Thinking product frame for Git Mind.
 Planning governance is defined in [ADR-0005](../adr/ADR-0005.md).
+Delivery governance is defined in [ADR-0006](../adr/ADR-0006.md).
 
 ## Purpose
 

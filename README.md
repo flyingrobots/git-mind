@@ -35,6 +35,24 @@ Canonical planning sources:
 - [docs/design/git-mind.md](docs/design/git-mind.md)
 - [ROADMAP.md](ROADMAP.md)
 - [docs/adr/ADR-0005.md](docs/adr/ADR-0005.md)
+- [docs/adr/ADR-0006.md](docs/adr/ADR-0006.md)
+
+## Delivery Cycle
+
+Git Mind officially uses a design-to-test cycle.
+
+That means:
+
+1. frame the work in a design artifact using sponsor user, job to be done, Hill, and acceptance criteria
+2. translate those acceptance criteria into failing tests
+3. cover not only the golden path, but also edge cases, failure modes, and fuzz/stress when warranted
+4. implement until the tests are green
+5. run a playback / retrospective and capture backlog items and follow-on ideas explicitly
+6. update `README.md` if product reality changed
+7. land the PR, then capture review-cycle learnings back into the backlog
+
+For repository-shaped behavior, prefer canonical repo fixtures over one-off temporary repo setup.
+See [docs/design/repo-fixture-strategy.md](docs/design/repo-fixture-strategy.md) and [docs/adr/ADR-0006.md](docs/adr/ADR-0006.md).
 
 ## What Git Mind Is For
 
@@ -154,8 +172,10 @@ Canonical docs:
 - [GRAPH_SCHEMA.md](GRAPH_SCHEMA.md)
 - [ROADMAP.md](ROADMAP.md)
 - [docs/adr/ADR-0005.md](docs/adr/ADR-0005.md)
+- [docs/adr/ADR-0006.md](docs/adr/ADR-0006.md)
 - [docs/VISION_NORTH_STAR.md](docs/VISION_NORTH_STAR.md)
 - [docs/design/git-mind.md](docs/design/git-mind.md)
+- [docs/design/repo-fixture-strategy.md](docs/design/repo-fixture-strategy.md)
 - [docs/adr/](docs/adr/)
 
 ## License

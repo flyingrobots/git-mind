@@ -123,6 +123,22 @@ Prevents Git Mind from drifting back into milestone theater, architecture-first 
 
 ---
 
+## [ADR-0006](./ADR-0006.md) — Design Acceptance Becomes Tests, Canonical Repo Fixtures Power Delivery
+**Status:** Accepted
+**Date:** 2026-03-25
+
+### What it establishes
+- substantial work follows a design-to-test delivery cycle
+- design acceptance criteria should be translated into failing tests
+- tests are expected to cover more than golden paths when risk justifies it
+- canonical repository-shaped fixtures should replace growing ad hoc temp-repo boilerplate
+- playback, README reality updates, and post-merge backlog capture are part of cycle close
+
+### Why it matters
+Turns IBM Design Thinking from planning discipline into an executable delivery model, and gives Git Mind a realistic test substrate for repository-shaped behavior.
+
+---
+
 ## Quick Contribution Rules
 
 - Keep ADRs concise but specific.

@@ -31,6 +31,24 @@ Canonical planning references:
 - [docs/design/git-mind.md](docs/design/git-mind.md)
 - [ROADMAP.md](ROADMAP.md)
 - [docs/adr/ADR-0005.md](docs/adr/ADR-0005.md)
+- [docs/adr/ADR-0006.md](docs/adr/ADR-0006.md)
+
+## Delivery Cycle
+
+Git Mind uses a design-to-test delivery cycle.
+
+For substantial work:
+
+1. write or update the relevant design artifact
+2. make the acceptance criteria explicit
+3. translate those acceptance criteria into failing tests
+4. implement until the tests are green
+5. run a playback / retrospective and capture backlog follow-ups
+6. update [README.md](README.md) if user-facing reality changed
+7. open the PR, land it, and capture review-cycle learnings back into the backlog
+
+This is not just for happy paths.
+Tests should cover edge cases, failure modes, and fuzz/stress behavior when the design risk justifies it.
 
 GitHub issues are the execution backlog.
 GitHub milestones are not the primary planning surface for this repository.
@@ -53,16 +71,18 @@ npm test
 ## Making changes
 
 1. Create a branch from `main` (or the current development branch)
-2. Make your changes
-3. Run the tests: `npm test`
-4. Commit using [Conventional Commits](https://www.conventionalcommits.org/):
+2. For substantial work, start from a design artifact and acceptance criteria
+3. Add or update failing tests before implementation when behavior is changing
+4. Make your changes
+5. Run the tests: `npm test`
+6. Commit using [Conventional Commits](https://www.conventionalcommits.org/):
    - `feat:` — new feature
    - `fix:` — bug fix
    - `docs:` — documentation only
    - `chore:` — maintenance, tooling
    - `refactor:` — code change that neither fixes a bug nor adds a feature
    - `test:` — adding or updating tests
-5. Open a pull request
+7. Open a pull request
 
 ## Commit messages
 
@@ -94,7 +114,15 @@ npm test          # single run
 npm run test:watch  # watch mode
 ```
 
-Each test creates a temporary Git repo in the OS temp directory and cleans up after itself.
+Testing doctrine:
+
+- tests are the executable form of design acceptance criteria
+- cover golden paths, edge cases, failure cases, and fuzz/stress behavior where warranted
+- prefer repository-shaped fixtures for repository-shaped behavior
+- avoid copying `mkdtemp + git init + config` boilerplate across suites when a shared fixture helper would do better
+
+Canonical fixture guidance lives in [docs/design/repo-fixture-strategy.md](docs/design/repo-fixture-strategy.md).
+The intended direction is a fluent repo builder with reusable base repos and scenario overlays.
 
 ## Project structure
 
