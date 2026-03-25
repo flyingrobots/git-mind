@@ -97,30 +97,32 @@ Status:
 
 Goal:
 
-- define and implement the first low-input semantic bootstrap slice for unfamiliar repositories
+- deliver the first runnable `git mind bootstrap` flow for unfamiliar repositories
 
 Deliverables:
 
-- canonical Hill 1 bootstrap spec
-- repo-local artifact inventory model
-- first-pass entity extraction
-- first-pass relationship inference
-- provenance and confidence model for inferred assertions
-- bootstrap command / output contract
-- follow-on implementation issues cut directly from the accepted spec
+- bootstrap command contract with default write behavior and `--dry-run`
+- repo-local artifact inventory and scan boundaries
+- first-pass entity extraction for files, docs, ADRs, modules, commits, and repo-local issue/PR references
+- first-pass relationship inference for `documents`, `references`, `touches`, `groups`, and conservative `implements`
+- provenance and confidence surfacing for inferred assertions
+- a reviewable follow-up path for weak-confidence bootstrap output
+- implementation issues `#304` through `#307` moved into merged runnable behavior
 
 Exit criteria:
 
-- Git Mind has a concrete first-slice spec for unfamiliar-repo bootstrap
-- the backlog contains direct Hill 1 implementation work, not only supporting work
-- the first slice is narrow enough to build without falling back into platform sprawl
-- playback evidence is defined before implementation begins
+- `git mind bootstrap` runs end-to-end on a representative unfamiliar repository
+- the command emits useful human-readable and JSON summary output
+- inferred assertions carry provenance and confidence
+- weak-confidence inferences are visible and reviewable
+- day-one value appears before the user has to hand-author the graph
 
 Primary references:
 
 - [docs/design/git-mind.md](docs/design/git-mind.md)
 - [docs/design/h1-semantic-bootstrap.md](docs/design/h1-semantic-bootstrap.md)
 - issue [#303](https://github.com/flyingrobots/git-mind/issues/303)
+- issues [#304](https://github.com/flyingrobots/git-mind/issues/304), [#305](https://github.com/flyingrobots/git-mind/issues/305), [#306](https://github.com/flyingrobots/git-mind/issues/306), [#307](https://github.com/flyingrobots/git-mind/issues/307)
 
 ---
 
@@ -161,7 +163,7 @@ Suggested first artifact set:
 - markdown docs
 - ADRs
 - commit history
-- issue and review references discoverable from repo artifacts
+- issue, PR, and commit references discoverable from repo artifacts
 
 Playback:
 

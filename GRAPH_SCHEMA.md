@@ -98,6 +98,7 @@ Node prefixes are grouped into five categories. **Unknown prefixes produce a war
 | `feature:` | Feature grouping within a milestone | `feature:BDK-SCHEMA` |
 | `task:` | Atomic unit of work | `task:BDK-001` |
 | `issue:` | GitHub/tracker issue | `issue:180` |
+| `pr:` | Pull request referenced from repo artifacts | `pr:308` |
 | `phase:` | Project phase (alias for milestone in views) | `phase:alpha` |
 
 ### Knowledge
@@ -148,13 +149,16 @@ Node prefixes are grouped into five categories. **Unknown prefixes produce a war
 
 ## 4. Edge Types
 
-Eight directed edge types are defined. Unknown edge types are a **hard error**.
+Eleven directed edge types are defined. Unknown edge types are a **hard error**.
 
 | Type | Definition | Direction | Example |
 |------|-----------|-----------|---------|
 | `implements` | Source implements the target | task → feature, code → spec | `task:BDK-002 → feature:BDK-SCHEMA` |
 | `augments` | Source extends or enhances target | extension → base | `module:auth-oauth → module:auth` |
 | `relates-to` | General semantic association | either direction | `concept:zero-trust → adr:001` |
+| `references` | Source explicitly references target | artifact → referenced artifact | `doc:release-notes → issue:180` |
+| `touches` | Source changes or directly touches target | commit → file | `commit:934b6e3 → file:src/auth.js` |
+| `groups` | Source groups or contains target | parent → child | `module:auth → file:src/auth.js` |
 | `blocks` | Source blocks progress on target | blocker → blocked | `task:BDK-001 → task:BDK-002` |
 | `belongs-to` | Source is a child/member of target | child → parent | `feature:BDK-SCHEMA → milestone:BEDROCK` |
 | `consumed-by` | Source is consumed/used by target | resource → consumer | `pkg:chalk → module:format` |
@@ -332,12 +336,11 @@ const NODE_ID = /^[a-z][a-z0-9-]*:[A-Za-z0-9._\/@-]+$/;
 
 ```js
 const CANONICAL_PREFIXES = [
-  'milestone', 'feature', 'task', 'issue', 'phase',
+  'milestone', 'feature', 'task', 'issue', 'pr', 'phase',
   'spec', 'adr', 'doc', 'concept', 'decision',
   'crate', 'module', 'pkg', 'file',
   'person', 'tool',
   'event', 'metric',
-  'commit',
 ];
 ```
 
@@ -345,7 +348,8 @@ const CANONICAL_PREFIXES = [
 
 ```js
 const EDGE_TYPES = [
-  'implements', 'augments', 'relates-to', 'blocks',
+  'implements', 'augments', 'relates-to', 'references',
+  'touches', 'groups', 'blocks',
   'belongs-to', 'consumed-by', 'depends-on', 'documents',
 ];
 ```
@@ -353,5 +357,5 @@ const EDGE_TYPES = [
 ### System Prefixes
 
 ```js
-const SYSTEM_PREFIXES = ['commit'];
+const SYSTEM_PREFIXES = ['commit', 'repo', 'epoch'];
 ```

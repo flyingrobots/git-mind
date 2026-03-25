@@ -183,11 +183,17 @@ Possible compatible aliases later:
 
 But the first slice should pick one and make it real.
 
+Command contract:
+
+- `git mind bootstrap` should persist inferred entities and relationships into the graph by default.
+- `git mind bootstrap --dry-run` should run the same scan and inference path, emit the same summary structure, and avoid writing to the graph.
+- low-confidence inferred relationships should still be written in default mode with confidence and provenance attached so they can flow into review rather than disappearing into a preview-only side channel.
+
 The command should:
 
 1. scan the repo-local artifact set
 2. infer first-pass entities and relationships
-3. persist them into the graph
+3. persist them into the graph by default
 4. emit a summary of what was found
 5. point the user at a follow-up inspection flow
 
@@ -246,7 +252,7 @@ This spec suggests the following sequence:
 
 - define CLI contract for `git mind bootstrap`
 - define summary output and JSON shape
-- define dry-run / write behavior if needed
+- define default write behavior and `--dry-run` preview contract
 
 ### Slice B: Repo-Local Artifact Inventory
 
