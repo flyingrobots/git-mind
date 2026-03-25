@@ -1,5 +1,11 @@
 # Technical Deep Dive: git-mind
 
+> Historical note:
+>
+> This document is a deep technical artifact from an earlier planning era.
+> It still contains useful substrate and architecture detail, but it is not the active product roadmap or control plane.
+> The current product frame lives in [README.md](README.md), [ROADMAP.md](ROADMAP.md), and [docs/design/git-mind.md](docs/design/git-mind.md).
+
 > **"A knowledge graph that thinks alongside you."**
 
 A technical analysis of git-mind's architecture, data model, runtime behavior, invariants, and roadmap trajectory. This is a reference artifact — not a changelog, not a tutorial.

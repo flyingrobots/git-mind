@@ -1,5 +1,10 @@
 # git-mind Guide
 
+> Status: transitional document.
+>
+> The CLI reference in this guide is still useful, but parts of the framing and examples reflect Git Mind's earlier manual graph-authoring story.
+> For the current product direction, start with [README.md](README.md), [ROADMAP.md](ROADMAP.md), [docs/VISION_NORTH_STAR.md](docs/VISION_NORTH_STAR.md), and [docs/design/git-mind.md](docs/design/git-mind.md).
+
 Everything you need to know — from zero to power user.
 
 ---
