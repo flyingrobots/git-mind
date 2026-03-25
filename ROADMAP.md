@@ -128,7 +128,7 @@ Primary references:
 
 ```mermaid
 flowchart LR
-    C["Current Focus: Stabilize And Clarify"] --> H1["Hill 1: Semantic Bootstrap"]
+    C["Current Focus: Hill 1 Semantic Bootstrap"] --> H1["Hill 1: Semantic Bootstrap"]
     H1 --> H2["Hill 2: Query And Receipts"]
     H2 --> H3["Hill 3: Living Map Review Loop"]
     H3 --> L["Supporting Lanes: adoption, content, extensions, workflow layers"]
