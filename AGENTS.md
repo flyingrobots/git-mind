@@ -3,7 +3,8 @@
 ## CROSS-REFERENCE
 
 - Code standards and contribution workflow: [CONTRIBUTING.md](CONTRIBUTING.md)
-- User-facing documentation: [GUIDE.md](GUIDE.md)
+- Documentation map and canonical docs: [docs/README.md](docs/README.md)
+- CLI/user reference: [GUIDE.md](GUIDE.md)
 
 ## FORBIDDEN ACTIONS
 

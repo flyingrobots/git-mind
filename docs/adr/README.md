@@ -2,6 +2,9 @@
 
 This directory captures durable architecture decisions for Git Mind.
 
+These ADRs are architecture references, not the canonical product narrative.
+Some of them were written during a broader platform and bridge planning phase, but they still matter where they establish substrate or invariants that remain in force.
+
 Use ADRs for decisions that are hard to reverse, cross-cut multiple subsystems, or define platform invariants.
 
 ---
@@ -108,4 +111,4 @@ Prevents git-mind from duplicating CRDT, time-travel, observer, and provenance g
 - Keep ADRs concise but specific.
 - Avoid ambiguous wording (“usually”, “maybe”) in core invariants.
 - Include explicit consequences and operational impact.
-- Link milestone(s), contracts, and tooling gates affected by the decision.
+- Link relevant Hill(s), issue(s), contracts, and tooling gates affected by the decision.

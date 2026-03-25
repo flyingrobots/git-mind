@@ -82,7 +82,7 @@ Manual edge creation remains supported, but it should increasingly be treated as
 
 ```bash
 git mind link file:src/auth.js spec:auth --type implements
-git mind link adr:0007 task:M11 --type blocks
+git mind link adr:0007 task:auth-rollout --type blocks
 ```
 
 ## Product Doctrine
@@ -130,8 +130,9 @@ The repository is in a stabilize-and-clarify phase:
 
 ## Documentation
 
-Start here:
+Canonical docs:
 
+- [docs/README.md](docs/README.md)
 - [GUIDE.md](GUIDE.md)
 - [GRAPH_SCHEMA.md](GRAPH_SCHEMA.md)
 - [ROADMAP.md](ROADMAP.md)

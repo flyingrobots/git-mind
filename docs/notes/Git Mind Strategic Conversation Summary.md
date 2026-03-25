@@ -3,6 +3,11 @@
 **Scope:** End-to-end summary of this chat session  
 **Purpose:** Capture all major topics, decisions, rationale, and resulting direction for Git Mind
 
+> Historical note:
+> This file is preserved as strategic history.
+> It should not be treated as the active product frame, roadmap, or backlog control plane.
+> For the current direction, use [README.md](../../README.md), [ROADMAP.md](../../ROADMAP.md), [docs/VISION_NORTH_STAR.md](../VISION_NORTH_STAR.md), and [docs/design/git-mind.md](../design/git-mind.md).
+
 ---
 
 ## Executive Summary
