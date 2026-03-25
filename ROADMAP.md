@@ -95,6 +95,14 @@ Status:
 
 - in progress
 
+Sponsor user:
+
+- technical lead / staff engineer / architect, or autonomous coding agent, entering an unfamiliar repository
+
+Job to be done:
+
+- quickly produce a trustworthy first-pass semantic map of repository artifacts with minimal manual input
+
 Goal:
 
 - deliver the first runnable `git mind bootstrap` flow for unfamiliar repositories

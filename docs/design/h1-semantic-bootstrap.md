@@ -80,7 +80,7 @@ This keeps the first slice:
 The bootstrap should extract or synthesize the following first-pass entities:
 
 - `file:` for source files and key project files
-- `doc:` for general markdown documents
+- `doc:` for general Markdown documents
 - `adr:` for ADR documents
 - `module:` for inferred modules or packages where structure is obvious
 - `commit:` for recent relevant commits already supported by the substrate
@@ -135,7 +135,7 @@ Minimum provenance fields:
 
 Examples:
 
-- markdown frontmatter path match
+- Markdown frontmatter path match
 - explicit mention of `src/auth.js` in `docs/auth.md`
 - ADR title or filename convention
 - commit touching a file
@@ -175,6 +175,8 @@ Suggested command shape:
 ```bash
 git mind bootstrap
 ```
+
+> Status: planned contract for Hill 1. This command is not implemented in the current CLI yet.
 
 Possible compatible aliases later:
 
