@@ -15,6 +15,26 @@ Current product frame:
 - current work should be judged against low-input semantic bootstrap, provenance-backed query, and living-map upkeep
 - personal cognition tooling belongs in `think`, not here
 
+## IBM Design Thinking Expectations
+
+Git Mind officially uses IBM Design Thinking to guide product work.
+
+Before proposing substantial product or workflow changes, identify:
+
+- the sponsor user
+- the job to be done
+- the Hill this work moves, or the supporting lane it strengthens
+- the playback evidence that would prove progress
+
+Canonical planning references:
+
+- [docs/design/git-mind.md](docs/design/git-mind.md)
+- [ROADMAP.md](ROADMAP.md)
+- [docs/adr/ADR-0005.md](docs/adr/ADR-0005.md)
+
+GitHub issues are the execution backlog.
+GitHub milestones are not the primary planning surface for this repository.
+
 ## Prerequisites
 
 - Node.js >= 20.0.0

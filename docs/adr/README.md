@@ -1,9 +1,10 @@
 # Architecture Decision Records (ADRs)
 
-This directory captures durable architecture decisions for Git Mind.
+This directory captures durable architecture and governance decisions for Git Mind.
 
 These ADRs are architecture references, not the canonical product narrative.
 Some of them were written during a broader platform and bridge planning phase, but they still matter where they establish substrate or invariants that remain in force.
+Some ADRs also capture repository-level planning and governance rules when those rules are intended to constrain how future work is framed.
 
 Use ADRs for decisions that are hard to reverse, cross-cut multiple subsystems, or define platform invariants.
 
@@ -103,6 +104,22 @@ Recommended sections:
 
 ### Why it matters
 Prevents git-mind from duplicating CRDT, time-travel, observer, and provenance guarantees that already exist in the substrate. Makes the attachment primitive available to any git-warp consumer, not just git-mind.
+
+---
+
+## [ADR-0005](./ADR-0005.md) — IBM Design Thinking Governs Product Planning
+**Status:** Accepted
+**Date:** 2026-03-24
+
+### What it establishes
+- IBM Design Thinking is the official planning model for Git Mind.
+- Sponsor user, jobs, Hills, and Playbacks are the primary product framing tools.
+- GitHub issues are the execution backlog.
+- GitHub milestones are not the primary planning control plane.
+- Canonical planning docs must stay aligned with that model.
+
+### Why it matters
+Prevents Git Mind from drifting back into milestone theater, architecture-first planning, or backlog-only decision making.
 
 ---
 

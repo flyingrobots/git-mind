@@ -51,6 +51,9 @@ Git Mind now uses:
 - Playbacks to assess whether recent work actually moved a Hill
 - GitHub issues to track concrete implementation work
 
+This is not an informal preference.
+It is the repository's official planning model per [ADR-0005](docs/adr/ADR-0005.md).
+
 GitHub milestones are intentionally not the primary planning surface anymore.
 The old milestone layer had drifted into theater: completed relics staying open while the real backlog lived elsewhere.
 
@@ -74,6 +77,17 @@ Current GitHub planning labels:
 - `lane:extensions`
 - `lane:packaging`
 - `lane:ux`
+
+## Planning Gate
+
+Before significant work is accepted into an active Hill or supporting lane, we should be able to answer:
+
+1. Which sponsor user does this help?
+2. Which job to be done does it improve?
+3. Which Hill does it move, or which supporting lane does it strengthen?
+4. What playback evidence would show that this work actually helped?
+
+If those answers are fuzzy, the work is not ready for planning commitment yet.
 
 ## Current Focus: Stabilize And Clarify
 
