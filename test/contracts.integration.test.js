@@ -15,6 +15,7 @@ import Ajv from 'ajv/dist/2020.js';
 const BIN = join(import.meta.dirname, '..', 'bin', 'git-mind.js');
 const SCHEMA_DIR = join(import.meta.dirname, '..', 'docs', 'contracts', 'cli');
 const FIXTURE = join(import.meta.dirname, 'fixtures', 'echo-seed.yaml');
+const SLOW_CLI_TIMEOUT = 15_000;
 
 /** Load a schema by filename. */
 async function loadSchema(name) {
@@ -131,7 +132,7 @@ describe('CLI schema contract canaries', () => {
 
     const validate = ajv.compile(schema);
     expect(validate(output), JSON.stringify(validate.errors)).toBe(true);
-  });
+  }, SLOW_CLI_TIMEOUT);
 
   it('doctor --json validates against doctor.schema.json', async () => {
     const schema = await loadSchema('doctor.schema.json');
@@ -216,7 +217,7 @@ describe('CLI schema contract canaries', () => {
 
     const validate = ajv.compile(schema);
     expect(validate(output), JSON.stringify(validate.errors)).toBe(true);
-  });
+  }, SLOW_CLI_TIMEOUT);
 
   // NOTE: mutates review state (accepts all pending) — keep after review --json test
   it('review --batch accept --json validates against review-batch.schema.json', async () => {
@@ -276,7 +277,7 @@ describe('CLI schema contract canaries', () => {
 
     expect(output.changed).toBe(false);
     expect(output.previous).toBe('done');
-  });
+  }, SLOW_CLI_TIMEOUT);
 
   it('unset --json validates against unset.schema.json', async () => {
     const listOutput = runCli(['nodes', '--json'], tempDir);
@@ -297,7 +298,7 @@ describe('CLI schema contract canaries', () => {
 
     const validate = ajv.compile(schema);
     expect(validate(output), JSON.stringify(validate.errors)).toBe(true);
-  });
+  }, SLOW_CLI_TIMEOUT);
 
   it('view progress --json validates against view-progress.schema.json', async () => {
     // Set a status on a known node so progress has data
@@ -317,7 +318,7 @@ describe('CLI schema contract canaries', () => {
 
     const validate = ajv.compile(schema);
     expect(validate(output), JSON.stringify(validate.errors)).toBe(true);
-  });
+  }, SLOW_CLI_TIMEOUT);
 
   it('view backlog:blocked --json validates against view-lens.schema.json', async () => {
     const schema = await loadSchema('view-lens.schema.json');

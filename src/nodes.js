@@ -4,6 +4,7 @@
  */
 
 import { extractPrefix, classifyPrefix } from './validators.js';
+import { getProp, toPropObject } from './prop-bag.js';
 
 /**
  * @typedef {object} NodeInfo
@@ -27,14 +28,7 @@ export async function getNode(graph, id) {
 
   const prefix = extractPrefix(id);
   const propsMap = await graph.getNodeProps(id);
-
-  // Convert Map to plain object
-  const properties = {};
-  if (propsMap) {
-    for (const [key, value] of propsMap) {
-      properties[key] = value;
-    }
-  }
+  const properties = toPropObject(propsMap);
 
   return {
     id,
@@ -79,7 +73,7 @@ export async function setNodeProperty(graph, id, key, value) {
 
   // Read current value
   const propsMap = await graph.getNodeProps(id);
-  const previous = propsMap?.get(key) ?? null;
+  const previous = getProp(propsMap, key) ?? null;
   const changed = previous !== value;
 
   if (changed) {
@@ -118,7 +112,7 @@ export async function unsetNodeProperty(graph, id, key) {
   }
 
   const propsMap = await graph.getNodeProps(id);
-  const previous = propsMap?.get(key) ?? null;
+  const previous = getProp(propsMap, key) ?? null;
   const removed = previous != null;
 
   if (removed) {

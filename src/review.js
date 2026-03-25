@@ -7,6 +7,7 @@
 import { createHash } from 'node:crypto';
 import { isLowConfidence } from './validators.js';
 import { removeEdge, createEdge } from './edges.js';
+import { getProp } from './prop-bag.js';
 
 /**
  * @typedef {object} PendingSuggestion
@@ -77,7 +78,7 @@ async function recordDecision(graph, decision) {
  * Fetch all decision-node IDs and their properties from the graph.
  *
  * @param {import('@git-stunts/git-warp').default} graph
- * @returns {Promise<Array<{ id: string, props: Map<string, unknown> | null }>>}
+ * @returns {Promise<Array<{ id: string, props: import('./prop-bag.js').PropBag }>>}
  */
 async function fetchDecisionProps(graph) {
   const nodes = await graph.getNodes();
@@ -102,9 +103,9 @@ export async function getPendingSuggestions(graph) {
   const reviewedKeys = new Set();
   for (const { props: propsMap } of await fetchDecisionProps(graph)) {
     if (!propsMap) continue;
-    const source = propsMap.get('source');
-    const target = propsMap.get('target');
-    const edgeType = propsMap.get('edgeType');
+    const source = getProp(propsMap, 'source');
+    const target = getProp(propsMap, 'target');
+    const edgeType = getProp(propsMap, 'edgeType');
     if (source && target && edgeType) {
       reviewedKeys.add(`${source}|${target}|${edgeType}`);
     }
@@ -269,19 +270,19 @@ export async function getReviewHistory(graph, filter = {}) {
   for (const { id, props: propsMap } of await fetchDecisionProps(graph)) {
     if (!propsMap) continue;
 
-    const action = propsMap.get('action');
+    const action = getProp(propsMap, 'action');
     if (filter.action && action !== filter.action) continue;
 
     decisions.push({
       id,
       action,
-      source: propsMap.get('source'),
-      target: propsMap.get('target'),
-      edgeType: propsMap.get('edgeType'),
-      confidence: propsMap.get('confidence'),
-      rationale: propsMap.get('rationale'),
-      timestamp: propsMap.get('timestamp'),
-      reviewer: propsMap.get('reviewer'),
+      source: getProp(propsMap, 'source'),
+      target: getProp(propsMap, 'target'),
+      edgeType: getProp(propsMap, 'edgeType'),
+      confidence: getProp(propsMap, 'confidence'),
+      rationale: getProp(propsMap, 'rationale'),
+      timestamp: getProp(propsMap, 'timestamp'),
+      reviewer: getProp(propsMap, 'reviewer'),
     });
   }
 

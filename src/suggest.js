@@ -8,6 +8,7 @@ import { spawn } from 'node:child_process';
 import { validateNodeId, validateEdgeType, validateConfidence } from './validators.js';
 // TODO: import from './edges.js' when context-aware suggestions are implemented
 import { extractContext } from './context.js';
+import { getProp } from './prop-bag.js';
 
 /**
  * @typedef {object} Suggestion
@@ -201,11 +202,11 @@ export async function filterRejected(suggestions, graph) {
   const propsResults = await Promise.all(decisionNodes.map(id => graph.getNodeProps(id)));
   for (const propsMap of propsResults) {
     if (!propsMap) continue;
-    const action = propsMap.get('action');
+    const action = getProp(propsMap, 'action');
     if (action !== 'reject') continue;
-    const source = propsMap.get('source');
-    const target = propsMap.get('target');
-    const edgeType = propsMap.get('edgeType');
+    const source = getProp(propsMap, 'source');
+    const target = getProp(propsMap, 'target');
+    const edgeType = getProp(propsMap, 'edgeType');
     if (source && target && edgeType) {
       rejectedKeys.add(`${source}|${target}|${edgeType}`);
     }

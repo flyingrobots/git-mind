@@ -4,6 +4,7 @@ import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { execSync } from 'node:child_process';
 import { initGraph } from '../src/graph.js';
+import { getProp } from '../src/prop-bag.js';
 
 describe('graph', () => {
   let tempDir;
@@ -44,6 +45,6 @@ describe('graph', () => {
     expect(hasNode).toBe(true);
 
     const props = await graph2.getNodeProps('test-node');
-    expect(props.get('label')).toBe('hello');
+    expect(getProp(props, 'label')).toBe('hello');
   });
 });

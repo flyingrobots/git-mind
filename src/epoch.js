@@ -7,6 +7,7 @@
  */
 
 import { execFileSync } from 'node:child_process';
+import { getProp } from './prop-bag.js';
 
 /**
  * @typedef {object} EpochInfo
@@ -70,9 +71,9 @@ export async function lookupEpoch(graph, commitSha) {
   if (!propsMap) return null;
 
   return {
-    tick: propsMap.get('tick'),
-    fullSha: propsMap.get('fullSha'),
-    recordedAt: propsMap.get('recordedAt'),
+    tick: getProp(propsMap, 'tick'),
+    fullSha: getProp(propsMap, 'fullSha'),
+    recordedAt: getProp(propsMap, 'recordedAt'),
   };
 }
 

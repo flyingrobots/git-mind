@@ -6,6 +6,7 @@ import { execSync } from 'node:child_process';
 import { initGraph } from '../src/graph.js';
 import { createEdge } from '../src/edges.js';
 import { importFile } from '../src/import.js';
+import { getProp } from '../src/prop-bag.js';
 
 describe('import', () => {
   let tempDir;
@@ -283,8 +284,8 @@ nodes:
       expect(result.valid).toBe(true);
 
       const props = await graph.getNodeProps('task:auth');
-      expect(props.get('status')).toBe('active');
-      expect(props.get('priority')).toBe('high');
+      expect(getProp(props, 'status')).toBe('active');
+      expect(getProp(props, 'priority')).toBe('high');
     });
 
     it('rejects array-typed node properties', async () => {

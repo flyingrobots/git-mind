@@ -6,6 +6,7 @@ import { execSync } from 'node:child_process';
 import { initGraph } from '../src/graph.js';
 import { createEdge } from '../src/edges.js';
 import { detectRepoIdentifier, mergeFromRepo } from '../src/merge.js';
+import { getProp } from '../src/prop-bag.js';
 
 describe('merge', () => {
   let localDir;
@@ -185,8 +186,8 @@ describe('merge', () => {
       await mergeFromRepo(localGraph, remoteDir, { repoName: 'other/repo' });
 
       const props = await localGraph.getNodeProps('repo:other/repo:task:a');
-      expect(props.get('status')).toBe('active');
-      expect(props.get('priority')).toBe('high');
+      expect(getProp(props, 'status')).toBe('active');
+      expect(getProp(props, 'priority')).toBe('high');
     });
   });
 });
