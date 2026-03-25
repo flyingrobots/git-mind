@@ -11,6 +11,7 @@ These describe what Git Mind is now and how work should be judged:
 - [README.md](../README.md) — current product summary
 - [ROADMAP.md](../ROADMAP.md) — active Hills, supporting lanes, and playback cadence
 - [Git Mind Product Frame](./design/git-mind.md) — IBM Design Thinking style product frame
+- [Hill 1 Semantic Bootstrap Spec](./design/h1-semantic-bootstrap.md) — first executable Hill 1 slice
 - [Git Mind North Star](./VISION_NORTH_STAR.md) — longer-form strategic articulation
 - [ADR-0005](./adr/ADR-0005.md) — official planning and governance model
 

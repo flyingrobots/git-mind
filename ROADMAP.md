@@ -89,7 +89,7 @@ Before significant work is accepted into an active Hill or supporting lane, we s
 
 If those answers are fuzzy, the work is not ready for planning commitment yet.
 
-## Current Focus: Stabilize And Clarify
+## Current Focus: Hill 1 Semantic Bootstrap
 
 Status:
 
@@ -97,24 +97,30 @@ Status:
 
 Goal:
 
-- align the product story, sponsor user, backlog shape, and planning model around inference-first semantic repository intelligence
+- define and implement the first low-input semantic bootstrap slice for unfamiliar repositories
 
 Deliverables:
 
-- rewritten README
-- rewritten north star
-- new design frame
-- roadmap reset around hills
-- explicit boundary with `think`
-- retirement of stale GitHub milestone machinery
-- clear distinction between live control-plane docs and historical references
+- canonical Hill 1 bootstrap spec
+- repo-local artifact inventory model
+- first-pass entity extraction
+- first-pass relationship inference
+- provenance and confidence model for inferred assertions
+- bootstrap command / output contract
+- follow-on implementation issues cut directly from the accepted spec
 
 Exit criteria:
 
-- top-level docs tell one coherent story
-- the repo has a single primary sponsor user
-- the backlog is no longer pretending to be release milestones
-- the next hill is stated clearly enough to judge future work against it
+- Git Mind has a concrete first-slice spec for unfamiliar-repo bootstrap
+- the backlog contains direct Hill 1 implementation work, not only supporting work
+- the first slice is narrow enough to build without falling back into platform sprawl
+- playback evidence is defined before implementation begins
+
+Primary references:
+
+- [docs/design/git-mind.md](docs/design/git-mind.md)
+- [docs/design/h1-semantic-bootstrap.md](docs/design/h1-semantic-bootstrap.md)
+- issue [#303](https://github.com/flyingrobots/git-mind/issues/303)
 
 ---
 
