@@ -110,6 +110,7 @@ describe('classifyPrefix', () => {
   it('classifies canonical prefixes', () => {
     expect(classifyPrefix('milestone')).toBe('canonical');
     expect(classifyPrefix('task')).toBe('canonical');
+    expect(classifyPrefix('pr')).toBe('canonical');
     expect(classifyPrefix('file')).toBe('canonical');
   });
 
@@ -263,9 +264,10 @@ describe('constants', () => {
     expect(NODE_ID_MAX_LENGTH).toBe(256);
   });
 
-  it('CANONICAL_PREFIXES has 18 user-facing entries', () => {
-    expect(CANONICAL_PREFIXES.length).toBe(18);
+  it('CANONICAL_PREFIXES has 19 user-facing entries', () => {
+    expect(CANONICAL_PREFIXES.length).toBe(19);
     expect(CANONICAL_PREFIXES).toContain('milestone');
+    expect(CANONICAL_PREFIXES).toContain('pr');
     expect(CANONICAL_PREFIXES).not.toContain('commit');
   });
 
@@ -280,7 +282,7 @@ describe('constants', () => {
     expect(ALL_PREFIXES).toContain('commit');
   });
 
-  it('EDGE_TYPES has 8 entries', () => {
-    expect(EDGE_TYPES.length).toBe(8);
+  it('EDGE_TYPES has 11 entries', () => {
+    expect(EDGE_TYPES.length).toBe(11);
   });
 });

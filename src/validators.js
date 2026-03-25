@@ -16,7 +16,7 @@ export const NODE_ID_MAX_LENGTH = 256;
 
 /** @type {string[]} User-facing canonical prefixes (excludes system prefixes) */
 export const CANONICAL_PREFIXES = [
-  'milestone', 'feature', 'task', 'issue', 'phase',
+  'milestone', 'feature', 'task', 'issue', 'pr', 'phase',
   'spec', 'adr', 'doc', 'concept', 'decision',
   'crate', 'module', 'pkg', 'file',
   'person', 'tool',
@@ -31,6 +31,9 @@ export const EDGE_TYPES = [
   'implements',
   'augments',
   'relates-to',
+  'references',
+  'touches',
+  'groups',
   'blocks',
   'belongs-to',
   'consumed-by',
