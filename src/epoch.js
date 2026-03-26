@@ -75,7 +75,8 @@ export async function lookupEpoch(graph, commitSha) {
   const recordedAt = getProp(propsMap, 'recordedAt');
 
   if (
-    typeof tick !== 'number' ||
+    !Number.isInteger(tick) ||
+    tick < 0 ||
     typeof fullSha !== 'string' ||
     fullSha.length === 0 ||
     typeof recordedAt !== 'string' ||

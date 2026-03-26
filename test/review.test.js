@@ -187,6 +187,14 @@ describe('review', () => {
     patch.setProperty('decision:bad-action', 'confidence', 0.8);
     patch.setProperty('decision:bad-action', 'timestamp', 200);
 
+    patch.addNode('decision:bad-numbers');
+    patch.setProperty('decision:bad-numbers', 'action', 'accept');
+    patch.setProperty('decision:bad-numbers', 'source', 'task:x');
+    patch.setProperty('decision:bad-numbers', 'target', 'spec:y');
+    patch.setProperty('decision:bad-numbers', 'edgeType', 'implements');
+    patch.setProperty('decision:bad-numbers', 'confidence', Number.NaN);
+    patch.setProperty('decision:bad-numbers', 'timestamp', Number.POSITIVE_INFINITY);
+
     patch.addNode('decision:valid');
     patch.setProperty('decision:valid', 'action', 'reject');
     patch.setProperty('decision:valid', 'source', 'task:c');

@@ -287,8 +287,8 @@ export async function getReviewHistory(graph, filter = {}) {
       target.length === 0 ||
       typeof edgeType !== 'string' ||
       edgeType.length === 0 ||
-      typeof confidence !== 'number' ||
-      typeof timestamp !== 'number'
+      !Number.isFinite(confidence) ||
+      !Number.isFinite(timestamp)
     ) {
       continue;
     }
