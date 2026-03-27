@@ -7,6 +7,9 @@
 import { createHash } from 'node:crypto';
 import { isLowConfidence } from './validators.js';
 import { removeEdge, createEdge } from './edges.js';
+import { getProp } from './prop-bag.js';
+
+const VALID_REVIEW_ACTIONS = new Set(['accept', 'reject', 'adjust', 'skip']);
 
 /**
  * @typedef {object} PendingSuggestion
@@ -77,7 +80,7 @@ async function recordDecision(graph, decision) {
  * Fetch all decision-node IDs and their properties from the graph.
  *
  * @param {import('@git-stunts/git-warp').default} graph
- * @returns {Promise<Array<{ id: string, props: Map<string, unknown> | null }>>}
+ * @returns {Promise<Array<{ id: string, props: import('./prop-bag.js').PropBag }>>}
  */
 async function fetchDecisionProps(graph) {
   const nodes = await graph.getNodes();
@@ -102,9 +105,9 @@ export async function getPendingSuggestions(graph) {
   const reviewedKeys = new Set();
   for (const { props: propsMap } of await fetchDecisionProps(graph)) {
     if (!propsMap) continue;
-    const source = propsMap.get('source');
-    const target = propsMap.get('target');
-    const edgeType = propsMap.get('edgeType');
+    const source = getProp(propsMap, 'source');
+    const target = getProp(propsMap, 'target');
+    const edgeType = getProp(propsMap, 'edgeType');
     if (source && target && edgeType) {
       reviewedKeys.add(`${source}|${target}|${edgeType}`);
     }
@@ -269,19 +272,39 @@ export async function getReviewHistory(graph, filter = {}) {
   for (const { id, props: propsMap } of await fetchDecisionProps(graph)) {
     if (!propsMap) continue;
 
-    const action = propsMap.get('action');
+    const action = getProp(propsMap, 'action');
+    const source = getProp(propsMap, 'source');
+    const target = getProp(propsMap, 'target');
+    const edgeType = getProp(propsMap, 'edgeType');
+    const confidence = getProp(propsMap, 'confidence');
+    const timestamp = getProp(propsMap, 'timestamp');
+
+    if (
+      !VALID_REVIEW_ACTIONS.has(action) ||
+      typeof source !== 'string' ||
+      source.length === 0 ||
+      typeof target !== 'string' ||
+      target.length === 0 ||
+      typeof edgeType !== 'string' ||
+      edgeType.length === 0 ||
+      !Number.isFinite(confidence) ||
+      !Number.isFinite(timestamp)
+    ) {
+      continue;
+    }
+
     if (filter.action && action !== filter.action) continue;
 
     decisions.push({
       id,
       action,
-      source: propsMap.get('source'),
-      target: propsMap.get('target'),
-      edgeType: propsMap.get('edgeType'),
-      confidence: propsMap.get('confidence'),
-      rationale: propsMap.get('rationale'),
-      timestamp: propsMap.get('timestamp'),
-      reviewer: propsMap.get('reviewer'),
+      source,
+      target,
+      edgeType,
+      confidence,
+      rationale: getProp(propsMap, 'rationale'),
+      timestamp,
+      reviewer: getProp(propsMap, 'reviewer'),
     });
   }
 

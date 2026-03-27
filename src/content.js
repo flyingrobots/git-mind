@@ -13,9 +13,22 @@
  */
 
 import { CONTENT_PROPERTY_KEY } from '@git-stunts/git-warp';
+import { getProp } from './prop-bag.js';
 
 const MIME_KEY = '_content.mime';
 const SIZE_KEY = '_content.size';
+
+/**
+ * Normalize git-warp content payloads to a UTF-8 string.
+ *
+ * @param {string | Uint8Array | Buffer} content
+ * @returns {string}
+ */
+function decodeContent(content) {
+  if (typeof content === 'string') return content;
+  if (Buffer.isBuffer(content)) return content.toString('utf-8');
+  return Buffer.from(content).toString('utf-8');
+}
 
 /**
  * @typedef {object} ContentMeta
@@ -97,7 +110,7 @@ export async function readContent(graph, nodeId) {
     );
   }
 
-  return { content: contentBuf.toString('utf-8'), meta };
+  return { content: decodeContent(contentBuf), meta };
 }
 
 /**
@@ -121,8 +134,8 @@ export async function getContentMeta(graph, nodeId) {
 
   return {
     sha,
-    mime: propsMap?.get(MIME_KEY) ?? 'text/plain',
-    size: propsMap?.get(SIZE_KEY) ?? 0,
+    mime: getProp(propsMap, MIME_KEY) ?? 'text/plain',
+    size: getProp(propsMap, SIZE_KEY) ?? 0,
   };
 }
 

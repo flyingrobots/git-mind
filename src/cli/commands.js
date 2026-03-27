@@ -26,6 +26,7 @@ import { computeDiff } from '../diff.js';
 import { DEFAULT_CONTEXT } from '../context-envelope.js';
 import { loadExtension, registerExtension, removeExtension, listExtensions, validateExtension } from '../extension.js';
 import { writeContent, readContent, getContentMeta, deleteContent } from '../content.js';
+import { getProp } from '../prop-bag.js';
 import { success, error, info, formatEdge, formatView, formatNode, formatNodeList, formatStatus, formatExportResult, formatImportResult, formatDoctorResult, formatSuggestions, formatReviewItem, formatDecisionSummary, formatAtStatus, formatDiff, formatExtensionList, formatContentMeta } from './format.js';
 
 /**
@@ -90,9 +91,15 @@ export async function resolveContext(cwd, envelope) {
         `Define it with: git mind set observer:${observer} match 'prefix:*'`,
       );
     }
-    const config = { match: propsMap.get('match') };
-    const expose = propsMap.get('expose');
-    const redact = propsMap.get('redact');
+    const config = { match: getProp(propsMap, 'match') };
+    if (typeof config.match !== 'string' || config.match.trim() === '') {
+      throw new Error(
+        `Observer '${observer}' is missing required 'match' property. ` +
+        `Set it with: git mind set observer:${observer} match 'prefix:*'`,
+      );
+    }
+    const expose = getProp(propsMap, 'expose');
+    const redact = getProp(propsMap, 'redact');
     if (expose !== undefined) config.expose = expose;
     if (redact !== undefined) config.redact = redact;
     graph = await graph.observer(observer, config);

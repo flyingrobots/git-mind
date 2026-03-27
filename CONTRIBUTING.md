@@ -55,9 +55,9 @@ GitHub milestones are not the primary planning surface for this repository.
 
 ## Prerequisites
 
-- Node.js >= 20.0.0
+- Node.js >= 22.0.0
 - Git
-- A local clone of [`@git-stunts/git-warp`](https://github.com/nicktomlin/git-warp) (git-mind depends on it via local path)
+- npm access to install published dependencies, including [`@git-stunts/git-warp`](https://github.com/nicktomlin/git-warp)
 
 ## Setup
 

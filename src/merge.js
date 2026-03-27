@@ -5,6 +5,7 @@
 
 import { execFileSync } from 'node:child_process';
 import { initGraph } from './graph.js';
+import { getPropEntries } from './prop-bag.js';
 import { qualifyNodeId } from './remote.js';
 
 /**
@@ -89,7 +90,7 @@ export async function mergeFromRepo(localGraph, remoteRepoPath, opts = {}) {
     // Copy node properties
     const propsMap = await remoteGraph.getNodeProps(nodeId);
     if (propsMap) {
-      for (const [key, value] of propsMap) {
+      for (const [key, value] of getPropEntries(propsMap)) {
         patch.setProperty(qualifiedId, key, value);
       }
     }
@@ -104,7 +105,7 @@ export async function mergeFromRepo(localGraph, remoteRepoPath, opts = {}) {
 
     // Copy selected edge properties
     if (edge.props) {
-      for (const [key, value] of Object.entries(edge.props)) {
+      for (const [key, value] of getPropEntries(edge.props)) {
         if (MERGE_EDGE_PROPS.has(key) && value !== undefined && value !== null) {
           patch.setEdgeProperty(qualifiedSource, qualifiedTarget, edge.label, key, value);
         }

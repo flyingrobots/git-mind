@@ -57,6 +57,34 @@ describe('epoch', () => {
     expect(epoch).toBeNull();
   });
 
+  it('returns null for a malformed epoch node', async () => {
+    const patch = await graph.createPatch();
+    patch.addNode('epoch:abc123def456');
+    patch.setProperty('epoch:abc123def456', 'tick', 42);
+    await patch.commit();
+
+    const epoch = await lookupEpoch(graph, 'abc123def456');
+    expect(epoch).toBeNull();
+  });
+
+  it('returns null for epoch nodes with invalid tick values', async () => {
+    const patch = await graph.createPatch();
+    patch.addNode('epoch:badtick00001');
+    patch.setProperty('epoch:badtick00001', 'tick', Number.NaN);
+    patch.setProperty('epoch:badtick00001', 'fullSha', 'badtick00001feed');
+    patch.setProperty('epoch:badtick00001', 'recordedAt', new Date().toISOString());
+
+    patch.addNode('epoch:badtick00002');
+    patch.setProperty('epoch:badtick00002', 'tick', -1);
+    patch.setProperty('epoch:badtick00002', 'fullSha', 'badtick00002feed');
+    patch.setProperty('epoch:badtick00002', 'recordedAt', new Date().toISOString());
+
+    await patch.commit();
+
+    await expect(lookupEpoch(graph, 'badtick00001feed')).resolves.toBeNull();
+    await expect(lookupEpoch(graph, 'badtick00002feed')).resolves.toBeNull();
+  });
+
   it('uses first 12 chars of SHA as node ID', async () => {
     await recordEpoch(graph, 'abc123def456789', 10);
     const nodes = await graph.getNodes();

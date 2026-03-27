@@ -161,6 +161,22 @@ describe('resolveContext()', () => {
         "Observer 'missing-profile' not found",
       );
     });
+
+    it('throws when observer node is missing required match', async () => {
+      const propsMap = new Map([['expose', ['status']]]);
+      const fakeGraph = makeFakeGraph({
+        getNodeProps: vi.fn().mockResolvedValue(propsMap),
+        observer: vi.fn(),
+      });
+      initGraph.mockResolvedValue(fakeGraph);
+
+      const envelope = createContext({ observer: 'broken-profile' });
+
+      await expect(resolveContext('/repo', envelope)).rejects.toThrow(
+        "Observer 'broken-profile' is missing required 'match' property",
+      );
+      expect(fakeGraph.observer).not.toHaveBeenCalled();
+    });
   });
 
   describe('resolvedContext fields', () => {

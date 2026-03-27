@@ -7,6 +7,7 @@
 import { extractPrefix, isLowConfidence } from './validators.js';
 import { composeLenses } from './lens.js';
 import { buildAdjacency, topoSort, detectCycles, walkChain, findRoots } from './dag.js';
+import { getPropSize, toPropObject } from './prop-bag.js';
 
 // ── Status classification ───────────────────────────────────────
 
@@ -142,10 +143,8 @@ export async function renderView(graph, viewName, options) {
     // TODO: batch API at scale — O(N) getNodeProps calls is fine at ~50 nodes
     for (const id of nodes) {
       const propsMap = await graph.getNodeProps(id);
-      if (propsMap && propsMap.size > 0) {
-        const props = {};
-        for (const [k, v] of propsMap) props[k] = v;
-        nodeProps.set(id, props);
+      if (getPropSize(propsMap) > 0) {
+        nodeProps.set(id, toPropObject(propsMap));
       }
     }
   }

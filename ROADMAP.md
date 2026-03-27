@@ -124,6 +124,7 @@ Goal:
 
 Deliverables:
 
+- git-warp audit / upgrade cycle before major Hill 1 implementation (issue [#312](https://github.com/flyingrobots/git-mind/issues/312))
 - bootstrap command contract with default write behavior and `--dry-run`
 - canonical repo fixture substrate for repository-shaped bootstrap scenarios (issue [#311](https://github.com/flyingrobots/git-mind/issues/311))
 - repo-local artifact inventory and scan boundaries
@@ -146,9 +147,10 @@ Primary references:
 
 - [docs/design/git-mind.md](docs/design/git-mind.md)
 - [docs/design/h1-semantic-bootstrap.md](docs/design/h1-semantic-bootstrap.md)
+- [docs/design/git-warp-upgrade-audit.md](docs/design/git-warp-upgrade-audit.md)
 - [docs/design/repo-fixture-strategy.md](docs/design/repo-fixture-strategy.md)
 - issue [#303](https://github.com/flyingrobots/git-mind/issues/303)
-- issues [#304](https://github.com/flyingrobots/git-mind/issues/304), [#305](https://github.com/flyingrobots/git-mind/issues/305), [#306](https://github.com/flyingrobots/git-mind/issues/306), [#307](https://github.com/flyingrobots/git-mind/issues/307), [#310](https://github.com/flyingrobots/git-mind/issues/310), and [#311](https://github.com/flyingrobots/git-mind/issues/311)
+- issues [#304](https://github.com/flyingrobots/git-mind/issues/304), [#305](https://github.com/flyingrobots/git-mind/issues/305), [#306](https://github.com/flyingrobots/git-mind/issues/306), [#307](https://github.com/flyingrobots/git-mind/issues/307), [#310](https://github.com/flyingrobots/git-mind/issues/310), [#311](https://github.com/flyingrobots/git-mind/issues/311), and [#312](https://github.com/flyingrobots/git-mind/issues/312)
 
 ---
 

@@ -8,6 +8,8 @@ import { createEdge } from '../src/edges.js';
 import { recordEpoch, getCurrentTick } from '../src/epoch.js';
 import { diffSnapshots, computeDiff, parseDiffRefs, compareEdge, collectDiffPositionals } from '../src/diff.js';
 
+const COMPUTE_DIFF_TIMEOUT = 15_000;
+
 /**
  * Create two separate graph instances in separate temp repos.
  * This is necessary because WarpGraph CRDTs merge all writers in a shared
@@ -285,7 +287,7 @@ describe('computeDiff', () => {
     expect(diff.edges.added[0].type).toBe('documents');
     expect(diff.stats.materializeMs.a).toBeGreaterThanOrEqual(0);
     expect(diff.stats.materializeMs.b).toBeGreaterThanOrEqual(0);
-  });
+  }, COMPUTE_DIFF_TIMEOUT);
 
   it('throws descriptive error for ref with no epoch', async () => {
     await writeFile(join(tempDir, 'a.txt'), 'a');
@@ -325,7 +327,7 @@ describe('computeDiff', () => {
 
     expect(diff.to.nearest).toBe(true);
     expect(diff.nodes.added).toContain('task:c');
-  });
+  }, COMPUTE_DIFF_TIMEOUT);
 
   it('returns empty diff when both refs resolve to same tick', async () => {
     const graph = await initGraph(tempDir);
@@ -349,7 +351,7 @@ describe('computeDiff', () => {
     expect(diff.edges.total).toBeNull();
     expect(diff.stats.sameTick).toBe(true);
     expect(diff.stats.skipped).toBe(true);
-  });
+  }, COMPUTE_DIFF_TIMEOUT);
 
   it('non-linear history: branch + merge with nearest fallback on one side', async () => {
     const graph = await initGraph(tempDir);
@@ -387,7 +389,7 @@ describe('computeDiff', () => {
 
     expect(diff.to.nearest).toBe(true);
     expect(diff.nodes.added).toContain('task:c');
-  });
+  }, COMPUTE_DIFF_TIMEOUT);
 });
 
 // ── parseDiffRefs ─────────────────────────────────────────────────

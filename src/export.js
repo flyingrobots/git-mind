@@ -7,6 +7,7 @@
 import { writeFile } from 'node:fs/promises';
 import yaml from 'js-yaml';
 import { extractPrefix } from './validators.js';
+import { getPropEntries, getPropSize } from './prop-bag.js';
 
 /** Edge property keys excluded from export (timestamps are system-managed). */
 const EXCLUDED_EDGE_PROPS = new Set(['createdAt', 'importedAt', 'reviewedAt']);
@@ -58,9 +59,9 @@ export async function exportGraph(graph, opts = {}) {
     const propsMap = await graph.getNodeProps(id);
     const entry = { id };
 
-    if (propsMap && propsMap.size > 0) {
+    if (getPropSize(propsMap) > 0) {
       const properties = {};
-      for (const [key, value] of propsMap) {
+      for (const [key, value] of getPropEntries(propsMap)) {
         properties[key] = value;
       }
       entry.properties = properties;
@@ -85,7 +86,7 @@ export async function exportGraph(graph, opts = {}) {
 
     // Include non-excluded edge properties
     if (edge.props) {
-      for (const [key, value] of Object.entries(edge.props)) {
+      for (const [key, value] of getPropEntries(edge.props)) {
         if (EXCLUDED_EDGE_PROPS.has(key)) continue;
         if (value !== undefined && value !== null) {
           entry[key] = value;

@@ -20,7 +20,7 @@ The key insight: **Git is already a graph database.** It has an immutable object
 
 ## 2. Storage Layer: git-warp
 
-git-mind delegates persistence to **@git-stunts/git-warp** (v10.3.2), a CRDT graph database that uses Git's object store as its backend.
+git-mind delegates persistence to **@git-stunts/git-warp**. The specific version in use is defined in [package.json](package.json); this historical document originally described the `v10.3.2` era of the substrate.
 
 ### How data gets stored
 
