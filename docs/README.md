@@ -12,7 +12,7 @@ These describe what Git Mind is now and how work should be judged:
 - [ROADMAP.md](../ROADMAP.md) — active Hills, supporting lanes, and playback cadence
 - [Git Mind Product Frame](./design/git-mind.md) — IBM Design Thinking style product frame
 - [Hill 1 Semantic Bootstrap Spec](./design/h1-semantic-bootstrap.md) — first executable Hill 1 slice
-- [git-warp Upgrade Audit](./design/git-warp-upgrade-audit.md) — next enabling cycle before major Hill 1 implementation
+- [git-warp Upgrade Audit](./design/git-warp-upgrade-audit.md) — completed enabling cycle that revalidated the git-warp substrate before Hill 1 implementation
 - [Git Mind North Star](./VISION_NORTH_STAR.md) — longer-form strategic articulation
 - [ADR-0005](./adr/ADR-0005.md) — official planning and governance model
 - [ADR-0006](./adr/ADR-0006.md) — official delivery cycle and tests-as-spec model
@@ -88,4 +88,5 @@ When implementing substantial work, continue with:
 1. explicit acceptance criteria
 2. failing tests
 3. shared repo fixtures where repository behavior matters
-4. playback evidence and README reality updates before cycle close
+4. review-hygiene cleanup for stale threads and false positives before merge
+5. playback evidence and README reality updates before cycle close

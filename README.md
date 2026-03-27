@@ -49,7 +49,9 @@ That means:
 4. implement until the tests are green
 5. run a playback / retrospective and capture backlog items and follow-on ideas explicitly
 6. update `README.md` if product reality changed
-7. land the PR, then capture review-cycle learnings back into the backlog
+7. open the PR and process review feedback
+8. resolve stale review threads and document false positives before merge
+9. land the PR, then capture review-cycle learnings back into the backlog
 
 For repository-shaped behavior, prefer canonical repo fixtures over one-off temporary repo setup.
 See [docs/design/repo-fixture-strategy.md](docs/design/repo-fixture-strategy.md) and [docs/adr/ADR-0006.md](docs/adr/ADR-0006.md).
