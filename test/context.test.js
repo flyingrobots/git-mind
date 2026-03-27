@@ -1,10 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { mkdtemp, rm, writeFile } from 'node:fs/promises';
-import { join } from 'node:path';
-import { tmpdir } from 'node:os';
-import { execSync } from 'node:child_process';
 import { initGraph } from '../src/graph.js';
 import { createEdge } from '../src/edges.js';
+import { repoFixture } from './helpers/repo-fixture.js';
 import {
   extractFileContext,
   extractCommitContext,
@@ -14,27 +11,26 @@ import {
 } from '../src/context.js';
 
 describe('context', () => {
+  let repo;
   let tempDir;
   let graph;
 
   beforeEach(async () => {
-    tempDir = await mkdtemp(join(tmpdir(), 'gitmind-test-'));
-    execSync('git init', { cwd: tempDir, stdio: 'ignore' });
-    execSync('git config user.email "test@test.com"', { cwd: tempDir, stdio: 'ignore' });
-    execSync('git config user.name "Test"', { cwd: tempDir, stdio: 'ignore' });
+    repo = await repoFixture('context').build();
+    tempDir = repo.root;
     graph = await initGraph(tempDir);
   });
 
   afterEach(async () => {
-    await rm(tempDir, { recursive: true, force: true });
+    await repo.cleanup();
   });
 
   // ── extractFileContext ──────────────────────────────────────
 
   it('extracts tracked files with inferred languages', async () => {
-    await writeFile(join(tempDir, 'app.js'), 'console.log("hello")');
-    await writeFile(join(tempDir, 'README.md'), '# Hello');
-    execSync('git add app.js README.md && git commit -m "init"', { cwd: tempDir, stdio: 'ignore' });
+    await repo.write('app.js', 'console.log("hello")');
+    await repo.write('README.md', '# Hello');
+    await repo.commit('init');
 
     const files = extractFileContext(tempDir);
 
@@ -54,10 +50,10 @@ describe('context', () => {
   });
 
   it('respects the limit option', async () => {
-    await writeFile(join(tempDir, 'a.js'), '');
-    await writeFile(join(tempDir, 'b.js'), '');
-    await writeFile(join(tempDir, 'c.js'), '');
-    execSync('git add a.js b.js c.js && git commit -m "init"', { cwd: tempDir, stdio: 'ignore' });
+    await repo.write('a.js', '');
+    await repo.write('b.js', '');
+    await repo.write('c.js', '');
+    await repo.commit('init');
 
     const files = extractFileContext(tempDir, { limit: 2 });
     expect(files).toHaveLength(2);
@@ -66,11 +62,11 @@ describe('context', () => {
   // ── extractCommitContext ────────────────────────────────────
 
   it('extracts recent commits with files', async () => {
-    await writeFile(join(tempDir, 'app.js'), 'v1');
-    execSync('git add app.js && git commit -m "feat: initial"', { cwd: tempDir, stdio: 'ignore' });
+    await repo.write('app.js', 'v1');
+    await repo.commit('feat: initial');
 
-    await writeFile(join(tempDir, 'app.js'), 'v2');
-    execSync('git add app.js && git commit -m "fix: update app"', { cwd: tempDir, stdio: 'ignore' });
+    await repo.write('app.js', 'v2');
+    await repo.commit('fix: update app');
 
     const commits = extractCommitContext(tempDir);
 
@@ -170,8 +166,8 @@ describe('context', () => {
   // ── extractContext orchestrator ─────────────────────────────
 
   it('assembles full context with prompt', async () => {
-    await writeFile(join(tempDir, 'app.js'), 'console.log("hi")');
-    execSync('git add app.js && git commit -m "init"', { cwd: tempDir, stdio: 'ignore' });
+    await repo.write('app.js', 'console.log("hi")');
+    await repo.commit('init');
 
     await createEdge(graph, { source: 'file:app.js', target: 'spec:main', type: 'implements' });
     const ctx = await extractContext(tempDir, graph);
