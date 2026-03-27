@@ -1,6 +1,6 @@
 # git-warp Upgrade Audit
 
-Status: active execution on `feat/git-warp-upgrade-audit`
+Status: completed and merged via PR [#314](https://github.com/flyingrobots/git-mind/pull/314)
 
 Related:
 
@@ -12,7 +12,7 @@ Related:
 
 ## Purpose
 
-Define the next enabling cycle before major Hill 1 implementation:
+Define the enabling cycle that preceded major Hill 1 implementation:
 
 > audit and upgrade Git Mind's `@git-stunts/git-warp` dependency so new Hill 1 work is not built on an outdated substrate by accident.
 

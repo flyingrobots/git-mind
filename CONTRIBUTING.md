@@ -45,7 +45,9 @@ For substantial work:
 4. implement until the tests are green
 5. run a playback / retrospective and capture backlog follow-ups
 6. update [README.md](README.md) if user-facing reality changed
-7. open the PR, land it, and capture review-cycle learnings back into the backlog
+7. open the PR and process review feedback
+8. resolve stale review threads and document false positives before merge
+9. land it, then capture review-cycle learnings back into the backlog
 
 This is not just for happy paths.
 Tests should cover edge cases, failure modes, and fuzz/stress behavior when the design risk justifies it.

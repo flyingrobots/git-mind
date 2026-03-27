@@ -100,7 +100,9 @@ Substantial delivery work should follow the repository's canonical cycle from [A
 4. implement until the tests are green
 5. run a playback / retrospective
 6. update `README.md` if shipped reality changed
-7. land the PR and capture review learnings back into the backlog
+7. open the PR and process review feedback
+8. resolve stale review threads and document false positives before merge
+9. land the PR and capture review learnings back into the backlog
 
 The first Hill 1 implementation cycles should explicitly invest in the testing substrate needed to make bootstrap behavior executable and trustworthy.
 
@@ -109,6 +111,7 @@ The first Hill 1 implementation cycles should explicitly invest in the testing s
 Status:
 
 - in progress
+- prerequisite substrate upgrade merged via issue [#312](https://github.com/flyingrobots/git-mind/issues/312)
 
 Sponsor user:
 
@@ -124,7 +127,6 @@ Goal:
 
 Deliverables:
 
-- git-warp audit / upgrade cycle before major Hill 1 implementation (issue [#312](https://github.com/flyingrobots/git-mind/issues/312))
 - bootstrap command contract with default write behavior and `--dry-run`
 - canonical repo fixture substrate for repository-shaped bootstrap scenarios (issue [#311](https://github.com/flyingrobots/git-mind/issues/311))
 - repo-local artifact inventory and scan boundaries
@@ -150,7 +152,7 @@ Primary references:
 - [docs/design/git-warp-upgrade-audit.md](docs/design/git-warp-upgrade-audit.md)
 - [docs/design/repo-fixture-strategy.md](docs/design/repo-fixture-strategy.md)
 - issue [#303](https://github.com/flyingrobots/git-mind/issues/303)
-- issues [#304](https://github.com/flyingrobots/git-mind/issues/304), [#305](https://github.com/flyingrobots/git-mind/issues/305), [#306](https://github.com/flyingrobots/git-mind/issues/306), [#307](https://github.com/flyingrobots/git-mind/issues/307), [#310](https://github.com/flyingrobots/git-mind/issues/310), [#311](https://github.com/flyingrobots/git-mind/issues/311), and [#312](https://github.com/flyingrobots/git-mind/issues/312)
+- issues [#304](https://github.com/flyingrobots/git-mind/issues/304), [#305](https://github.com/flyingrobots/git-mind/issues/305), [#306](https://github.com/flyingrobots/git-mind/issues/306), [#307](https://github.com/flyingrobots/git-mind/issues/307), [#310](https://github.com/flyingrobots/git-mind/issues/310), and [#311](https://github.com/flyingrobots/git-mind/issues/311)
 
 ---
 

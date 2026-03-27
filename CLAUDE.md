@@ -32,6 +32,7 @@
 - **YOU MUST** use Playbacks to judge whether work actually moved a Hill
 - **YOU MUST** treat tests as the executable form of design acceptance criteria for substantial work
 - **YOU MUST** prefer canonical repo fixtures over ad hoc temp-repo setup when testing repository-shaped behavior
+- **YOU MUST** resolve stale review threads and document false positives before merge
 - **YOU MUST** tag all memories saved to your memory banks with at least `#git-mind`
 - **YOU MUST** include the POSIX timestamp (via `$(date +%s)`) in memory file names
 - **YOU MUST** document significant decisions or events
