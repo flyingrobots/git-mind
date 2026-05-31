@@ -27,9 +27,9 @@
     "format": "prettier --write 'src/**/*.js' 'bin/**/*.js'"
   },
   "dependencies": {
-    "@git-stunts/git-warp": "^14.16.2",
-    "@git-stunts/plumbing": "^2.8.0",
-    "ajv": "^8.17.1",
+    "@git-stunts/git-warp": "^17.0.0",
+    "@git-stunts/plumbing": "^3.0.3",
+    "ajv": "^8.20.0",
     "chalk": "^5.3.0",
     "figures": "^6.0.1",
     "js-yaml": "^4.1.1"

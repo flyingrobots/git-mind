@@ -35,6 +35,11 @@
       "oid": "ae32a25a6453dcb01079bdd4f8b984ebf36b2d4f"
     }
   ],
+  "migration": {
+    "graphName": "gitmind",
+    "previousCheckpointSchema": 2,
+    "currentCheckpointSchema": 5
+  },
   "expected": {
     "status": {
       "nodes": 128,
@@ -56,4 +61,3 @@
     ]
   }
 }
-

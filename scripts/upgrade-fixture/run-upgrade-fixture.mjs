@@ -78,6 +78,8 @@ async function fetchFixtureRefs(metadata) {
   await run('git', ['init', REPO_DIR]);
   await run('git', ['-C', REPO_DIR, 'fetch', '--no-tags', FIXTURE_PATH, ...refspecs]);
   await run('git', ['-C', REPO_DIR, 'checkout', 'fixture']);
+  await run('git', ['-C', REPO_DIR, 'config', 'user.name', 'Git Mind Upgrade Fixture']);
+  await run('git', ['-C', REPO_DIR, 'config', 'user.email', 'git-mind-upgrade-fixture@example.invalid']);
 }
 
 async function assertFixtureRefs(metadata) {
@@ -92,6 +94,60 @@ async function assertFixtureRefs(metadata) {
     const actual = await run('git', ['-C', REPO_DIR, 'rev-parse', ref.name]);
     assert(actual === ref.oid, `expected ${ref.name} ${ref.oid}, got ${actual}`);
   }
+}
+
+async function runGitWarpUpgrade(metadata) {
+  const npmRoot = await run('npm', ['root', '-g']);
+  const upgradeScript = join(
+    npmRoot,
+    '@neuroglyph',
+    'git-mind',
+    'node_modules',
+    '@git-stunts',
+    'git-warp',
+    'dist',
+    'scripts',
+    'upgrade-v16-to-v17.js',
+  );
+
+  const result = parseJson(
+    await run('node', [
+      upgradeScript,
+      '--repo',
+      REPO_DIR,
+      '--graph',
+      metadata.migration.graphName,
+      '--json',
+    ]),
+    'git-warp upgrade',
+  );
+
+  assert(result.graphCount === 1, `expected one migrated graph, got ${result.graphCount}`);
+
+  const graph = result.graphs[0];
+  assert(graph.graphName === metadata.migration.graphName, 'migrated graph name changed');
+  assert(graph.checkpoint.status === 'upgraded', 'checkpoint was not upgraded');
+  assert(
+    graph.checkpoint.previousSchema === metadata.migration.previousCheckpointSchema,
+    'previous checkpoint schema changed',
+  );
+  assert(
+    graph.checkpoint.currentSchema === metadata.migration.currentCheckpointSchema,
+    'current checkpoint schema changed',
+  );
+
+  const legacyCheckpoint = metadata.refs.find(
+    ref => ref.name === 'refs/warp/gitmind/checkpoints/head',
+  );
+  assert(legacyCheckpoint, 'fixture metadata missing legacy checkpoint ref');
+  assert(
+    graph.checkpoint.previousCheckpointSha === legacyCheckpoint.oid,
+    'migration did not start from the fixture checkpoint',
+  );
+  assert(
+    graph.checkpoint.upgradedCheckpointSha !== legacyCheckpoint.oid,
+    'migration did not write a new checkpoint',
+  );
 }
 
 async function assertGitMindStatus(metadata) {
@@ -158,6 +214,7 @@ async function main() {
   await fetchFixtureRefs(metadata);
   await run('git', ['-C', REPO_DIR, 'fsck', '--full']);
   await assertFixtureRefs(metadata);
+  await runGitWarpUpgrade(metadata);
   await assertGitMindStatus(metadata);
   await assertSentinelNodes(metadata);
   await assertExport(metadata);
@@ -179,4 +236,3 @@ main().catch(err => {
   console.error(err.stack || err.message);
   process.exitCode = 1;
 });
-

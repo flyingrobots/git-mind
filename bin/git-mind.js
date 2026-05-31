@@ -499,3 +499,15 @@ switch (command) {
     process.exitCode = command ? 1 : 0;
     break;
 }
+
+async function flushStream(stream) {
+  if (!stream.writable || stream.destroyed) return;
+
+  await new Promise((resolve, reject) => {
+    stream.write('', err => (err ? reject(err) : resolve()));
+  });
+}
+
+await flushStream(process.stdout);
+await flushStream(process.stderr);
+process.exit(process.exitCode ?? 0);

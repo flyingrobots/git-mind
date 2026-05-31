@@ -27,6 +27,9 @@ It intentionally excludes:
 
 The companion `gitmind-v5-warp14.fixture.json` records the expected object
 IDs, artifact checksum, dependency versions, graph counts, and sentinel nodes.
+The Docker upgrade harness first verifies these legacy refs, then runs the
+git-warp v17 checkpoint migration inside the isolated container before reading
+the graph with the package under test.
 
 ## Regenerating
 
@@ -45,4 +48,3 @@ shasum -a 256 test/fixtures/upgrade/gitmind-v5-warp14.bundle
 ```
 
 Update the metadata file in the same commit when the bundle changes.
-
