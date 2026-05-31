@@ -47,6 +47,38 @@ That means this cycle upgrades Git Mind across three major versions of the subst
 This does not automatically mean "upgrade immediately no matter what."
 It does mean Git Mind should not keep expanding Hill 1 behavior without auditing the real upgrade surface first.
 
+## 2026-05-31 v17 Continuation
+
+The original audit cycle moved Git Mind to the 14.x substrate. A follow-on
+modernization is now needed because the live npm registry reports:
+
+- latest published `@git-stunts/git-warp` version: `17.0.0`
+- latest published `@git-stunts/plumbing` version: `3.0.3`
+
+`@git-stunts/git-warp@17.0.0` depends on `@git-stunts/plumbing@^3.0.3`, so
+the next substrate upgrade should move those packages together.
+
+This pass adds an upgrade safety rail before changing the dependency versions:
+
+1. freeze a sanitized Git-native fixture from the current v5 / git-warp 14 state
+2. include only `HEAD` and the relevant `refs/warp/gitmind/*` graph refs
+3. test that fixture in Docker without mounting this checkout into the container
+4. pack the current Git Mind package and copy it into the Docker context
+5. run graph/status/export assertions with a scrubbed home and Git config
+
+This fixture is intentionally a Git bundle rather than a raw working-directory
+archive. It preserves the exact Git object and WARP ref state under test while
+excluding `node_modules`, local Git config, remotes, hooks, reflogs, stash state,
+and host-specific paths.
+
+Related issue: [#320](https://github.com/flyingrobots/git-mind/issues/320)
+
+The local playback command for this safety rail is:
+
+```bash
+npm run test:upgrade-fixture
+```
+
 ## Why This Cycle Exists
 
 The goal is explicitly **not** to build a lot of new behavior on top of git-warp right now.
