@@ -1,6 +1,8 @@
 # git-warp Upgrade Audit
 
-Status: active execution on `feat/git-warp-upgrade-audit`
+Status: active execution. The original 14.x audit ran on
+`feat/git-warp-upgrade-audit`; the v17 continuation is running on
+`feat/isolated-warp-upgrade-fixture`.
 
 Related:
 
@@ -58,13 +60,14 @@ modernization is now needed because the live npm registry reports:
 `@git-stunts/git-warp@17.0.0` depends on `@git-stunts/plumbing@^3.0.3`, so
 the next substrate upgrade should move those packages together.
 
-This pass adds an upgrade safety rail before changing the dependency versions:
+This pass keeps the upgrade sequence explicit:
 
 1. freeze a sanitized Git-native fixture from the current v5 / git-warp 14 state
 2. include only `HEAD` and the relevant `refs/warp/gitmind/*` graph refs
 3. test that fixture in Docker without mounting this checkout into the container
 4. pack the current Git Mind package and copy it into the Docker context
 5. run graph/status/export assertions with a scrubbed home and Git config
+6. upgrade to git-warp 17 / plumbing 3 and prove the migrated fixture still reads
 
 This fixture is intentionally a Git bundle rather than a raw working-directory
 archive. It preserves the exact Git object and WARP ref state under test while
