@@ -39,4 +39,3 @@ docker run --rm --network none \
   -e GITHUB_TOKEN= \
   -e NPM_TOKEN= \
   "$image"
-
