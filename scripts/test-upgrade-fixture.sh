@@ -21,6 +21,7 @@ mkdir -p "$context/artifacts" "$context/fixture" "$context/runner"
 
 package_file=$(cd "$repo_root" && npm pack --pack-destination "$context/artifacts" --silent)
 mv "$context/artifacts/$package_file" "$context/artifacts/git-mind-package.tgz"
+cp "$repo_root/package-lock.json" "$context/artifacts/package-lock.json"
 
 cp "$fixture_dir/$fixture_name.bundle" "$context/fixture/$fixture_name.bundle"
 cp "$fixture_dir/$fixture_name.fixture.json" "$context/fixture/$fixture_name.fixture.json"

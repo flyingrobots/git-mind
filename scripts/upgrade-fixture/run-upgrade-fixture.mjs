@@ -97,11 +97,10 @@ async function assertFixtureRefs(metadata) {
 }
 
 async function runGitWarpUpgrade(metadata) {
-  const npmRoot = await run('npm', ['root', '-g']);
+  const packageRoot = process.env.GIT_MIND_PACKAGE_ROOT
+    ?? join(await run('npm', ['root', '-g']), '@neuroglyph', 'git-mind');
   const upgradeScript = join(
-    npmRoot,
-    '@neuroglyph',
-    'git-mind',
+    packageRoot,
     'node_modules',
     '@git-stunts',
     'git-warp',
