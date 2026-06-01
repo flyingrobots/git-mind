@@ -1,6 +1,6 @@
 # Feature Profile: Repo Fixture Builder
 
-Status: draft for supporting lane implementation
+Status: initial implementation available in `test/helpers/repo-fixture.js`
 
 Related:
 
