@@ -1,8 +1,9 @@
 # git-warp Upgrade Audit
 
-Status: active execution. The original 14.x audit ran on
-`feat/git-warp-upgrade-audit`; the v17 continuation is running on
-`feat/isolated-warp-upgrade-fixture`.
+Status: completed. The original 14.x audit ran on
+`feat/git-warp-upgrade-audit`; the v17 continuation completed in issue
+[#320](https://github.com/flyingrobots/git-mind/issues/320) and PR
+[#321](https://github.com/flyingrobots/git-mind/pull/321).
 
 Related:
 
@@ -11,15 +12,16 @@ Related:
 - [ADR-0006](../adr/ADR-0006.md)
 - [Repo Fixture Strategy](./repo-fixture-strategy.md)
 - issue [#312](https://github.com/flyingrobots/git-mind/issues/312)
+- issue [#320](https://github.com/flyingrobots/git-mind/issues/320)
 
 ## Purpose
 
-Define the next enabling cycle before major Hill 1 implementation:
+Record the completed enabling cycle before major Hill 1 implementation:
 
 > audit and upgrade Git Mind's `@git-stunts/git-warp` dependency so new Hill 1 work is not built on an outdated substrate by accident.
 
-This is not a generic dependency bump.
-It is a boundary audit plus upgrade cycle.
+This was not a generic dependency bump.
+It was a boundary audit plus upgrade cycle.
 
 ## Sponsor User
 
@@ -51,23 +53,24 @@ It does mean Git Mind should not keep expanding Hill 1 behavior without auditing
 
 ## 2026-05-31 v17 Continuation
 
-The original audit cycle moved Git Mind to the 14.x substrate. A follow-on
-modernization is now needed because the live npm registry reports:
+The original audit cycle moved Git Mind to the 14.x substrate. The follow-on
+modernization moved Git Mind to:
 
-- latest published `@git-stunts/git-warp` version: `17.0.0`
-- latest published `@git-stunts/plumbing` version: `3.0.3`
+- `@git-stunts/git-warp`: `17.0.0`
+- `@git-stunts/plumbing`: `3.0.3`
 
-`@git-stunts/git-warp@17.0.0` depends on `@git-stunts/plumbing@^3.0.3`, so
-the next substrate upgrade should move those packages together.
+`@git-stunts/git-warp@17.0.0` depends on `@git-stunts/plumbing@^3.0.3`, so the
+upgrade moved those packages together.
 
-This pass keeps the upgrade sequence explicit:
+The completed pass kept the upgrade sequence explicit:
 
 1. freeze a sanitized Git-native fixture from the current v5 / git-warp 14 state
 2. include only `HEAD` and the relevant `refs/warp/gitmind/*` graph refs
 3. test that fixture in Docker without mounting this checkout into the container
 4. pack the current Git Mind package and copy it into the Docker context
 5. run graph/status/export assertions with a scrubbed home and Git config
-6. upgrade to git-warp 17 / plumbing 3 and prove the migrated fixture still reads
+6. upgrade to git-warp 17 / plumbing 3 and prove the migrated fixture still
+   reads
 
 This fixture is intentionally a Git bundle rather than a raw working-directory
 archive. It preserves the exact Git object and WARP ref state under test while
@@ -76,7 +79,7 @@ and host-specific paths.
 
 Related issue: [#320](https://github.com/flyingrobots/git-mind/issues/320)
 
-The local playback command for this safety rail is:
+The local playback command for this safety rail remains:
 
 ```bash
 npm run test:upgrade-fixture
@@ -151,11 +154,12 @@ This cycle exposed one concrete runtime compatibility change:
 
 Git Mind must treat node property bags as a compatibility boundary rather than assuming a single container shape.
 
-This cycle also started with contributor-facing docs that still claimed git-warp was installed via local path. Those docs should be corrected as part of the upgrade.
+This cycle also started with contributor-facing docs that still claimed git-warp
+was installed via local path. Those docs were corrected as part of the upgrade.
 
 ## Acceptance Criteria
 
-This cycle succeeds when:
+This cycle succeeded when:
 
 1. Git Mind's actual git-warp dependency surface is documented and reviewed.
 2. Compatibility-sensitive behaviors are protected by tests.
@@ -165,7 +169,8 @@ This cycle succeeds when:
 
 ## Execution Model
 
-Per [ADR-0006](../adr/ADR-0006.md), this cycle should follow the normal design-to-test flow:
+Per [ADR-0006](../adr/ADR-0006.md), this cycle followed the normal
+design-to-test flow:
 
 1. finalize the upgrade-audit design artifact
 2. translate the risky boundary into failing tests
@@ -174,7 +179,7 @@ Per [ADR-0006](../adr/ADR-0006.md), this cycle should follow the normal design-t
 5. run a playback / retrospective
 6. update README and contributor docs if reality changed
 
-## Recommended First Work Sequence
+## Executed Work Sequence
 
 1. Inventory git-warp touchpoints in `src/` and relevant tests.
 2. Add or strengthen tests around:
@@ -183,8 +188,8 @@ Per [ADR-0006](../adr/ADR-0006.md), this cycle should follow the normal design-t
    - content attachment
    - time-travel / epoch behavior
    - observer behavior if still relevant
-3. Review upstream changes between `11.5.0` and the candidate target.
-4. Upgrade the dependency and lockfile on a dedicated branch.
+3. Review upstream changes between `11.5.0`, `14.16.2`, and `17.0.0`.
+4. Upgrade the dependency and lockfile on dedicated branches.
 5. Fix breakage explicitly rather than papering over it.
 
 ## Playback Questions
