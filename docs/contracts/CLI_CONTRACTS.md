@@ -27,6 +27,7 @@ Every `--json` output from the git-mind CLI includes a standard envelope:
 
 | Command | Schema File |
 |---------|-------------|
+| `bootstrap --json` | [`bootstrap.schema.json`](cli/bootstrap.schema.json) |
 | `nodes --id <id> --json` | [`node-detail.schema.json`](cli/node-detail.schema.json) |
 | `nodes --json` | [`node-list.schema.json`](cli/node-list.schema.json) |
 | `status --json` | [`status.schema.json`](cli/status.schema.json) |

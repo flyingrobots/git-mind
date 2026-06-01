@@ -5,7 +5,7 @@
  * Usage: git mind <command> [options]
  */
 
-import { init, link, view, list, remove, nodes, status, at, importCmd, importMarkdownCmd, exportCmd, mergeCmd, installHooks, processCommitCmd, doctor, suggest, review, diff, set, unsetCmd, contentSet, contentShow, contentMeta, contentDelete, extensionList, extensionValidate, extensionAdd, extensionRemove } from '../src/cli/commands.js';
+import { init, bootstrap, link, view, list, remove, nodes, status, at, importCmd, importMarkdownCmd, exportCmd, mergeCmd, installHooks, processCommitCmd, doctor, suggest, review, diff, set, unsetCmd, contentSet, contentShow, contentMeta, contentDelete, extensionList, extensionValidate, extensionAdd, extensionRemove } from '../src/cli/commands.js';
 import { parseDiffRefs, collectDiffPositionals } from '../src/diff.js';
 import { createContext } from '../src/context-envelope.js';
 import { registerBuiltinExtensions } from '../src/extension.js';
@@ -24,6 +24,9 @@ Context flags (read commands: view, nodes, status, export, doctor):
 
 Commands:
   init                          Initialize git-mind in this repo
+  bootstrap                     Build the first semantic map skeleton
+    --dry-run                   Preview without writing graph state
+    --json                      Output as JSON
   link <source> <target>        Create a semantic edge
     --type <type>               Edge type (default: relates-to)
     --confidence <n>            Confidence 0.0-1.0 (default: 1.0)
@@ -174,6 +177,15 @@ switch (command) {
   case 'init':
     await init(cwd);
     break;
+
+  case 'bootstrap': {
+    const bootstrapFlags = parseFlags(args.slice(1));
+    await bootstrap(cwd, {
+      dryRun: bootstrapFlags['dry-run'] === true,
+      json: bootstrapFlags.json === true,
+    });
+    break;
+  }
 
   case 'link': {
     const source = args[1];

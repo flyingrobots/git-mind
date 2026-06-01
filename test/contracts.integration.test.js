@@ -185,6 +185,42 @@ describe('CLI schema contract canaries', () => {
     expect(validate(output), JSON.stringify(validate.errors)).toBe(true);
   });
 
+  cliIt('bootstrap --dry-run --json validates against bootstrap.schema.json without writes', async () => {
+    const schema = await loadSchema('bootstrap.schema.json');
+    const before = runCli(['status', '--json'], tempDir);
+    const output = runCli(['bootstrap', '--dry-run', '--json'], tempDir);
+    const after = runCli(['status', '--json'], tempDir);
+
+    expect(output.schemaVersion).toBe(1);
+    expect(output.command).toBe('bootstrap');
+    expect(output.dryRun).toBe(true);
+    expect(output.artifacts.scanned).toBe(0);
+    expect(output.entities.created).toBe(0);
+    expect(output.relationships.created).toBe(0);
+    expect(output.next).toContain('git mind status');
+    expect(after).toEqual(before);
+
+    const validate = ajv.compile(schema);
+    expect(validate(output), JSON.stringify(validate.errors)).toBe(true);
+  });
+
+  cliIt('bootstrap --dry-run --json fails outside a Git worktree without writes', async () => {
+    const outsideGitDir = await mkdtemp(join(tmpdir(), 'gitmind-bootstrap-outside-'));
+
+    try {
+      expect(() => execFileSync(process.execPath, [BIN, 'bootstrap', '--dry-run', '--json'], {
+        cwd: outsideGitDir,
+        encoding: 'utf-8',
+        stdio: ['ignore', 'pipe', 'pipe'],
+        timeout: CLI_EXEC_TIMEOUT,
+        env: { ...process.env, NO_COLOR: '1' },
+      })).toThrow(/Not inside a Git worktree/);
+      expect(existsSync(join(outsideGitDir, '.git'))).toBe(false);
+    } finally {
+      await rm(outsideGitDir, { recursive: true, force: true });
+    }
+  });
+
   cliIt('review --json validates against review-list.schema.json', async () => {
     const schema = await loadSchema('review-list.schema.json');
     const output = runCli(['review', '--json'], tempDir);
