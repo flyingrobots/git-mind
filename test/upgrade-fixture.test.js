@@ -3,6 +3,8 @@ import { readFile } from 'node:fs/promises';
 
 const dockerfileUrl = new URL('../scripts/upgrade-fixture/Dockerfile', import.meta.url);
 const fixtureScriptUrl = new URL('../scripts/test-upgrade-fixture.sh', import.meta.url);
+const packageJsonUrl = new URL('../package.json', import.meta.url);
+const packageLockUrl = new URL('../package-lock.json', import.meta.url);
 const runnerUrl = new URL('../scripts/upgrade-fixture/run-upgrade-fixture.mjs', import.meta.url);
 
 describe('upgrade fixture harness', () => {
@@ -25,5 +27,16 @@ describe('upgrade fixture harness', () => {
     expect(dockerfile).toContain('ENV GIT_MIND_PACKAGE_ROOT=/opt/git-mind');
     expect(runner).toContain('process.env.GIT_MIND_PACKAGE_ROOT');
     expect(dockerfile).not.toContain('npm install -g /tmp/git-mind-package.tgz');
+  });
+
+  it('pins the audited substrate versions in the manifest and lockfile root', async () => {
+    const manifest = JSON.parse(await readFile(packageJsonUrl, 'utf8'));
+    const lockfile = JSON.parse(await readFile(packageLockUrl, 'utf8'));
+    const lockedRoot = lockfile.packages[''];
+
+    expect(manifest.dependencies['@git-stunts/git-warp']).toBe('17.0.0');
+    expect(manifest.dependencies['@git-stunts/plumbing']).toBe('3.0.3');
+    expect(lockedRoot.dependencies['@git-stunts/git-warp']).toBe('17.0.0');
+    expect(lockedRoot.dependencies['@git-stunts/plumbing']).toBe('3.0.3');
   });
 });
