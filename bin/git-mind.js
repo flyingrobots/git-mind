@@ -504,7 +504,13 @@ async function flushStream(stream) {
   if (!stream.writable || stream.destroyed) return;
 
   await new Promise((resolve, reject) => {
-    stream.write('', err => (err ? reject(err) : resolve()));
+    stream.write('', err => {
+      if (!err || err.code === 'EPIPE' || err.code === 'ERR_STREAM_DESTROYED') {
+        resolve();
+        return;
+      }
+      reject(err);
+    });
   });
 }
 
