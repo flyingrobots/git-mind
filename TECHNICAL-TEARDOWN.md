@@ -78,25 +78,25 @@ mindmap
 
 ## Domain Dictionary
 
-| Term | Definition | Relevant Section |
-|------|------------|------------------|
-| Git Mind | A local CLI and library for recording semantic repository meaning in Git. | [Where This Project Stands](#where-this-project-stands) |
-| Semantic graph | The directed graph of repository facts. A fact is usually an edge between two nodes. | [The Graph Data Model](#the-graph-data-model) |
-| Node | A named thing in the repository knowledge model, such as `file:src/graph.js`, `spec:graph-schema`, or `issue:322`. | [Canonical Nodes](#canonical-nodes) |
-| Edge | A directed typed relationship between two nodes, such as `file:src/graph.js` implementing `spec:graph-schema`. | [Canonical Edges](#canonical-edges) |
-| Assertion | The product-level name for a graph fact. In the current runtime, an assertion is identified by `(source, target, type)`. | [Assertion Identity](#assertion-identity) |
-| WARP | The Git-backed CRDT graph substrate provided by `@git-stunts/git-warp`. | [Graph Storage With WARP](#graph-storage-with-warp) |
-| Patch | A batch of graph mutations that is committed atomically to WARP. | [Patch-Based Writes](#patch-based-writes) |
-| Materialization | The act of replaying WARP graph state into a readable snapshot, optionally capped at a historical Lamport tick. | [Materialization And Compatibility](#materialization-and-compatibility) |
-| Context envelope | An immutable read context that says which ref, observer, trust policy, and extension lock should apply to a read. | [Context Resolution](#context-resolution) |
-| Observer | A graph-stored read filter, addressed as `observer:<name>`, that can expose or redact parts of a graph. | [Observers And Trust Context](#observers-and-trust-context) |
-| View | A named projection over the graph, such as `architecture`, `progress`, or `blockers`. | [Views](#views) |
-| Lens | A post-processing filter composed onto a view, such as `incomplete`, `frontier`, or `critical-path`. | [Lenses](#lenses) |
-| Epoch | A system-owned node that maps a Git commit SHA to a WARP Lamport tick for time-travel reads. | [Epochs](#epochs) |
-| Decision node | A `decision:` node recording review action for a low-confidence assertion. | [Review Decisions](#review-decisions) |
-| Content on node | The ability to attach rich text or binary-ish content to a graph node through WARP content-addressed storage. | [Content On Node](#golden-path-seven-content-on-node) |
-| Extension | A YAML or JSON manifest that declares additional domain prefixes, views, rules, adapters, or materializers. | [Extensions](#golden-path-eight-extensions) |
-| Cross-repo ID | A qualified node ID of the form `repo:owner/name:prefix:identifier`. | [Cross-Repository IDs](#cross-repository-ids) |
+| Term | Definition |
+|------|------------|
+| [Git Mind](#where-this-project-stands) | CLI and library for recording repository meaning in Git. |
+| [Semantic graph](#the-graph-data-model) | Directed graph of repository facts. |
+| [Node](#canonical-nodes) | Named repository thing, such as `file:src/graph.js` or `issue:322`. |
+| [Edge](#canonical-edges) | Directed typed relationship between two nodes. |
+| [Assertion](#assertion-identity) | Graph fact identified by `(source, target, type)`. |
+| [WARP](#graph-storage-with-warp) | Git-backed CRDT graph substrate from `@git-stunts/git-warp`. |
+| [Patch](#patch-based-writes) | Batch of graph mutations committed atomically to WARP. |
+| [Materialization](#materialization-and-compatibility) | Replay of WARP state into a readable snapshot. |
+| [Context envelope](#context-resolution) | Immutable read context for ref, observer, trust, and extension lock. |
+| [Observer](#observers-and-trust-context) | Graph-stored read filter addressed as `observer:<name>`. |
+| [View](#views) | Named graph projection, such as `architecture` or `progress`. |
+| [Lens](#lenses) | Post-processing filter composed onto a view. |
+| [Epoch](#epochs) | System node mapping a Git commit SHA to a WARP Lamport tick. |
+| [Decision node](#review-decisions) | `decision:` node recording review action for a low-confidence assertion. |
+| [Content on node](#golden-path-seven-content-on-node) | Rich content attached to a graph node through WARP storage. |
+| [Extension](#golden-path-eight-extensions) | Manifest declaring prefixes, views, rules, adapters, or materializers. |
+| [Cross-repo ID](#cross-repository-ids) | Qualified node ID: `repo:owner/name:prefix:identifier`. |
 
 ## Where This Project Stands
 
@@ -815,7 +815,7 @@ transformations from `ViewResult` to `ViewResult`.
 |------|---------------|-------------------|
 | `incomplete` | Nodes whose `status` is not `done`. | Requires node properties and normalizes status synonyms. |
 | `frontier` | Leaf nodes with no outgoing edge inside the current view. | Uses only the already-filtered subgraph. |
-| `critical-path` | The longest execution-order chain. | Reverses `depends-on`, keeps `blocks`, and runs dynamic programming over a DAG. |
+| `critical-path` | Longest execution-order chain. | Normalizes edge direction, then runs DAG DP. |
 | `blocked` | Nodes with incoming `blocks` edges. | Treats blockedness as a relationship, not a property. |
 | `parallel` | Nodes with no dependency/blocking relationship. | Finds work that can proceed concurrently. |
 
@@ -1352,18 +1352,44 @@ is why export and diff exclude `decision:` nodes by default.
 
 ## Ten Use Cases
 
-| Use Case | How Git Mind Helps |
-|----------|--------------------|
-| Onboard to an unfamiliar repository | Use nodes, views, docs imports, and planned bootstrap output to discover important artifacts and relationships. |
-| Answer what implements a spec | Query or view `implements` edges from code, tasks, or modules to `spec:` nodes. |
-| Find architectural dependencies | Use the `architecture` view and dependency-oriented lenses to inspect module relationships. |
-| Review project blockers | Use the `blockers` view and `blocked` lens to identify blocked work and blocking chains. |
-| Compare semantic change between commits | Use `git mind diff A..B` after epoch markers have been recorded. |
-| Preserve review decisions | Accept, reject, or adjust low-confidence assertions and store decisions in the graph. |
-| Attach rich explanation to a node | Use content-on-node to attach Markdown or text to an existing semantic node. |
-| Merge knowledge from another repository | Use `git mind merge --from` to qualify another repo's graph into the local graph. |
-| Generate graph suggestions with an agent | Configure `GITMIND_AGENT` and run `git mind suggest` to propose new semantic edges. |
-| Validate graph health | Run `git mind doctor` to find dangling edges, orphan milestones, orphan nodes, and low-confidence assertions. |
+1. **Onboard to an unfamiliar repository.**
+   A user can inspect nodes, views, docs imports, and planned bootstrap output to
+   discover important artifacts and relationships.
+
+2. **Answer what implements a spec.**
+   A user can query or view `implements` edges from code, tasks, or modules to
+   `spec:` nodes.
+
+3. **Find architectural dependencies.**
+   A user can use the `architecture` view and dependency-oriented lenses to
+   inspect module relationships.
+
+4. **Review project blockers.**
+   A user can use the `blockers` view and `blocked` lens to identify blocked
+   work and blocking chains.
+
+5. **Compare semantic change between commits.**
+   A user can run `git mind diff A..B` after epoch markers have been recorded.
+
+6. **Preserve review decisions.**
+   A user can accept, reject, or adjust low-confidence assertions and store those
+   decisions in the graph.
+
+7. **Attach rich explanation to a node.**
+   A user can use content-on-node to attach Markdown or text to an existing
+   semantic node.
+
+8. **Merge knowledge from another repository.**
+   A user can run `git mind merge --from` to qualify another repo's graph into
+   the local graph.
+
+9. **Generate graph suggestions with an agent.**
+   A user can configure `GITMIND_AGENT` and run `git mind suggest` to propose new
+   semantic edges.
+
+10. **Validate graph health.**
+    A user can run `git mind doctor` to find dangling edges, orphan milestones,
+    orphan nodes, and low-confidence assertions.
 
 ## Future Directions
 
