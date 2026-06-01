@@ -6,6 +6,7 @@ Related:
 
 - [Git Mind Product Frame](./git-mind.md)
 - [ROADMAP.md](../../ROADMAP.md)
+- [Feature Profiles](./feature-profiles/README.md)
 - [ADR-0005](../adr/ADR-0005.md)
 - [ADR-0006](../adr/ADR-0006.md)
 - issue [#303](https://github.com/flyingrobots/git-mind/issues/303)

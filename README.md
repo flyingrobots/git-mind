@@ -175,6 +175,7 @@ Canonical docs:
 - [docs/adr/ADR-0006.md](docs/adr/ADR-0006.md)
 - [docs/VISION_NORTH_STAR.md](docs/VISION_NORTH_STAR.md)
 - [docs/design/git-mind.md](docs/design/git-mind.md)
+- [docs/design/feature-profiles/README.md](docs/design/feature-profiles/README.md)
 - [docs/design/repo-fixture-strategy.md](docs/design/repo-fixture-strategy.md)
 - [docs/adr/](docs/adr/)
 

@@ -12,6 +12,7 @@ These describe what Git Mind is now and how work should be judged:
 - [ROADMAP.md](../ROADMAP.md) — active Hills, supporting lanes, and playback cadence
 - [Git Mind Product Frame](./design/git-mind.md) — IBM Design Thinking style product frame
 - [Hill 1 Semantic Bootstrap Spec](./design/h1-semantic-bootstrap.md) — first executable Hill 1 slice
+- [Feature Profiles](./design/feature-profiles/README.md) — per-feature IBM Design Thinking profiles with executable test plans
 - [git-warp Upgrade Audit](./design/git-warp-upgrade-audit.md) — next enabling cycle before major Hill 1 implementation
 - [Git Mind North Star](./VISION_NORTH_STAR.md) — longer-form strategic articulation
 - [ADR-0005](./adr/ADR-0005.md) — official planning and governance model
@@ -80,6 +81,7 @@ When planning work, start with:
 2. jobs to be done
 3. Hills
 4. playback evidence
+5. the relevant feature profile and its test plan
 
 Do not start with architecture breadth, an old milestone, or a flat pile of backlog items.
 
