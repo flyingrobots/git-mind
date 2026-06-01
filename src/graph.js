@@ -127,7 +127,7 @@ function compatGraph(graph) {
     worldline: bindOptional(query, 'worldline'),
     observer: async (...args) => {
       await ensureMaterialized();
-      return compatGraph(await query.observer(...args));
+      return compatGraph(await bind(query, 'observer')(...args));
     },
   };
 }

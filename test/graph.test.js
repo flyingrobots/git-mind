@@ -1,10 +1,12 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { mkdtemp, rm } from 'node:fs/promises';
+import { mkdtemp, readFile, rm } from 'node:fs/promises';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { execSync } from 'node:child_process';
 import { initGraph } from '../src/graph.js';
 import { getProp } from '../src/prop-bag.js';
+
+const graphSourceUrl = new URL('../src/graph.js', import.meta.url);
 
 describe('graph', () => {
   let tempDir;
@@ -73,5 +75,11 @@ describe('graph', () => {
     expect(getProp(props, 'status')).toBe('todo');
     expect(getProp(props, 'secret')).toBeUndefined();
     await expect(observer.getNodeProps('spec:one')).resolves.toBeNull();
+  });
+
+  it('routes observer construction through the compatibility binding helper', async () => {
+    const source = await readFile(graphSourceUrl, 'utf8');
+
+    expect(source).toContain("return compatGraph(await bind(query, 'observer')(...args));");
   });
 });
