@@ -124,7 +124,6 @@ Goal:
 
 Deliverables:
 
-- git-warp audit / upgrade cycle before major Hill 1 implementation (issue [#312](https://github.com/flyingrobots/git-mind/issues/312))
 - bootstrap command contract with default write behavior and `--dry-run`
 - canonical repo fixture substrate for repository-shaped bootstrap scenarios (issue [#311](https://github.com/flyingrobots/git-mind/issues/311))
 - repo-local artifact inventory and scan boundaries
@@ -134,6 +133,12 @@ Deliverables:
 - a reviewable follow-up path for weak-confidence bootstrap output
 - acceptance criteria translated into failing executable tests (issue [#310](https://github.com/flyingrobots/git-mind/issues/310))
 - implementation issues `#304` through `#307`, plus enabling test issues [#310](https://github.com/flyingrobots/git-mind/issues/310) and [#311](https://github.com/flyingrobots/git-mind/issues/311), moved into merged runnable behavior
+
+Completed enabling work:
+
+- git-warp audit and upgrade cycle completed in issue [#312](https://github.com/flyingrobots/git-mind/issues/312)
+- isolated git-warp v17 upgrade fixture harness completed in issue
+  [#320](https://github.com/flyingrobots/git-mind/issues/320)
 
 Exit criteria:
 
@@ -147,6 +152,8 @@ Primary references:
 
 - [docs/design/git-mind.md](docs/design/git-mind.md)
 - [docs/design/h1-semantic-bootstrap.md](docs/design/h1-semantic-bootstrap.md)
+- [docs/design/graph-data-model.md](docs/design/graph-data-model.md)
+- [docs/design/feature-profiles/README.md](docs/design/feature-profiles/README.md)
 - [docs/design/git-warp-upgrade-audit.md](docs/design/git-warp-upgrade-audit.md)
 - [docs/design/repo-fixture-strategy.md](docs/design/repo-fixture-strategy.md)
 - issue [#303](https://github.com/flyingrobots/git-mind/issues/303)
