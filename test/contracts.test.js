@@ -29,6 +29,18 @@ async function loadSchemas(dir = SCHEMA_DIR) {
 
 /** Sample valid payloads for each schema, keyed by filename. */
 const VALID_SAMPLES = {
+  'bootstrap.schema.json': {
+    schemaVersion: 1,
+    command: 'bootstrap',
+    dryRun: true,
+    artifacts: { scanned: 0, byKind: {}, skipped: 0, warnings: [] },
+    entities: { created: 0, unchanged: 0, byPrefix: {} },
+    relationships: { created: 0, unchanged: 0, byType: {} },
+    confidence: { high: 0, medium: 0, low: 0 },
+    provenance: { inferred: 0, missing: 0 },
+    warnings: [],
+    next: ['git mind status', 'git mind nodes', 'git mind review'],
+  },
   'node-detail.schema.json': {
     schemaVersion: 1,
     command: 'nodes',

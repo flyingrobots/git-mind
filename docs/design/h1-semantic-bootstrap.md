@@ -188,7 +188,8 @@ Suggested command shape:
 git mind bootstrap
 ```
 
-> Status: planned contract for Hill 1. This command is not implemented in the current CLI yet.
+> Status: initial executable contract. The current CLI exposes the command and
+> dry-run JSON shape; repository scanning and inference land in later slices.
 
 Possible compatible aliases later:
 

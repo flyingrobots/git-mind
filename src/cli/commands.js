@@ -26,8 +26,9 @@ import { computeDiff } from '../diff.js';
 import { DEFAULT_CONTEXT } from '../context-envelope.js';
 import { loadExtension, registerExtension, removeExtension, listExtensions, validateExtension } from '../extension.js';
 import { writeContent, readContent, getContentMeta, deleteContent } from '../content.js';
+import { createBootstrapSummary } from '../bootstrap.js';
 import { getProp } from '../prop-bag.js';
-import { success, error, info, formatEdge, formatView, formatNode, formatNodeList, formatStatus, formatExportResult, formatImportResult, formatDoctorResult, formatSuggestions, formatReviewItem, formatDecisionSummary, formatAtStatus, formatDiff, formatExtensionList, formatContentMeta } from './format.js';
+import { success, error, info, formatEdge, formatView, formatNode, formatNodeList, formatStatus, formatBootstrapResult, formatExportResult, formatImportResult, formatDoctorResult, formatSuggestions, formatReviewItem, formatDecisionSummary, formatAtStatus, formatDiff, formatExtensionList, formatContentMeta } from './format.js';
 
 /**
  * Write structured JSON to stdout with schemaVersion and command fields.
@@ -39,6 +40,26 @@ import { success, error, info, formatEdge, formatView, formatNode, formatNodeLis
 function outputJson(command, data) {
   const out = { ...data, schemaVersion: 1, command };
   console.log(JSON.stringify(out, null, 2));
+}
+
+/**
+ * Ensure a command is running from inside a Git worktree without mutating repo
+ * state.
+ * @param {string} cwd
+ */
+function assertGitWorktree(cwd) {
+  try {
+    const result = execFileSync('git', ['rev-parse', '--is-inside-work-tree'], {
+      cwd,
+      encoding: 'utf-8',
+      stdio: ['ignore', 'pipe', 'ignore'],
+    }).trim();
+    if (result !== 'true') {
+      throw new Error('not a worktree');
+    }
+  } catch {
+    throw new Error('Not inside a Git worktree. Run this command from a Git repository.');
+  }
 }
 
 /**
@@ -127,6 +148,32 @@ export async function init(cwd) {
     console.log(success('Initialized git-mind graph'));
   } catch (err) {
     console.error(error(`Failed to initialize: ${err.message}`));
+    process.exitCode = 1;
+  }
+}
+
+/**
+ * Run the Hill 1 bootstrap command contract.
+ * @param {string} cwd
+ * @param {{ dryRun?: boolean, json?: boolean }} opts
+ */
+export async function bootstrap(cwd, opts = {}) {
+  try {
+    assertGitWorktree(cwd);
+
+    if (!opts.dryRun) {
+      await initGraph(cwd);
+    }
+
+    const result = createBootstrapSummary({ dryRun: opts.dryRun });
+
+    if (opts.json) {
+      outputJson('bootstrap', result);
+    } else {
+      console.log(formatBootstrapResult(result));
+    }
+  } catch (err) {
+    console.error(error(err.message));
     process.exitCode = 1;
   }
 }

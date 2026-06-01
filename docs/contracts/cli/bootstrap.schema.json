@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/neuroglyph/git-mind/docs/contracts/cli/bootstrap.schema.json",
+  "title": "git-mind bootstrap --json",
+  "description": "Bootstrap summary output from `git mind bootstrap --json`",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "command",
+    "dryRun",
+    "artifacts",
+    "entities",
+    "relationships",
+    "confidence",
+    "provenance",
+    "warnings",
+    "next"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "type": "integer",
+      "const": 1
+    },
+    "command": {
+      "type": "string",
+      "const": "bootstrap"
+    },
+    "dryRun": {
+      "type": "boolean"
+    },
+    "artifacts": {
+      "type": "object",
+      "required": ["scanned", "byKind", "skipped", "warnings"],
+      "additionalProperties": false,
+      "properties": {
+        "scanned": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "byKind": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "skipped": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "entities": {
+      "type": "object",
+      "required": ["created", "unchanged", "byPrefix"],
+      "additionalProperties": false,
+      "properties": {
+        "created": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "unchanged": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "byPrefix": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "relationships": {
+      "type": "object",
+      "required": ["created", "unchanged", "byType"],
+      "additionalProperties": false,
+      "properties": {
+        "created": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "unchanged": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "byType": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "confidence": {
+      "type": "object",
+      "required": ["high", "medium", "low"],
+      "additionalProperties": false,
+      "properties": {
+        "high": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "medium": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "low": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["inferred", "missing"],
+      "additionalProperties": false,
+      "properties": {
+        "inferred": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "missing": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "next": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

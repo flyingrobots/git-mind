@@ -192,6 +192,46 @@ export function formatStatus(status) {
 }
 
 /**
+ * Format a bootstrap summary for terminal display.
+ * @param {import('../bootstrap.js').BootstrapSummary} result
+ * @returns {string}
+ */
+export function formatBootstrapResult(result) {
+  const lines = [];
+
+  lines.push(chalk.bold(result.dryRun ? 'Bootstrap dry run' : 'Bootstrap'));
+  lines.push(chalk.dim('═'.repeat(32)));
+  lines.push('');
+  lines.push(`${chalk.bold('Artifacts:')} ${result.artifacts.scanned} scanned, ${result.artifacts.skipped} skipped`);
+  renderCountTable(result.artifacts.byKind, lines);
+  lines.push(`${chalk.bold('Entities:')} ${result.entities.created} created, ${result.entities.unchanged} unchanged`);
+  renderCountTable(result.entities.byPrefix, lines);
+  lines.push(`${chalk.bold('Relationships:')} ${result.relationships.created} created, ${result.relationships.unchanged} unchanged`);
+  renderCountTable(result.relationships.byType, lines);
+  lines.push(`${chalk.bold('Confidence:')} high ${result.confidence.high}, medium ${result.confidence.medium}, low ${result.confidence.low}`);
+  lines.push(`${chalk.bold('Provenance:')} inferred ${result.provenance.inferred}, missing ${result.provenance.missing}`);
+
+  const warnings = [...result.artifacts.warnings, ...result.warnings];
+  if (warnings.length > 0) {
+    lines.push('');
+    lines.push(chalk.bold('Warnings'));
+    for (const item of warnings) {
+      lines.push(`  ${chalk.yellow(figures.warning)} ${item}`);
+    }
+  }
+
+  if (result.next.length > 0) {
+    lines.push('');
+    lines.push(chalk.bold('Next'));
+    for (const command of result.next) {
+      lines.push(`  ${chalk.cyan(command)}`);
+    }
+  }
+
+  return lines.join('\n');
+}
+
+/**
  * Format a doctor result for terminal display.
  * @param {import('../doctor.js').DoctorResult} result
  * @param {{ fixed?: number, skipped?: number, details?: string[] }} [fixResult]

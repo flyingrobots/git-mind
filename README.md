@@ -161,6 +161,8 @@ The repository is in a stabilize-and-clarify phase:
 - the inward-facing cognition thesis has moved to `think`
 - `git-mind` is being narrowed around semantic repository intelligence
 - existing graph capabilities remain real and useful
+- the first `git mind bootstrap` command contract exists, with scanner and
+  inference behavior planned in follow-up slices
 - future work should be judged against the low-input semantic bootstrap hill
 
 ## Documentation

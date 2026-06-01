@@ -121,8 +121,8 @@ The distinction matters. The code can already store, inspect, filter, and diff
 semantic knowledge. The planned product move is to make the first useful graph
 appear from repository artifacts themselves: code files, docs, ADRs, commit
 history, issue references, PR references, and eventually review artifacts. The
-new feature profile documents and graph data model describe that future contract,
-but the CLI does not yet expose a `bootstrap` command.
+CLI now exposes the first `git mind bootstrap` command contract, but the
+repository scanner and inference pipeline are still planned follow-up slices.
 
 ## The Exact Entry Point
 
@@ -201,10 +201,10 @@ Program bootstrapping is what `bin/git-mind.js` does every time it starts. It
 imports modules, parses arguments, constructs context objects when needed, and
 dispatches one command.
 
-Product bootstrapping is the planned Hill 1 feature: `git mind bootstrap`. That
-future flow should scan an unfamiliar repository and infer a first semantic map.
-The design documents specify this direction, but the current executable command
-set does not include that command yet.
+Product bootstrapping is the Hill 1 feature surfaced as `git mind bootstrap`.
+The current executable command establishes the JSON and dry-run contract. Later
+slices will fill that contract by scanning an unfamiliar repository and inferring
+a first semantic map.
 
 Runtime begins after command dispatch. At runtime, each command decides whether
 it needs a graph, opens that graph with `initGraph(cwd)`, performs reads or
