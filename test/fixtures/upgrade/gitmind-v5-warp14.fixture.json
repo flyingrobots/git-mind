@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "name": "gitmind-v5-warp14",
+  "description": "Sanitized Git Mind v5 repository snapshot for git-warp 14 to 17 upgrade testing.",
+  "source": {
+    "repository": "flyingrobots/git-mind",
+    "commit": "5ed15dca896a947cac5fd82f13a34e5feb112047",
+    "capturedAt": "2026-05-31T20:52:47Z",
+    "package": {
+      "name": "@neuroglyph/git-mind",
+      "version": "5.0.0"
+    },
+    "dependencies": {
+      "@git-stunts/git-warp": "^14.16.2",
+      "@git-stunts/plumbing": "^2.8.0"
+    }
+  },
+  "artifact": {
+    "path": "gitmind-v5-warp14.bundle",
+    "format": "git-bundle",
+    "bytes": 8093284,
+    "sha256": "1486b444ec5d21cf0cec3c48e724cdeeed46d21ed0335cc27145046e36423e34"
+  },
+  "refs": [
+    {
+      "name": "HEAD",
+      "oid": "5ed15dca896a947cac5fd82f13a34e5feb112047"
+    },
+    {
+      "name": "refs/warp/gitmind/checkpoints/head",
+      "oid": "1b36910e74c5cfa91a67f619006125939082f165"
+    },
+    {
+      "name": "refs/warp/gitmind/writers/local",
+      "oid": "ae32a25a6453dcb01079bdd4f8b984ebf36b2d4f"
+    }
+  ],
+  "migration": {
+    "graphName": "gitmind",
+    "previousCheckpointSchema": 2,
+    "currentCheckpointSchema": 5
+  },
+  "expected": {
+    "status": {
+      "nodes": 128,
+      "edges": 227,
+      "blockedItems": 46,
+      "lowConfidence": 0,
+      "orphanNodes": 6
+    },
+    "export": {
+      "nodes": 125,
+      "edges": 227
+    },
+    "sentinelNodes": [
+      "doc:ROADMAP",
+      "file:src/graph.js",
+      "spec:warp-integration",
+      "task:learn-git-mind",
+      "epoch:561c33b"
+    ]
+  }
+}

@@ -5,8 +5,7 @@
  */
 
 import { createHash } from 'node:crypto';
-import { isLowConfidence } from './validators.js';
-import { removeEdge, createEdge } from './edges.js';
+import { isLowConfidence, validateEdge } from './validators.js';
 import { getProp } from './prop-bag.js';
 
 const VALID_REVIEW_ACTIONS = new Set(['accept', 'reject', 'adjust', 'skip']);
@@ -52,14 +51,12 @@ function makeDecisionId(source, target, type) {
 }
 
 /**
- * Record a decision node in the graph.
+ * Add a decision node to a pending patch.
  *
- * @param {import('@git-stunts/git-warp').default} graph
+ * @param {object} patch
  * @param {ReviewDecision} decision
- * @returns {Promise<void>}
  */
-async function recordDecision(graph, decision) {
-  const patch = await graph.createPatch();
+function addDecisionToPatch(patch, decision) {
   patch.addNode(decision.id);
   patch.setProperty(decision.id, 'action', decision.action);
   patch.setProperty(decision.id, 'source', decision.source);
@@ -73,7 +70,6 @@ async function recordDecision(graph, decision) {
   if (decision.reviewer) {
     patch.setProperty(decision.id, 'reviewer', decision.reviewer);
   }
-  await patch.commit();
 }
 
 /**
@@ -136,12 +132,6 @@ export async function getPendingSuggestions(graph) {
  * @returns {Promise<ReviewDecision>}
  */
 export async function acceptSuggestion(graph, suggestion, opts = {}) {
-  // Update edge confidence to 1.0 and add reviewedAt
-  const patch = await graph.createPatch();
-  patch.setEdgeProperty(suggestion.source, suggestion.target, suggestion.type, 'confidence', 1.0);
-  patch.setEdgeProperty(suggestion.source, suggestion.target, suggestion.type, 'reviewedAt', new Date().toISOString());
-  await patch.commit();
-
   const decision = {
     id: makeDecisionId(suggestion.source, suggestion.target, suggestion.type),
     action: 'accept',
@@ -154,7 +144,11 @@ export async function acceptSuggestion(graph, suggestion, opts = {}) {
     reviewer: opts.reviewer,
   };
 
-  await recordDecision(graph, decision);
+  const patch = await graph.createPatch();
+  patch.setEdgeProperty(suggestion.source, suggestion.target, suggestion.type, 'confidence', 1.0);
+  patch.setEdgeProperty(suggestion.source, suggestion.target, suggestion.type, 'reviewedAt', new Date().toISOString());
+  addDecisionToPatch(patch, decision);
+  await patch.commit();
   return decision;
 }
 
@@ -167,8 +161,6 @@ export async function acceptSuggestion(graph, suggestion, opts = {}) {
  * @returns {Promise<ReviewDecision>}
  */
 export async function rejectSuggestion(graph, suggestion, opts = {}) {
-  await removeEdge(graph, suggestion.source, suggestion.target, suggestion.type);
-
   const decision = {
     id: makeDecisionId(suggestion.source, suggestion.target, suggestion.type),
     action: 'reject',
@@ -181,7 +173,10 @@ export async function rejectSuggestion(graph, suggestion, opts = {}) {
     reviewer: opts.reviewer,
   };
 
-  await recordDecision(graph, decision);
+  const patch = await graph.createPatch();
+  patch.removeEdge(suggestion.source, suggestion.target, suggestion.type);
+  addDecisionToPatch(patch, decision);
+  await patch.commit();
   return decision;
 }
 
@@ -197,32 +192,16 @@ export async function rejectSuggestion(graph, suggestion, opts = {}) {
 export async function adjustSuggestion(graph, original, adjustments = {}) {
   const newType = adjustments.type ?? original.type;
   const newConf = adjustments.confidence ?? original.confidence;
-
-  // If type changed, create new edge first, then remove old (safer ordering)
-  if (newType !== original.type) {
-    await createEdge(graph, {
-      source: original.source,
-      target: original.target,
-      type: newType,
-      confidence: newConf,
-      rationale: adjustments.rationale ?? original.rationale,
-    });
-    // Set reviewedAt on the new edge
-    const patch = await graph.createPatch();
-    patch.setEdgeProperty(original.source, original.target, newType, 'reviewedAt', new Date().toISOString());
-    await patch.commit();
-    await removeEdge(graph, original.source, original.target, original.type);
-  } else {
-    // Update existing edge
-    const patch = await graph.createPatch();
-    patch.setEdgeProperty(original.source, original.target, original.type, 'confidence', newConf);
-    if (adjustments.rationale) {
-      patch.setEdgeProperty(original.source, original.target, original.type, 'rationale', adjustments.rationale);
-    }
-    patch.setEdgeProperty(original.source, original.target, original.type, 'reviewedAt', new Date().toISOString());
-    await patch.commit();
+  const rationale = adjustments.rationale ?? original.rationale;
+  const validation = validateEdge(original.source, original.target, newType, newConf);
+  if (!validation.valid) {
+    throw new Error(validation.errors.join('; '));
+  }
+  for (const warning of validation.warnings) {
+    console.warn(`[git-mind] ${warning}`);
   }
 
+  const reviewedAt = new Date().toISOString();
   const decision = {
     id: makeDecisionId(original.source, original.target, original.type),
     action: 'adjust',
@@ -230,12 +209,31 @@ export async function adjustSuggestion(graph, original, adjustments = {}) {
     target: original.target,
     edgeType: newType,
     confidence: newConf,
-    rationale: adjustments.rationale ?? original.rationale,
+    rationale,
     timestamp: Math.floor(Date.now() / 1000),
     reviewer: adjustments.reviewer,
   };
 
-  await recordDecision(graph, decision);
+  const patch = await graph.createPatch();
+  if (newType !== original.type) {
+    patch.addEdge(original.source, original.target, newType);
+    patch.setEdgeProperty(original.source, original.target, newType, 'confidence', newConf);
+    patch.setEdgeProperty(original.source, original.target, newType, 'createdAt', reviewedAt);
+    patch.setEdgeProperty(original.source, original.target, newType, 'reviewedAt', reviewedAt);
+    if (rationale) {
+      patch.setEdgeProperty(original.source, original.target, newType, 'rationale', rationale);
+    }
+    patch.removeEdge(original.source, original.target, original.type);
+  } else {
+    patch.setEdgeProperty(original.source, original.target, original.type, 'confidence', newConf);
+    if (adjustments.rationale) {
+      patch.setEdgeProperty(original.source, original.target, original.type, 'rationale', adjustments.rationale);
+    }
+    patch.setEdgeProperty(original.source, original.target, original.type, 'reviewedAt', reviewedAt);
+  }
+
+  addDecisionToPatch(patch, decision);
+  await patch.commit();
   return decision;
 }
 
@@ -326,12 +324,35 @@ export async function batchDecision(graph, action, opts = {}) {
   const pending = await getPendingSuggestions(graph);
   const decisions = [];
 
+  if (pending.length === 0) {
+    return { processed: 0, decisions };
+  }
+
+  const patch = await graph.createPatch();
   for (const suggestion of pending) {
-    const decision = action === 'accept'
-      ? await acceptSuggestion(graph, suggestion, opts)
-      : await rejectSuggestion(graph, suggestion, opts);
+    const decision = {
+      id: makeDecisionId(suggestion.source, suggestion.target, suggestion.type),
+      action,
+      source: suggestion.source,
+      target: suggestion.target,
+      edgeType: suggestion.type,
+      confidence: action === 'accept' ? 1.0 : suggestion.confidence,
+      rationale: suggestion.rationale,
+      timestamp: Math.floor(Date.now() / 1000),
+      reviewer: opts.reviewer,
+    };
+
+    if (action === 'accept') {
+      patch.setEdgeProperty(suggestion.source, suggestion.target, suggestion.type, 'confidence', 1.0);
+      patch.setEdgeProperty(suggestion.source, suggestion.target, suggestion.type, 'reviewedAt', new Date().toISOString());
+    } else {
+      patch.removeEdge(suggestion.source, suggestion.target, suggestion.type);
+    }
+
+    addDecisionToPatch(patch, decision);
     decisions.push(decision);
   }
+  await patch.commit();
 
   return { processed: decisions.length, decisions };
 }
