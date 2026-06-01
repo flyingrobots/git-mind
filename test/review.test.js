@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { mkdtemp, rm } from 'node:fs/promises';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
@@ -131,6 +131,57 @@ describe('review', () => {
     const edges = await findEdges(graph, 'task:a', 'spec:b', 'augments');
     expect(edges).toHaveLength(1);
     expect(edges[0].props.reviewedAt).toBeTruthy();
+  });
+
+  it('commits same-type adjustments and decision atomically', async () => {
+    await createEdge(graph, { source: 'task:a', target: 'spec:b', type: 'implements', confidence: 0.3 });
+
+    const createPatchSpy = vi.spyOn(graph, 'createPatch');
+    const original = { source: 'task:a', target: 'spec:b', type: 'implements', confidence: 0.3 };
+    await adjustSuggestion(graph, original, { confidence: 0.9, rationale: 'looks good' });
+
+    const createPatchCalls = createPatchSpy.mock.calls.length;
+    createPatchSpy.mockRestore();
+    expect(createPatchCalls).toBe(1);
+  });
+
+  it('commits type changes and decision atomically', async () => {
+    await createEdge(graph, { source: 'task:a', target: 'spec:b', type: 'implements', confidence: 0.3 });
+
+    const createPatchSpy = vi.spyOn(graph, 'createPatch');
+    const original = {
+      source: 'task:a',
+      target: 'spec:b',
+      type: 'implements',
+      confidence: 0.3,
+      rationale: 'weak relation',
+    };
+    const decision = await adjustSuggestion(graph, original, {
+      type: 'augments',
+      confidence: 0.9,
+      rationale: 'better relation',
+    });
+
+    const createPatchCalls = createPatchSpy.mock.calls.length;
+    createPatchSpy.mockRestore();
+    expect(createPatchCalls).toBe(1);
+
+    expect(decision.edgeType).toBe('augments');
+
+    const oldEdges = await findEdges(graph, 'task:a', 'spec:b', 'implements');
+    expect(oldEdges).toHaveLength(0);
+
+    const newEdges = await findEdges(graph, 'task:a', 'spec:b', 'augments');
+    expect(newEdges).toHaveLength(1);
+    expect(newEdges[0].props.confidence).toBe(0.9);
+    expect(newEdges[0].props.rationale).toBe('better relation');
+    expect(newEdges[0].props.createdAt).toBeTruthy();
+    expect(newEdges[0].props.reviewedAt).toBeTruthy();
+
+    const history = await getReviewHistory(graph);
+    expect(history).toHaveLength(1);
+    expect(history[0].action).toBe('adjust');
+    expect(history[0].edgeType).toBe('augments');
   });
 
   // ── skipSuggestion ─────────────────────────────────────────
