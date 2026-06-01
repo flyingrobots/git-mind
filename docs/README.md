@@ -26,6 +26,8 @@ These describe what Git Mind is now and how work should be judged:
 These define constraints and contracts that remain in force:
 
 - [GRAPH_SCHEMA.md](../GRAPH_SCHEMA.md) — graph contract
+- [TECHNICAL-TEARDOWN.md](../TECHNICAL-TEARDOWN.md) — end-to-end execution-path
+  and architecture explanation
 - [Architecture Laws](./ARCHITECTURE.md) — non-negotiable engineering laws
 - [Review Rubric](./REVIEW_RUBRIC.md) — architectural review gates
 - [Repo Fixture Strategy](./design/repo-fixture-strategy.md) — canonical repository-shaped test substrate strategy
