@@ -57,6 +57,19 @@ function compatGraph(graph) {
     };
   }
 
+  function readOptional(methodName) {
+    const fn = query && typeof query[methodName] === 'function'
+      ? query[methodName].bind(query)
+      : null;
+    return async (...args) => {
+      if (!fn) {
+        throw new Error(`git-warp surface missing ${methodName}()`);
+      }
+      await ensureMaterialized();
+      return fn(...args);
+    };
+  }
+
   function markDirtyPatch(patch) {
     if (!patch || typeof patch.commit !== 'function') return patch;
 
@@ -99,12 +112,12 @@ function compatGraph(graph) {
 
     hasNode: read('hasNode'),
     getNodeProps: read('getNodeProps'),
-    getEdgeProps: read('getEdgeProps'),
+    getEdgeProps: readOptional('getEdgeProps'),
     getNodes: read('getNodes'),
     getEdges: read('getEdges'),
-    getContentOid: read('getContentOid'),
-    getContent: read('getContent'),
-    getContentMeta: read('getContentMeta'),
+    getContentOid: readOptional('getContentOid'),
+    getContent: readOptional('getContent'),
+    getContentMeta: readOptional('getContentMeta'),
 
     materialize: async (...args) => {
       const result = await bindOptional(core, 'materialize')(...args);
