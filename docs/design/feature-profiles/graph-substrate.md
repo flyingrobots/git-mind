@@ -65,7 +65,7 @@ higher-level features to trust them.
 flowchart LR
     Warp["pkg:@git-stunts/git-warp"] -->|consumed-by| Graph["module:graph"]
     Graph -->|groups| Adapter["file:src/graph.js"]
-    Patch["commit:graph-patch"] -->|touches| Adapter
+    Patch["commit:def4567"] -->|touches| Adapter
     Schema["doc:GRAPH_SCHEMA"] -->|documents| Graph
 ```
 

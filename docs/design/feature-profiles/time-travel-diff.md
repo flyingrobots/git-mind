@@ -60,10 +60,10 @@ observable unit of change is a node, edge, or assertion property.
 
 ```mermaid
 flowchart LR
-    Before["epoch:before"] -->|references| OldSpec["spec:bootstrap-json"]
+    Before["epoch:34636d3"] -->|references| OldSpec["spec:bootstrap-json"]
     Change["commit:def4567"] -->|touches| File["file:src/bootstrap.js"]
     File -->|implements| NewSpec["spec:bootstrap-json"]
-    After["epoch:after"] -->|references| NewSpec
+    After["epoch:def4567"] -->|references| NewSpec
 ```
 
 ## Test Plan

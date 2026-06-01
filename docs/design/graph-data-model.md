@@ -308,10 +308,10 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    Old["epoch:before"] -->|references| Module["module:bootstrap"]
+    Old["epoch:34636d3"] -->|references| Module["module:bootstrap"]
     Change["commit:def4567"] -->|touches| File["file:src/bootstrap.js"]
     Module -->|groups| File
-    New["epoch:after"] -->|references| Module
+    New["epoch:def4567"] -->|references| Module
 ```
 
 ## Model Rules
