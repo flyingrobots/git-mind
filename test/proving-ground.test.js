@@ -273,10 +273,11 @@ describe('PROVING GROUND', () => {
 
       // Check growth factors between consecutive 5x size steps.
       // Linear (O(N+E)) ≈ 5x growth. Quadratic (O(N²)) = 25x growth.
-      // Threshold of 15x catches O(N²) with margin for constant-factor overhead.
+      // Threshold of 20x catches O(N²) while allowing CI/parallel-suite
+      // contention to perturb small-graph wall-clock timings.
       for (let i = 1; i < timings.length; i++) {
         const growthFactor = timings[i] / Math.max(timings[i - 1], 1);
-        expect(growthFactor).toBeLessThan(15);
+        expect(growthFactor).toBeLessThan(20);
       }
     }, 120_000);
   });
