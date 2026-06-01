@@ -41,4 +41,22 @@ describe('design docs integrity', () => {
 
     expect(abstractIds).toEqual([]);
   });
+
+  it('keeps the technical teardown readable in terminal review', () => {
+    const text = readFileSync('TECHNICAL-TEARDOWN.md', 'utf8');
+    const longLines = [];
+    let inFence = false;
+
+    for (const [index, line] of text.split('\n').entries()) {
+      if (line.startsWith('```')) {
+        inFence = !inFence;
+        continue;
+      }
+      if (!inFence && line.length > 120) {
+        longLines.push(`TECHNICAL-TEARDOWN.md:${index + 1}: ${line.length}`);
+      }
+    }
+
+    expect(longLines).toEqual([]);
+  });
 });

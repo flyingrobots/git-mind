@@ -169,6 +169,7 @@ Canonical docs:
 
 - [docs/README.md](docs/README.md)
 - [GUIDE.md](GUIDE.md)
+- [TECHNICAL-TEARDOWN.md](TECHNICAL-TEARDOWN.md)
 - [GRAPH_SCHEMA.md](GRAPH_SCHEMA.md)
 - [ROADMAP.md](ROADMAP.md)
 - [docs/adr/ADR-0005.md](docs/adr/ADR-0005.md)
