@@ -94,7 +94,9 @@ Overlays answer:
 
 ## Preferred API Shape
 
-The exact implementation can evolve, but the intended model is:
+The implementation lives in `test/helpers/repo-fixture.js`. The helper exposes
+`repoFixture()`, `createRepoFixture()`, reusable base repos, and scenario
+overlays.
 
 ```js
 const repo = await repoFixture()
@@ -122,6 +124,16 @@ The point is:
 - readable setup
 - reusable repo shapes
 - composable history/state overlays
+
+## Fixture Isolation
+
+Fixture repos must be isolated from the contributor's host Git configuration
+where that configuration would make test behavior nondeterministic or slow.
+
+The canonical builder sets local fixture config for test identity, disables
+commit and tag signing, disables inherited hooks, disables fsmonitor, and uses
+deterministic commit timestamps. This is part of making fixtures hermetic; it is
+not a bypass for this repository's real commit hooks.
 
 ## Archived Repo Snapshots
 
