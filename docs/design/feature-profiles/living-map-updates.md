@@ -50,6 +50,20 @@ Playback evidence:
 - Incremental updates must be deterministic.
 - Stale inferred facts must not silently masquerade as current truth.
 
+## Graph Data Model Usage
+
+Living map updates keep [Graph Data Model](../graph-data-model.md) current as
+commits change artifacts. The update path should add, revise, or retire nodes
+and edges with visible provenance instead of rebuilding the graph blindly.
+
+```mermaid
+flowchart LR
+    Commit["commit:def4567"] -->|touches| File["file:src/bootstrap.js"]
+    Module["module:bootstrap"] -->|groups| File
+    Doc["doc:h1-semantic-bootstrap"] -->|documents| Module
+    Review["decision:adjust-bootstrap-edge"] -->|references| Module
+```
+
 ## Test Plan
 
 Fixtures:

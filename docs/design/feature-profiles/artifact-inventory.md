@@ -70,6 +70,22 @@ Initial artifact kinds:
 - `binary`
 - `unsupported`
 
+## Graph Data Model Usage
+
+Artifact inventory owns the first stable mapping from repository paths to
+canonical artifact and subject nodes in
+[Graph Data Model](../graph-data-model.md). It should classify what can become
+`file:`, `doc:`, `adr:`, `spec:`, `module:`, and `pkg:` nodes before inference
+tries to connect them.
+
+```mermaid
+flowchart LR
+    Package["pkg:@git-stunts/git-warp"] -->|consumed-by| Graph["module:graph"]
+    Graph -->|groups| Source["file:src/graph.js"]
+    Docs["doc:GRAPH_SCHEMA"] -->|documents| Schema["spec:graph-schema-v1"]
+    Adr["adr:0006"] -->|documents| Fixture["module:fixtures"]
+```
+
 ## Test Plan
 
 Fixtures:

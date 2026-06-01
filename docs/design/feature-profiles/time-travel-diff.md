@@ -52,6 +52,20 @@ Playback evidence:
 - Missing or malformed epoch data must degrade predictably.
 - Diff order must be deterministic.
 
+## Graph Data Model Usage
+
+Time travel and semantic diff compare snapshots of
+[Graph Data Model](../graph-data-model.md) across Git refs or WARP epochs. The
+observable unit of change is a node, edge, or assertion property.
+
+```mermaid
+flowchart LR
+    Before["epoch:before"] -->|references| OldSpec["spec:bootstrap-json"]
+    Change["commit:def4567"] -->|touches| File["file:src/bootstrap.js"]
+    File -->|implements| NewSpec["spec:bootstrap-json"]
+    After["epoch:after"] -->|references| NewSpec
+```
+
 ## Test Plan
 
 Fixtures:

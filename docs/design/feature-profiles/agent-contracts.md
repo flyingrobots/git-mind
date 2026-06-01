@@ -52,6 +52,20 @@ Playback evidence:
 - Breaking changes require versioning.
 - Human formatting changes must not break JSON contracts.
 
+## Graph Data Model Usage
+
+Agent contracts expose [Graph Data Model](../graph-data-model.md) through
+machine-readable payloads. Agents should receive canonical node IDs, edge
+types, confidence, evidence, and graph refs rather than prose-only context.
+
+```mermaid
+flowchart LR
+    Agent["tool:codex"] -->|references| Contract["spec:agent-answer-contract"]
+    Contract -->|documents| Query["feature:query-receipts"]
+    Answer["doc:answer-json"] -->|references| Node["module:bootstrap"]
+    Answer -->|references| Evidence["doc:h1-semantic-bootstrap"]
+```
+
 ## Test Plan
 
 Fixtures:

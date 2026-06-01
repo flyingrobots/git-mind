@@ -53,6 +53,21 @@ Playback evidence:
 - Invalid imports must fail before partial writes.
 - Schema drift must be intentional and documented.
 
+## Graph Data Model Usage
+
+Import/export is the interchange boundary for
+[Graph Data Model](../graph-data-model.md). It must preserve node IDs, edge
+types, assertion properties, and schema versions without inventing a different
+portable model.
+
+```mermaid
+flowchart LR
+    Export["doc:graph-export"] -->|references| Node["module:bootstrap"]
+    Export -->|references| Edge["file:src/bootstrap.js implements spec:bootstrap-json"]
+    File["file:src/bootstrap.js"] -->|implements| Spec["spec:bootstrap-json"]
+    Import["tool:import"] -->|references| Export
+```
+
 ## Test Plan
 
 Fixtures:

@@ -52,6 +52,22 @@ Playback evidence:
 - Manifest errors must be typed and actionable.
 - Extension loading must not create hidden network or host coupling.
 
+## Graph Data Model Usage
+
+Extensions can read or propose writes to
+[Graph Data Model](../graph-data-model.md), but their output must use canonical
+prefixes, edge types, confidence, and origin metadata. Extension-specific
+semantics should be modeled as `tool:`, `spec:`, or documented feature nodes
+before adding new vocabulary.
+
+```mermaid
+flowchart LR
+    Extension["tool:markdown-extension"] -->|augments| Bootstrap["feature:semantic-bootstrap"]
+    Extension -->|references| Manifest["spec:extension-manifest"]
+    Doc["doc:README"] -->|documents| Module["module:cli"]
+    Extension -->|references| Doc
+```
+
 ## Test Plan
 
 Fixtures:

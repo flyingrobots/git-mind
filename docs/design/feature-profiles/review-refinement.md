@@ -53,6 +53,21 @@ Playback evidence:
 - Batch operations must be deterministic.
 - Failed review operations must not leave partial graph state.
 
+## Graph Data Model Usage
+
+Review refinement turns uncertain edges from
+[Graph Data Model](../graph-data-model.md) into reviewed graph facts. Accepted
+or adjusted suggestions update edge confidence and add `decision:` nodes that
+record the reviewer action.
+
+```mermaid
+flowchart LR
+    Candidate["file:src/bootstrap.js"] -->|implements| Spec["spec:bootstrap-json"]
+    Decision["decision:accept-bootstrap-edge"] -->|references| Candidate
+    Decision -->|references| Spec
+    Reviewer["person:maintainer"] -->|references| Decision
+```
+
 ## Test Plan
 
 Fixtures:

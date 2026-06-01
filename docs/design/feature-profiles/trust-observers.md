@@ -51,6 +51,20 @@ Playback evidence:
 - Trust behavior must be deterministic.
 - Unsupported context combinations must fail predictably.
 
+## Graph Data Model Usage
+
+Trust and observer contexts scope reads and writes over
+[Graph Data Model](../graph-data-model.md). Observer metadata should explain
+which person, tool, or policy produced or filtered an assertion.
+
+```mermaid
+flowchart LR
+    Observer["person:maintainer"] -->|references| Policy["spec:trust-policy"]
+    Tool["tool:bootstrap"] -->|references| Policy
+    File["file:src/bootstrap.js"] -->|implements| Spec["spec:bootstrap-json"]
+    Policy -->|documents| View["feature:observer-view"]
+```
+
 ## Test Plan
 
 Fixtures:

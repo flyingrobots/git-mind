@@ -54,6 +54,21 @@ Playback evidence:
 - Compatibility wrappers must be small and covered by tests.
 - Upgrade fixtures must run isolated from the checkout.
 
+## Graph Data Model Usage
+
+The substrate stores [Graph Data Model](../graph-data-model.md) facts in Git via
+WARP. It does not define product semantics itself; it must preserve canonical
+nodes, edges, properties, history, and observer behavior exactly enough for
+higher-level features to trust them.
+
+```mermaid
+flowchart LR
+    Warp["pkg:@git-stunts/git-warp"] -->|consumed-by| Graph["module:graph"]
+    Graph -->|groups| Adapter["file:src/graph.js"]
+    Patch["commit:graph-patch"] -->|touches| Adapter
+    Schema["doc:GRAPH_SCHEMA"] -->|documents| Graph
+```
+
 ## Test Plan
 
 Fixtures:

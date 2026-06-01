@@ -50,6 +50,20 @@ Playback evidence:
 - Large content limits and warnings need explicit policy.
 - Binary content support needs explicit encoding policy before expansion.
 
+## Graph Data Model Usage
+
+Content-on-node attaches Git-backed content to canonical nodes from
+[Graph Data Model](../graph-data-model.md). The node identity remains the graph
+fact; content properties provide the payload and integrity metadata.
+
+```mermaid
+flowchart LR
+    Note["doc:design-note"] -->|documents| Module["module:bootstrap"]
+    Note -->|references| Blob["metric:content-oid"]
+    Module -->|groups| File["file:src/bootstrap.js"]
+    Doctor["tool:doctor"] -->|references| Blob
+```
+
 ## Test Plan
 
 Fixtures:

@@ -53,6 +53,21 @@ Playback evidence:
 - Packaging must not depend on local monorepo paths.
 - Install docs must match shipped reality.
 
+## Graph Data Model Usage
+
+Packaging and adoption do not create new graph semantics, but they must make
+[Graph Data Model](../graph-data-model.md) visible and usable. The install path
+should expose commands that create and inspect canonical nodes and edges without
+requiring users to learn the storage substrate first.
+
+```mermaid
+flowchart LR
+    Package["pkg:git-mind"] -->|consumed-by| Cli["module:cli"]
+    Cli -->|groups| Bin["file:bin/git-mind.js"]
+    Guide["doc:GUIDE"] -->|documents| Cli
+    Quickstart["doc:README"] -->|references| Guide
+```
+
 ## Test Plan
 
 Fixtures:

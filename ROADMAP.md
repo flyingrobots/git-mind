@@ -147,6 +147,7 @@ Primary references:
 
 - [docs/design/git-mind.md](docs/design/git-mind.md)
 - [docs/design/h1-semantic-bootstrap.md](docs/design/h1-semantic-bootstrap.md)
+- [docs/design/graph-data-model.md](docs/design/graph-data-model.md)
 - [docs/design/feature-profiles/README.md](docs/design/feature-profiles/README.md)
 - [docs/design/git-warp-upgrade-audit.md](docs/design/git-warp-upgrade-audit.md)
 - [docs/design/repo-fixture-strategy.md](docs/design/repo-fixture-strategy.md)

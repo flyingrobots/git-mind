@@ -10,6 +10,7 @@ profile uses the same IBM Design Thinking frame:
 - relevant Hill or supporting lane
 - user stories
 - requirements
+- graph data model usage
 - playback evidence
 - test plan
 
@@ -84,6 +85,18 @@ Each profile should name tests in these buckets.
   that can be compared over time.
 - Playback evidence: the human or agent demonstration that proves the Hill
   moved, not just that code ran.
+
+## Shared Graph Model
+
+All feature profiles use the canonical vocabulary in
+[Graph Data Model](../graph-data-model.md). Feature-specific graph sections
+should show:
+
+- which node prefixes the feature reads or writes
+- which edge types the feature creates, updates, filters, or cites
+- where confidence, provenance, review, or observer metadata enters the model
+- a Mermaid example that a reviewer can compare against the feature's test
+  fixtures and golden artifacts
 
 ## Fixture Strategy
 

@@ -59,6 +59,22 @@ Initial inference should prefer precision over breadth. It is acceptable for the
 first bootstrap map to be incomplete if the relationships it does emit are
 understandable and reviewable.
 
+## Graph Data Model Usage
+
+Relationship inference is the primary edge producer for
+[Graph Data Model](../graph-data-model.md). It must choose the most specific
+edge type that the evidence supports and record confidence for every inferred
+assertion.
+
+```mermaid
+flowchart LR
+    Doc["doc:h1-semantic-bootstrap"] -->|documents| Feature["feature:semantic-bootstrap"]
+    Source["file:src/bootstrap.js"] -->|implements| Spec["spec:bootstrap-json"]
+    Commit["commit:def4567"] -->|touches| Source
+    Doc -->|references| Issue["issue:305"]
+    Feature -->|depends-on| Fixture["feature:repo-fixtures"]
+```
+
 ## Test Plan
 
 Fixtures:

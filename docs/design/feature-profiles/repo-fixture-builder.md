@@ -60,6 +60,20 @@ Playback evidence:
 - Archived binary snapshots must be exceptional and justified.
 - Helpers must not hide meaningful semantic setup behind magic defaults.
 
+## Graph Data Model Usage
+
+The fixture builder creates repositories and expected graph shapes for
+[Graph Data Model](../graph-data-model.md). It should make canonical nodes,
+edges, confidence bands, and broken cases easy to express in tests.
+
+```mermaid
+flowchart LR
+    Fixture["tool:repo-fixture-builder"] -->|references| Base["event:minimal-doc-code"]
+    Base -->|references| Readme["doc:README"]
+    Readme -->|documents| Module["module:cli"]
+    Module -->|groups| File["file:bin/git-mind.js"]
+```
+
 ## Test Plan
 
 Fixtures:

@@ -66,6 +66,22 @@ Playback evidence:
 - What issue or PR references shaped this path?
 - What weak or missing connections should I review?
 
+## Graph Data Model Usage
+
+Query receipts read the canonical nodes and edges from
+[Graph Data Model](../graph-data-model.md) and return answer payloads that cite
+the exact assertions used. A receipt should identify the answer node, the edge
+path, confidence, and the evidence behind each inferred step.
+
+```mermaid
+flowchart LR
+    Question["spec:question-implements"] -->|references| Target["spec:bootstrap-json"]
+    Impl["file:src/bootstrap.js"] -->|implements| Target
+    Doc["doc:h1-semantic-bootstrap"] -->|documents| Target
+    Answer["doc:answer-json"] -->|references| Impl
+    Answer -->|references| Doc
+```
+
 ## Test Plan
 
 Fixtures:

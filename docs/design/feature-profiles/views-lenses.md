@@ -53,6 +53,20 @@ Playback evidence:
 - View outputs must be bounded and useful for humans.
 - Lens composition must remain predictable under cycles and disconnected graphs.
 
+## Graph Data Model Usage
+
+Views and lenses are read-only projections over
+[Graph Data Model](../graph-data-model.md). They select canonical node prefixes
+and edge types without creating alternate semantics.
+
+```mermaid
+flowchart LR
+    Architecture["feature:architecture-view"] --> Module["module:graph"]
+    Module -->|groups| Source["file:src/graph.js"]
+    Doc["doc:GRAPH_SCHEMA"] -->|documents| Spec["spec:graph-schema-v1"]
+    Module -->|depends-on| Package["pkg:@git-stunts/git-warp"]
+```
+
 ## Test Plan
 
 Fixtures:

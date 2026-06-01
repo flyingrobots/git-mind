@@ -102,6 +102,22 @@ Initial JSON shape:
 - Cross-repo bootstrap.
 - Interactive terminal review UI.
 
+## Graph Data Model Usage
+
+This feature is the first producer of the canonical model in
+[Graph Data Model](../graph-data-model.md). Bootstrap creates artifact,
+subject, work, and concept nodes, then writes typed edges with confidence and
+evidence-oriented rationale.
+
+```mermaid
+flowchart LR
+    Readme["doc:README"] -->|documents| Cli["module:cli"]
+    Cli -->|groups| Bin["file:bin/git-mind.js"]
+    Adr["adr:0006"] -->|documents| Bootstrap["feature:semantic-bootstrap"]
+    Commit["commit:34636d3"] -->|touches| Readme
+    Readme -->|references| Issue["issue:322"]
+```
+
 ## Test Plan
 
 Fixtures:

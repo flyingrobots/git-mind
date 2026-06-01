@@ -67,6 +67,21 @@ Candidate properties:
 - `gitmind.lastSeen`
 - `gitmind.kind`
 
+## Graph Data Model Usage
+
+Entity extraction creates the node side of
+[Graph Data Model](../graph-data-model.md). It should emit stable IDs and node
+properties before relationship inference adds semantic edges.
+
+```mermaid
+flowchart LR
+    PathA["README.md"] --> Readme["doc:README"]
+    PathB["docs/adr/ADR-0006.md"] --> Adr["adr:0006"]
+    PathC["src/graph.js"] --> File["file:src/graph.js"]
+    PackageJson["package.json"] --> Package["pkg:@git-stunts/git-warp"]
+    Heading["Semantic Bootstrap"] --> Concept["concept:semantic-bootstrap"]
+```
+
 ## Test Plan
 
 Fixtures:

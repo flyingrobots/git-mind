@@ -51,6 +51,21 @@ Playback evidence:
 - Doctor must never hide unfixable issues.
 - Repair operations must be atomic.
 
+## Graph Data Model Usage
+
+Doctor and integrity checks validate that
+[Graph Data Model](../graph-data-model.md) remains coherent. The feature reads
+canonical nodes, edges, and assertion properties, then reports structural issues
+as actionable diagnostics.
+
+```mermaid
+flowchart LR
+    Doctor["tool:git-mind-doctor"] -->|references| Graph["module:graph"]
+    Graph -->|groups| File["file:src/graph.js"]
+    Edge["file:missing.js implements spec:bootstrap-json"] -->|references| Problem["event:dangling-edge"]
+    Problem -->|blocks| Healthy["metric:graph-health"]
+```
+
 ## Test Plan
 
 Fixtures:

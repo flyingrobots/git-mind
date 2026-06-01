@@ -64,6 +64,21 @@ Playback evidence:
 - Medium: strong lexical evidence or unambiguous reference.
 - Low: fuzzy association, weak convention, or ambiguous but plausible signal.
 
+## Graph Data Model Usage
+
+This feature defines the assertion metadata that makes
+[Graph Data Model](../graph-data-model.md) trustworthy. The edge is the claim;
+confidence, rationale, origin, detector, and evidence explain why the claim
+exists.
+
+```mermaid
+flowchart LR
+    File["file:src/bootstrap.js"] -->|implements| Spec["spec:bootstrap-json"]
+    Evidence["doc:h1-semantic-bootstrap"] -->|documents| Spec
+    Detector["tool:bootstrap-detector"] -->|references| Evidence
+    Reviewer["person:reviewer"] -->|references| Decision["decision:accept-bootstrap-edge"]
+```
+
 ## Test Plan
 
 Fixtures:
