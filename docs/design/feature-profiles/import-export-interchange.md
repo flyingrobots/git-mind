@@ -63,8 +63,9 @@ portable model.
 ```mermaid
 flowchart LR
     Export["doc:graph-export"] -->|references| Node["module:bootstrap"]
-    Export -->|references| Edge["file:src/bootstrap.js implements spec:bootstrap-json"]
     File["file:src/bootstrap.js"] -->|implements| Spec["spec:bootstrap-json"]
+    Export -->|references| File
+    Export -->|references| Spec
     Import["tool:import"] -->|references| Export
 ```
 

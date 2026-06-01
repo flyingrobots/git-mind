@@ -70,8 +70,9 @@ Playback evidence:
 
 Query receipts read the canonical nodes and edges from
 [Graph Data Model](../graph-data-model.md) and return answer payloads that cite
-the exact assertions used. A receipt should identify the answer node, the edge
-path, confidence, and the evidence behind each inferred step.
+the exact assertions used. A receipt should identify the answer node, the
+`(source, target, type)` assertion key, confidence, and the evidence behind each
+inferred step.
 
 ```mermaid
 flowchart LR
@@ -93,7 +94,7 @@ Fixtures:
 
 Golden path:
 
-- Query returns direct answer with receipt edge IDs and provenance.
+- Query returns direct answer with assertion keys and provenance.
 - Query returns inferred answer with confidence and evidence.
 - Query returns no-answer result with suggested follow-up.
 - JSON validates against a query-answer schema.

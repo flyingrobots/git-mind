@@ -61,7 +61,7 @@ and edge types without creating alternate semantics.
 
 ```mermaid
 flowchart LR
-    Architecture["feature:architecture-view"] --> Module["module:graph"]
+    Architecture["feature:architecture-view"] -->|references| Module["module:graph"]
     Module -->|groups| Source["file:src/graph.js"]
     Doc["doc:GRAPH_SCHEMA"] -->|documents| Spec["spec:graph-schema-v1"]
     Module -->|depends-on| Package["pkg:@git-stunts/git-warp"]

@@ -92,7 +92,8 @@ The bootstrap should extract or synthesize the following first-pass entities:
 - `doc:` for general Markdown documents
 - `adr:` for ADR documents
 - `module:` for inferred modules or packages where structure is obvious
-- `commit:` for recent relevant commits already supported by the substrate
+- system-owned `commit:` nodes for recent relevant commits when bootstrap
+  includes history
 - `issue:` only when referenced in repo-local artifacts
 - `pr:` only when referenced in repo-local artifacts
 
@@ -101,6 +102,8 @@ Notes:
 - `module:` should be conservative in v0.
 - If module inference is weak, file-level output is preferable to a fake module abstraction.
 - `issue:` and `pr:` are placeholder semantic nodes backed by repo-local references, not API-enriched tracker records yet.
+- `commit:` remains a reserved system prefix; YAML/frontmatter imports must not
+  author commit nodes directly.
 
 ## Relationship Types: v0
 

@@ -13,8 +13,10 @@ These describe what Git Mind is now and how work should be judged:
 - [Git Mind Product Frame](./design/git-mind.md) — IBM Design Thinking style product frame
 - [Hill 1 Semantic Bootstrap Spec](./design/h1-semantic-bootstrap.md) — first executable Hill 1 slice
 - [Graph Data Model](./design/graph-data-model.md) — canonical product node and edge vocabulary
-- [Feature Profiles](./design/feature-profiles/README.md) — per-feature IBM Design Thinking profiles with executable test plans
-- [git-warp Upgrade Audit](./design/git-warp-upgrade-audit.md) — next enabling cycle before major Hill 1 implementation
+- [Feature Profiles](./design/feature-profiles/README.md) — per-feature IBM
+  Design Thinking profiles with executable test plans
+- [git-warp Upgrade Audit](./design/git-warp-upgrade-audit.md) — completed
+  enabling cycle before major Hill 1 implementation
 - [Git Mind North Star](./VISION_NORTH_STAR.md) — longer-form strategic articulation
 - [ADR-0005](./adr/ADR-0005.md) — official planning and governance model
 - [ADR-0006](./adr/ADR-0006.md) — official delivery cycle and tests-as-spec model

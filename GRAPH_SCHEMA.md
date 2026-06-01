@@ -5,8 +5,11 @@
 > Ref: #180 (BDK-001)
 >
 > This document is the graph contract, not the canonical product narrative.
-> Some prefixes and examples reflect legacy manual-authoring and roadmap-oriented workflows that remain supported, but they are not the current center of the product story.
-> The product-level node and edge vocabulary lives in [docs/design/graph-data-model.md](docs/design/graph-data-model.md).
+> Some prefixes and examples reflect legacy manual-authoring and roadmap-oriented
+> workflows that remain supported, but they are not the current center of the
+> product story.
+> The product-level node and edge vocabulary lives in
+> [docs/design/graph-data-model.md](docs/design/graph-data-model.md).
 
 ---
 

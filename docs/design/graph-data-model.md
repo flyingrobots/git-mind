@@ -60,9 +60,9 @@ flowchart LR
     Artifact["Artifact nodes"] -->|documents| Subject["Subject nodes"]
     Work["Work nodes"] -->|touches| Artifact
     Subject -->|depends-on| Dependency["Dependency nodes"]
-    Assertion["Edge assertion"] -->|references| Evidence["Evidence artifact"]
+    Evidence["doc:evidence"] -->|references| Artifact
     Reviewer["person:reviewer"] -->|references| Decision["decision:review"]
-    Decision -->|documents| Assertion
+    Decision -->|references| Subject
 ```
 
 The local Git repository is the graph scope. In v1, the local repository itself
@@ -86,67 +86,153 @@ stable, human-readable, and derived from repo artifacts whenever possible.
 
 ### Artifact Nodes
 
-| Prefix | Use | Example | Typical properties |
-|--------|-----|---------|--------------------|
-| `file:` | Repo file path | `file:src/graph.js` | `path`, `language`, `artifactKind`, `hash` |
-| `doc:` | General documentation artifact | `doc:README` | `path`, `title`, `heading`, `artifactKind` |
-| `adr:` | Architecture decision record | `adr:0006` | `path`, `title`, `status`, `date` |
-| `spec:` | Product, API, schema, or behavior spec | `spec:bootstrap-json` | `path`, `title`, `schemaVersion` |
-| `commit:` | Git commit discovered by history scan | `commit:34636d3` | `sha`, `author`, `date`, `summary` |
-| `epoch:` | System temporal marker for historical views | `epoch:34636d3` | `ref`, `tick`, `createdAt` |
+- `file:` identifies a repo file path.
+  Example: `file:src/graph.js`.
+  Typical properties: `path`, `language`, `artifactKind`, `hash`.
+- `doc:` identifies a general documentation artifact.
+  Example: `doc:README`.
+  Typical properties: `path`, `title`, `heading`, `artifactKind`.
+- `adr:` identifies an architecture decision record.
+  Example: `adr:0006`.
+  Typical properties: `path`, `title`, `status`, `date`.
+- `spec:` identifies a product, API, schema, or behavior spec.
+  Example: `spec:bootstrap-json`.
+  Typical properties: `path`, `title`, `schemaVersion`.
 
 ### Subject Nodes
 
-| Prefix | Use | Example | Typical properties |
-|--------|-----|---------|--------------------|
-| `module:` | Internal module or subsystem | `module:bootstrap` | `name`, `path`, `package`, `owner` |
-| `crate:` | Internal package when the repo uses crate language | `crate:git-mind-core` | `name`, `path`, `language` |
-| `pkg:` | External package or dependency | `pkg:@git-stunts/git-warp` | `name`, `version`, `ecosystem` |
-| `concept:` | Named idea that appears across artifacts | `concept:semantic-bootstrap` | `name`, `aliases` |
-| `decision:` | Review or architecture decision event | `decision:bootstrap-contract` | `action`, `reviewer`, `timestamp` |
+- `module:` identifies an internal module or subsystem.
+  Example: `module:bootstrap`.
+  Typical properties: `name`, `path`, `package`, `owner`.
+- `crate:` identifies an internal package when the repo uses crate language.
+  Example: `crate:git-mind-core`.
+  Typical properties: `name`, `path`, `language`.
+- `pkg:` identifies an external package or dependency.
+  Example: `pkg:@git-stunts/git-warp`.
+  Typical properties: `name`, `version`, `ecosystem`.
+- `concept:` identifies a named idea that appears across artifacts.
+  Example: `concept:semantic-bootstrap`.
+  Typical properties: `name`, `aliases`.
+- `decision:` identifies a review or architecture decision event.
+  Example: `decision:bootstrap-contract`.
+  Typical properties: `action`, `reviewer`, `timestamp`.
 
 ### Work Nodes
 
-| Prefix | Use | Example | Typical properties |
-|--------|-----|---------|--------------------|
-| `issue:` | GitHub or tracker issue | `issue:322` | `number`, `title`, `state`, `url` |
-| `pr:` | Pull request | `pr:323` | `number`, `title`, `state`, `url` |
-| `task:` | Local work item or actionable unit | `task:h1-bootstrap-tests` | `title`, `status`, `owner` |
-| `feature:` | Product feature grouping | `feature:query-receipts` | `title`, `hill`, `status` |
-| `milestone:` | Historical or release grouping | `milestone:h1` | `title`, `status` |
-| `phase:` | Phase alias used by legacy views | `phase:stabilize` | `title`, `status` |
+- `issue:` identifies a GitHub or tracker issue.
+  Example: `issue:322`.
+  Typical properties: `number`, `title`, `state`, `url`.
+- `pr:` identifies a pull request.
+  Example: `pr:323`.
+  Typical properties: `number`, `title`, `state`, `url`.
+- `task:` identifies a local work item or actionable unit.
+  Example: `task:h1-bootstrap-tests`.
+  Typical properties: `title`, `status`, `owner`.
+- `feature:` identifies a product feature grouping.
+  Example: `feature:query-receipts`.
+  Typical properties: `title`, `hill`, `status`.
+- `milestone:` identifies a historical or release grouping.
+  Example: `milestone:h1`.
+  Typical properties: `title`, `status`.
+- `phase:` identifies a phase alias used by legacy views.
+  Example: `phase:stabilize`.
+  Typical properties: `title`, `status`.
 
 ### Actor And Tool Nodes
 
-| Prefix | Use | Example | Typical properties |
-|--------|-----|---------|--------------------|
-| `person:` | Human actor or reviewer | `person:james` | `handle`, `displayName` |
-| `tool:` | Tool, agent, service, or local integration | `tool:codex` | `name`, `version`, `capabilities` |
-| `event:` | Named event in repo history | `event:bootstrap-playback` | `date`, `summary` |
-| `metric:` | Measured value or health indicator | `metric:graph-density` | `name`, `unit`, `value` |
+- `person:` identifies a human actor or reviewer.
+  Example: `person:james`.
+  Typical properties: `handle`, `displayName`.
+- `tool:` identifies a tool, agent, service, or local integration.
+  Example: `tool:codex`.
+  Typical properties: `name`, `version`, `capabilities`.
+- `event:` identifies a named event in repo history.
+  Example: `event:bootstrap-playback`.
+  Typical properties: `date`, `summary`.
+- `metric:` identifies a measured value or health indicator.
+  Example: `metric:graph-density`.
+  Typical properties: `name`, `unit`, `value`.
+
+### System-Owned Nodes
+
+The schema reserves some prefixes for Git Mind system writers:
+
+- `commit:` identifies a Git commit discovered through repository history.
+  Example: `commit:34636d3`.
+  Typical properties: `sha`, `author`, `date`, `summary`.
+- `epoch:` identifies a system temporal marker for historical views.
+  Example: `epoch:34636d3`.
+  Typical properties: `ref`, `tick`, `createdAt`.
+
+Users and import files must not author `commit:` or `epoch:` nodes directly.
+Bootstrap and history-aware features may create them only through Git Mind's
+system-owned writers, with tests that also prove YAML/frontmatter import still
+rejects those prefixes where the schema requires rejection.
 
 ## Canonical Edges
 
 Edges are directed. Direction matters because query receipts, views, and
 review flows rely on it.
 
-| Edge | Direction | Use | Example |
-|------|-----------|-----|---------|
-| `documents` | explainer -> subject | Artifact explains a subject | `doc:README -> module:cli` |
-| `references` | source -> referenced | Explicit citation or mention | `doc:README -> issue:322` |
-| `implements` | implementation -> spec or feature | Code or work realizes behavior | `file:src/bootstrap.js -> spec:bootstrap-json` |
-| `touches` | change -> artifact | Commit, PR, or issue modifies or affects artifact | `commit:34636d3 -> file:README.md` |
-| `groups` | parent -> child | Structural containment | `module:cli -> file:bin/git-mind.js` |
-| `belongs-to` | member -> group | Planning membership | `task:h1-bootstrap-tests -> feature:bootstrap` |
-| `depends-on` | dependent -> dependency | Requires dependency first | `module:query -> module:graph` |
-| `blocks` | blocker -> blocked | Work cannot proceed until blocker changes | `issue:310 -> issue:304` |
-| `consumed-by` | resource -> consumer | Dependency is consumed by a module | `pkg:@git-stunts/git-warp -> module:graph` |
-| `augments` | extension -> base | Adds capability to subject | `tool:extension -> module:git-mind` |
-| `relates-to` | source -> related | Low-specificity association | `concept:receipts -> concept:provenance` |
+- `documents`: explainer -> subject.
+  Use when an artifact explains a subject.
+  Example: `doc:README -> module:cli`.
+- `references`: source -> referenced.
+  Use for explicit citation, mention, or receipt evidence.
+  Example: `doc:README -> issue:322`.
+- `implements`: implementation -> spec or feature.
+  Use when code or work realizes behavior.
+  Example: `file:src/bootstrap.js -> spec:bootstrap-json`.
+- `touches`: change -> artifact.
+  Use when a commit, PR, or issue modifies or affects an artifact.
+  Example: `commit:34636d3 -> file:README.md`.
+- `groups`: parent -> child.
+  Use for structural containment.
+  Example: `module:cli -> file:bin/git-mind.js`.
+- `belongs-to`: member -> group.
+  Use for planning membership.
+  Example: `task:h1-bootstrap-tests -> feature:bootstrap`.
+- `depends-on`: dependent -> dependency.
+  Use when one subject requires another first.
+  Example: `module:query -> module:graph`.
+- `blocks`: blocker -> blocked.
+  Use when work cannot proceed until blocker changes.
+  Example: `issue:310 -> issue:304`.
+- `consumed-by`: resource -> consumer.
+  Use when a dependency is consumed by a module.
+  Example: `pkg:@git-stunts/git-warp -> module:graph`.
+- `augments`: extension -> base.
+  Use when one subject adds capability to another.
+  Example: `tool:extension -> module:git-mind`.
+- `relates-to`: source -> related.
+  Use only for low-specificity associations.
+  Example: `concept:receipts -> concept:provenance`.
 
 Use `relates-to` only when a stronger edge would be dishonest. If the evidence
 can justify `documents`, `references`, `implements`, `groups`, or `touches`,
 prefer the stronger type.
+
+## Assertion Identity
+
+Git Mind does not currently model edges as first-class `edge:` nodes. The
+canonical identity for an assertion is the edge tuple:
+
+```text
+(source, target, type)
+```
+
+Examples:
+
+```text
+(file:src/bootstrap.js, spec:bootstrap-json, implements)
+(doc:README, issue:322, references)
+```
+
+Query receipts, import/export contracts, diagnostics, and review decisions
+should cite this tuple key unless a future schema version deliberately adds
+first-class assertion IDs. Do not invent synthetic graph nodes such as
+`edge:abc123` or `assertion:xyz` without updating this model, the validators,
+and the affected feature profiles.
 
 ## Assertion Properties
 
@@ -165,7 +251,7 @@ Feature work should converge on these additional conventions:
 |----------|---------|
 | `origin` | `manual`, `import`, `bootstrap`, `inference`, `review`, or `extension` |
 | `detector` | Rule, parser, importer, or tool that produced the assertion |
-| `evidence` | Stable evidence references such as paths, headings, line spans, commits, or URLs |
+| `evidence` | Stable paths, headings, line spans, commits, or URLs |
 | `observer` | Trust or observer context used when the edge was read or written |
 | `schemaVersion` | Machine contract version for structured edge metadata |
 
@@ -202,8 +288,9 @@ flowchart LR
 ```mermaid
 flowchart LR
     Question["spec:query-question"] -->|references| Target["module:bootstrap"]
-    Answer["doc:answer-json"] -->|references| EdgeA["doc:README documents module:bootstrap"]
-    EdgeA -->|references| Evidence["file:README.md"]
+    Doc["doc:README"] -->|documents| Target
+    Answer["doc:answer-json"] -->|references| Doc
+    Answer -->|references| Target
     Reviewer["person:maintainer"] -->|references| Answer
 ```
 
@@ -212,7 +299,7 @@ flowchart LR
 ```mermaid
 flowchart LR
     Suggestion["file:src/bootstrap.js"] -->|implements| Contract["spec:bootstrap-json"]
-    Decision["decision:accept-bootstrap-edge"] -->|documents| Contract
+    Decision["decision:accept-bootstrap-edge"] -->|references| Contract
     Decision -->|references| Suggestion
     Reviewer["person:reviewer"] -->|references| Decision
 ```

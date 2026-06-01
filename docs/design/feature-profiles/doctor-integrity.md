@@ -62,7 +62,10 @@ as actionable diagnostics.
 flowchart LR
     Doctor["tool:git-mind-doctor"] -->|references| Graph["module:graph"]
     Graph -->|groups| File["file:src/graph.js"]
-    Edge["file:missing.js implements spec:bootstrap-json"] -->|references| Problem["event:dangling-edge"]
+    Missing["file:missing.js"] -->|implements| Spec["spec:bootstrap-json"]
+    Problem["event:dangling-edge"] -->|references| Missing
+    Problem -->|references| Spec
+    Doctor -->|references| Problem
     Problem -->|blocks| Healthy["metric:graph-health"]
 ```
 

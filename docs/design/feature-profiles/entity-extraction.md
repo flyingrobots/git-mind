@@ -26,7 +26,8 @@ Hill:
 Playback evidence:
 
 - Bootstrap creates useful `file:`, `doc:`, `adr:`, conservative `module:`,
-  `commit:`, `issue:`, and `pr:` nodes from repo-local evidence.
+  `issue:`, and `pr:` nodes from repo-local evidence. History-aware bootstrap
+  may also create system-owned `commit:` nodes through Git Mind's system writer.
 
 ## User Stories
 
@@ -75,11 +76,11 @@ properties before relationship inference adds semantic edges.
 
 ```mermaid
 flowchart LR
-    PathA["README.md"] --> Readme["doc:README"]
-    PathB["docs/adr/ADR-0006.md"] --> Adr["adr:0006"]
-    PathC["src/graph.js"] --> File["file:src/graph.js"]
-    PackageJson["package.json"] --> Package["pkg:@git-stunts/git-warp"]
-    Heading["Semantic Bootstrap"] --> Concept["concept:semantic-bootstrap"]
+    Readme["doc:README"]
+    Adr["adr:0006"]
+    File["file:src/graph.js"]
+    Package["pkg:@git-stunts/git-warp"]
+    Concept["concept:semantic-bootstrap"]
 ```
 
 ## Test Plan
@@ -97,7 +98,8 @@ Golden path:
 - Markdown docs become `doc:` nodes.
 - ADR files become `adr:` nodes.
 - Package boundaries become conservative `module:` nodes.
-- Commit metadata produces `commit:` nodes when bootstrap includes history.
+- Commit metadata produces system-owned `commit:` nodes when bootstrap includes
+  history.
 - `#123` and `PR #45` references create placeholder `issue:` and `pr:` nodes.
 
 Edge cases:
@@ -113,6 +115,8 @@ Known failures:
 - Invalid node IDs must fail or be normalized with explicit reason.
 - Collisions must be reported and deterministic.
 - Missing package metadata must prevent module inference rather than guessing.
+- YAML/frontmatter imports that try to author `commit:` or `epoch:` nodes must
+  remain rejected by the graph schema.
 
 Fuzz:
 
